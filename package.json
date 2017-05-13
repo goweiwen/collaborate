@@ -6,6 +6,7 @@
     "eslint": "^3.19.0",
     "eslint-plugin-react": "^7.0.0",
     "flow-bin": "^0.45.0",
+    "react-grid-layout": "^0.14.6",
     "react-scripts": "0.9.5"
   },
   "dependencies": {
