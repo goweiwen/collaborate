@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDom from 'react-dom';
-import 'semantic-ui-css/semantic.css';
 import { Container, Grid, Image, Card, Button } from 'semantic-ui-react'
 import _ from 'lodash'
 import 'react-grid-layout/css/styles.css';
