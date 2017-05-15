@@ -1,30 +1,44 @@
 import React from 'react';
-import { Card } from 'semantic-ui-react';
+import { Card, Container } from 'semantic-ui-react';
 
 
 
 export default class Tile extends React.Component {
-  constructor(props) {
-    //console.log(props);
-    super(props);
-  }
+
 
   render() {
-    var body = (
-      <div>
-        <h1 >Title</h1>
-        <div className="meta">Description</div>
-        <h4>Content</h4>
-      </div>  
-    );
+    const Component = (TestComponent)
+    var style = {
+     /* 
 
+      TODO
+      height:this.props.style.height,
+      width:this.props.style.width,
+*/
+
+    };
+    var body = (      
+       <Component style={style}>{this.props.children}</Component> 
+    );
+    
+    //every tile's base is a Card
     return (
       <Card {...this.props}>
-        {this.props.children}
         {body}
       </Card>
     );
   }
 }
 
+class TestComponent extends React.Component{
+  render(){
+    return(
+      <div>
+        Items
+        <input/>
+        {this.props.children}
+      </div>
+    )  
+  }
+}
 

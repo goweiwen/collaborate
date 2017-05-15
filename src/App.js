@@ -95,7 +95,7 @@ class App extends React.Component {
     this.setState(
 
       (prev, currProp) => {
-
+      	var newRemovedItems =prev.removedItems;
         var newTile;
         if (prev.removedItems.length === 0) {
         	
@@ -111,9 +111,10 @@ class App extends React.Component {
         } else {
           //we have tiles that are between 0 and max number tile that are not rendered
           //TODO: remove mutations
-          var num = prev.removedItems.pop();
-         
-
+          var num = prev.removedItems[prev.removedItems.length];
+         	newRemovedItems = _.slice(prev.items, 0, prev.items.length-1);
+        
+         	
           newTile = //new Tile
             {
               i: ""+(num),
@@ -127,7 +128,8 @@ class App extends React.Component {
         var newItems = _.concat(prev.items, [newTile]);
         //update count
         return {
-          items: newItems
+          items: newItems,
+          removedItems: newRemovedItems
         }
       }
     );
@@ -173,7 +175,6 @@ class App extends React.Component {
         <Button onClick={this.onRemoveItem.bind(this)}>Delete Highest Num Tile</Button>
         <ReactGridLayout
          /*	onLayoutChange={this.onLayoutChange}*/
-         	
           // WidthProvider option
           //measureBeforeMount={false}
           // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
