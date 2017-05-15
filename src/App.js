@@ -57,11 +57,15 @@ class App extends React.Component {
 
   // removes a specific item (TODO: functional set state)
   onRemoveSpecificItem(i) {
-    this.setState({
-      items: _.reject(this.state.items, {i: i}),
-      removedItems: this.state.removedItems.concat([i]),
-      count: this.state.count-1
-    });
+    this.setState(
+    	(prev, currProp)=>{
+    		var removed = _.concat(prev.removedItems, [i])
+		    return {
+		      items: _.reject(prev.items, {i: i}),
+		      removedItems: removed
+		    }
+		  }  
+	  );
   }
 
   // pass in parent state so that individual buttons can edit state
@@ -76,8 +80,7 @@ class App extends React.Component {
         cursor: 'pointer'
       };
 
-      var i = el.i;
-      //pass in a remove button as a child
+      var i = el.i;      
       var removeOption = <span className="remove" key={i} style={removeStyle} onClick={parent.onRemoveSpecificItem.bind(parent, i)}>x</span>
  			
       return (
@@ -121,10 +124,10 @@ class App extends React.Component {
 
             };
         }
-
+        var newItems = _.concat(prev.items, [newTile]);
         //update count
         return {
-          items: prev.items.concat([newTile]),
+          items: newItems
         }
       }
     );
@@ -137,8 +140,7 @@ class App extends React.Component {
           return{};
         }
 
-        let prevItems = prev.items;
-        prevItems.pop();
+        var prevItems = _.slice(prev.items, 0, prev.items.length-1)
 
         return {items: prevItems, count: prev.count-1};
       }
