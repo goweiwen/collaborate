@@ -21,20 +21,16 @@ function shallowCompare(instance, nextProps, nextState) {
 class App extends React.Component {
 
   constructor() {
-    super();
+    super();   
     this.state = {
-
       mounted: false,
       //generate a set
       items: this.getInitialState().items,
       //store removed items number
-      removedItems: [],
-      
-      //number of tiles (TODO: don't hardcode)
-   		count: this.getInitialState().count
-
+      removedItems: []
     };
   }
+
 	//For Pure Render Mixin
   shouldComponentUpdate = function (nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
@@ -48,22 +44,19 @@ class App extends React.Component {
 
   // generate 5 items
   getInitialState() {
-
+  	//starting items
   	var arr = [0];
+    
     return {
-
       items: arr.map(function(i, key, list) {
         return {i: i.toString(), x: i * 2, y: 0, w: 2, h: 2,
           add: i === (list.length - 1).toString()};
       }),
-      count: arr.length
-
     };
   }
 
   // removes a specific item (TODO: functional set state)
   onRemoveSpecificItem(i) {
-
     this.setState({
       items: _.reject(this.state.items, {i: i}),
       removedItems: this.state.removedItems.concat([i]),
@@ -84,22 +77,11 @@ class App extends React.Component {
       };
 
       var i = el.i;
-     /* return (
-        <Card key={i} data-grid={el}>
-        <span className="text">{i}</span>
-        <span className="remove" style={removeStyle }  onClick={parent.onRemoveSpecificItem.bind(parent, i)}>x</span>
-        </Card>
-      );
-      onClick={parent.onRemoveSpecificItem.bind(parent, i)} */
-
       //pass in a remove button as a child
-      var removeOption = <span className="remove" key={i} style={removeStyle}  onClick={parent.onRemoveSpecificItem.bind(parent, i)}>x</span>
-      var newChildren = React.Children.toArray(parent.children);
-   		newChildren = newChildren.concat([removeOption]);
-      
+      var removeOption = <span className="remove" key={i} style={removeStyle} onClick={parent.onRemoveSpecificItem.bind(parent, i)}>x</span>
+ 			
       return (
-        <Tile key={i}>{newChildren}</Tile>
-        
+        <Tile key={i}>{removeOption}</Tile>
       );
     }
   }
@@ -109,14 +91,14 @@ class App extends React.Component {
 
     this.setState(
 
-      function(prev, currProp) {
+      (prev, currProp) => {
 
         var newTile;
         if (prev.removedItems.length === 0) {
         	
 
           newTile = {
-              i: ""+prev.count,
+              i: ""+prev.items.length,
               x: prev.items.length * 2 % (prev.cols || 12),
               y: Infinity, // puts it at the bottom
               w: 2,
@@ -125,6 +107,7 @@ class App extends React.Component {
 
         } else {
           //we have tiles that are between 0 and max number tile that are not rendered
+          //TODO: remove mutations
           var num = prev.removedItems.pop();
          
 
@@ -142,19 +125,14 @@ class App extends React.Component {
         //update count
         return {
           items: prev.items.concat([newTile]),
-          count: prev.count + 1
         }
       }
     );
   }
 
   onRemoveItem() {
-
     this.setState(
       (prev, currProp) => {
-        //first element is buggy
-
-        //cant go below 0 items
         if(prev.items.length === 0) {
           return{};
         }
@@ -163,11 +141,10 @@ class App extends React.Component {
         prevItems.pop();
 
         return {items: prevItems, count: prev.count-1};
-
       }
     );
   }
-
+/*
   onBreakpointChange = (breakpoint) => {
     this.setState(
       (prev, currProp) =>{
@@ -179,29 +156,26 @@ class App extends React.Component {
 
   onLayoutChange(layout) {
     this.props.onLayoutChange(layout);
-    //this.setState({layout: layout});
   }
-
+*/
   
 
   render(){
+
     return(
       <div>
         <Button onClick={this.onAddItem.bind(this)} >Add Tile</Button>
         <Button onClick={this.onRemoveItem.bind(this)}>Delete Highest Num Tile</Button>
         <ResponsiveReactGridLayout
-          
-          onBreakpointChange={this.onBreakpointChange}
+          //onBreakpointChange={this.onBreakpointChange}
          
           // WidthProvider option
-          measureBeforeMount={false}
+          //measureBeforeMount={false}
           // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
           // and set `measureBeforeMount={true}`.
           //useCSSTransforms={this.state.mounted}
-        	layout={this.state.items}
-        	isDraggable={true}
-
-        >
+       	>
+       
        {_.map(this.state.items, this.createElement(this))}
           
         </ResponsiveReactGridLayout>
@@ -211,6 +185,3 @@ class App extends React.Component {
 }
 
 export default App;
-// {_.map(this.state.items, this.createElement(this))}
-/*{this.generateDOM()}
-  }*/
