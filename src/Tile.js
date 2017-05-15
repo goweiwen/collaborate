@@ -5,7 +5,7 @@ import { Card } from 'semantic-ui-react';
 
 export default class Tile extends React.Component {
   constructor(props) {
-    console.log(props);
+    //console.log(props);
     super(props);
   }
 

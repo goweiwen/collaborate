@@ -5,16 +5,16 @@ import { Container, Grid, Image, Card, Button } from 'semantic-ui-react'
 import _ from 'lodash'
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import {Responsive, WidthProvider} from 'react-grid-layout';
+//import {Responsive, WidthProvider} from 'react-grid-layout';
 import Tile from './Tile';
-
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
-
-//For Pure Render Mixin
+import ReactGridLayout from 'react-grid-layout';
+/*const ResponsiveReactGridLayout = WidthProvider(Responsive);
+*/
+/*//For Pure Render Mixin
 import shallowEqual from 'fbjs/lib/shallowEqual';
 function shallowCompare(instance, nextProps, nextState) {
   return !shallowEqual(instance.props, nextProps) || !shallowEqual(instance.state, nextState);
-}
+}*/
 
 
 
@@ -32,9 +32,9 @@ class App extends React.Component {
   }
 
 	//For Pure Render Mixin
-  shouldComponentUpdate = function (nextProps, nextState) {
+ /* shouldComponentUpdate = function (nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
-  }
+  }*/
 
   static defaultProps = {
     className: "layout",
@@ -82,7 +82,7 @@ class App extends React.Component {
 
       var i = el.i;      
       var removeOption = <span className="remove" key={i} style={removeStyle} onClick={parent.onRemoveSpecificItem.bind(parent, i)}>x</span>
- 			
+ 			console.log(parent)
       return (
         <Tile key={i}>{removeOption}</Tile>
       );
@@ -150,6 +150,8 @@ class App extends React.Component {
   onBreakpointChange = (breakpoint) => {
     this.setState(
       (prev, currProp) =>{
+      	console.log("BreakPoint Change")
+  		console.log(breakpoint);
         return {breakpoint: breakpoint,
           cols: prev.cols};
       }
@@ -157,30 +159,31 @@ class App extends React.Component {
   };
 
   onLayoutChange(layout) {
+  	console.log("Layout Change")
+  	console.log(layout);
     this.props.onLayoutChange(layout);
   }
 */
   
 
   render(){
-
     return(
       <div>
         <Button onClick={this.onAddItem.bind(this)} >Add Tile</Button>
         <Button onClick={this.onRemoveItem.bind(this)}>Delete Highest Num Tile</Button>
-        <ResponsiveReactGridLayout
-          //onBreakpointChange={this.onBreakpointChange}
-         
+        <ReactGridLayout
+         /*	onLayoutChange={this.onLayoutChange}*/
+         	
           // WidthProvider option
           //measureBeforeMount={false}
           // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
           // and set `measureBeforeMount={true}`.
           //useCSSTransforms={this.state.mounted}
-       	>
+       	width={1800}>
        
        {_.map(this.state.items, this.createElement(this))}
           
-        </ResponsiveReactGridLayout>
+        </ReactGridLayout>
       </div>
     );
   }
