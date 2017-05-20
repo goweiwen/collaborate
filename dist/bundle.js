@@ -32788,27 +32788,7 @@ var App = function App() {
 exports.default = App;
 
 /***/ }),
-/* 477 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _redux = __webpack_require__(154);
-
-var _tiles = __webpack_require__(490);
-
-var _tiles2 = _interopRequireDefault(_tiles);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = (0, _redux.combineReducers)({ tiles: _tiles2.default });
-
-/***/ }),
+/* 477 */,
 /* 478 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -33311,7 +33291,7 @@ var _TileList = __webpack_require__(485);
 
 var _TileList2 = _interopRequireDefault(_TileList);
 
-var _actions = __webpack_require__(153);
+var _actions = __webpack_require__(975);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33370,9 +33350,9 @@ var _App = __webpack_require__(476);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _actions = __webpack_require__(153);
+var _actions = __webpack_require__(975);
 
-var _reducers = __webpack_require__(477);
+var _reducers = __webpack_require__(976);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -33440,45 +33420,7 @@ Root.childContextTypes = {
 _reactDom2.default.render(_react2.default.createElement(Root, null), document.getElementById('root'));
 
 /***/ }),
-/* 490 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _actions = __webpack_require__(153);
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function tiles() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments[1];
-
-  switch (action.type) {
-    case _actions.ADD_TILE:
-      return [].concat(_toConsumableArray(state), [_extends({ id: state.length }, action.tile)]);
-    case _actions.UPDATE_TILE:
-      return state.map(function (tile) {
-        return tile.id === action.tile.id ? action.tile : tile;
-      });
-    case _actions.REMOVE_TILE:
-      return state.filter(function (tile) {
-        return tile.id !== action.id;
-      });
-    default:
-      return state;
-  }
-}
-
-exports.default = tiles;
-
-/***/ }),
+/* 490 */,
 /* 491 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -87783,6 +87725,90 @@ exports.default = valueEqual;
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 975 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var ADD_TILE = exports.ADD_TILE = 'ADD_TILE';
+var UPDATE_TILE = exports.UPDATE_TILE = 'UPDATE_TILE';
+var REMOVE_TILE = exports.REMOVE_TILE = 'REMOVE_TILE';
+
+var addTile = exports.addTile = function addTile(tile) {
+  return { type: ADD_TILE, tile: tile };
+};
+var updateTile = exports.updateTile = function updateTile(tile) {
+  return { type: UPDATE_TILE, tile: tile };
+};
+var removeTile = exports.removeTile = function removeTile(id) {
+  return { type: REMOVE_TILE, id: id };
+};
+
+/***/ }),
+/* 976 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _redux = __webpack_require__(154);
+
+var _tiles = __webpack_require__(977);
+
+var _tiles2 = _interopRequireDefault(_tiles);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = (0, _redux.combineReducers)({ tiles: _tiles2.default });
+
+/***/ }),
+/* 977 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _actions = __webpack_require__(975);
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function tiles() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actions.ADD_TILE:
+      return [].concat(_toConsumableArray(state), [_extends({ id: state.length }, action.tile)]);
+    case _actions.UPDATE_TILE:
+      return state.map(function (tile) {
+        return tile.id === action.tile.id ? action.tile : tile;
+      });
+    case _actions.REMOVE_TILE:
+      return state.filter(function (tile) {
+        return tile.id !== action.id;
+      });
+    default:
+      return state;
+  }
+}
+
+exports.default = tiles;
 
 /***/ })
 /******/ ]);

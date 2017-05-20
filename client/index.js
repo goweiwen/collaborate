@@ -6,8 +6,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
 import App from './components/App';
-import { addTile } from './actions';
-import reducer from './reducers';
+import { addTile } from '../actions';
+import reducer from '../reducers';
 import io from 'socket.io-client';
 
 const store = createStore(

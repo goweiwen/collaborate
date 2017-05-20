@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import TileList from '../components/TileList';
-import { addTile, removeTile } from '../actions';
+import { addTile, removeTile } from '../../actions';
 
 const mapStateToProps = (state) => ({tiles: state.tiles});
 
