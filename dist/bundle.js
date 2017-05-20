@@ -10182,30 +10182,7 @@ function localstorage() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 153 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var ADD_TILE = exports.ADD_TILE = 'ADD_TILE';
-var UPDATE_TILE = exports.UPDATE_TILE = 'UPDATE_TILE';
-var REMOVE_TILE = exports.REMOVE_TILE = 'REMOVE_TILE';
-
-var addTile = exports.addTile = function addTile(tile) {
-  return { type: ADD_TILE, tile: tile };
-};
-var updateTile = exports.updateTile = function updateTile(tile) {
-  return { type: UPDATE_TILE, tile: tile };
-};
-var removeTile = exports.removeTile = function removeTile(id) {
-  return { type: REMOVE_TILE, id: id };
-};
-
-/***/ }),
+/* 153 */,
 /* 154 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -33161,8 +33138,6 @@ var _Tile = __webpack_require__(484);
 var _Tile2 = _interopRequireDefault(_Tile);
 
 var _semanticUiReact = __webpack_require__(84);
-
-var _actions = __webpack_require__(153);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

@@ -3,7 +3,6 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Tile from './Tile';
 import { Button } from 'semantic-ui-react';
-import { updateTile } from '../actions';
 
 const TileList = (props, context) => (
     <div>
