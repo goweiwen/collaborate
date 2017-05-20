@@ -33302,7 +33302,7 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     addTile: function addTile(socket, id) {
-      var tile = { tile: 'image', src: 'http://source.unsplash.com/random/' + id };
+      var tile = { tile: 'image', src: 'https://unsplash.it/200/300?image=' + id };
       socket.emit('add', tile);
       dispatch((0, _actions.addTile)(tile));
     },
@@ -33393,6 +33393,14 @@ var Root = function (_React$Component) {
         tiles.forEach(function (tile) {
           return store.dispatch((0, _actions.addTile)(tile));
         });
+      });
+
+      this.socket.on('add', function (tile) {
+        store.dispatch((0, _actions.addTile)(tile));
+      });
+
+      this.socket.on('remove', function (id) {
+        store.dispatch((0, _actions.removeTile)(id));
       });
     }
   }, {
