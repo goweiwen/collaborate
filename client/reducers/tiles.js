@@ -1,9 +1,11 @@
-import { UPDATE_TILE, REMOVE_TILE } from '../actions';
+import { ADD_TILE, UPDATE_TILE, REMOVE_TILE } from '../actions';
 
 function tiles(state = [], action) {
   switch (action.type) {
+    case ADD_TILE:
+      return [ ...state, { id: state.length, ...action.tile } ];
     case UPDATE_TILE:
-      return [...state, {id: action.id, content: action.content}];
+      return state.map((tile) => tile.id === action.tile.id ? action.tile : tile);
     case REMOVE_TILE:
       return state.filter((tile) => tile.id !== action.id);
     default:

@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Image } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
+import Text from './tiles/Text';
+import Image from './tiles/Image';
+// import { Text, Image } from './tiles';
 
 const Tile = (props) => (
   <Card id={props.id}>
     {(() => {
-      switch (props.type) {
+      switch (props.tile) {
         case 'text':
-          return <Card.Content>{props.content}</Card.Content>;
+          return <Text id={props.id} content={props.content} />
         case 'image':
-          return <Image src={props.src} />;
+          return <Image id={props.id} src={props.src} />
         default:
           return <span>{props.type}</span>;
       }
@@ -19,6 +22,7 @@ const Tile = (props) => (
 
 Tile.propTypes = {
   id: PropTypes.number.isRequired,
+  tile: PropTypes.string.isRequired,
   content: PropTypes.string,
   src: PropTypes.string
 };

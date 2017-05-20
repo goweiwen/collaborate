@@ -6,9 +6,10 @@
   "scripts": {
     "start": "concurrently --kill-others \"yarn pre-start\" \"yarn server\"",
     "pre-start": "webpack -w",
-    "server": "babel-node index.js"
+    "server": "nodemon --exec babel-node index.js"
   },
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "koa": "^2.2.0",
     "koa-router": "^7.1.1",
     "koa-static-server": "^1.2.1",
@@ -18,7 +19,10 @@
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",
-    "semantic-ui-react": "^0.68.3"
+    "redux-logger": "^3.0.6",
+    "semantic-ui-react": "^0.68.3",
+    "socket.io": "^2.0.1",
+    "socket.io-client": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
