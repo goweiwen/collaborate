@@ -1,7 +1,7 @@
 import React from 'react';
 import Workspace from '../containers/Workspace';
 import Dropzone from 'react-dropzone';
-import { Container } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 import SideMenu from './SideMenu';
 import request from 'superagent';
 
