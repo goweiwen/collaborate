@@ -5,7 +5,7 @@ import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
 import webpackMiddleware from 'koa-webpack';
 import { addTile, removeTile } from './actions';
-import reducer from './reducers';
+import reducer from './reducers/server';
 
 const PORT = 3000;
 const app = new Koa();

@@ -9,7 +9,7 @@ import io from 'socket.io-client';
 import 'babel-polyfill';
 import App from './components/App';
 import { addTile, removeTile } from '../actions';
-import reducer from '../reducers';
+import reducer from '../reducers/client';
 
 const store = createStore(
   reducer,
@@ -35,6 +35,8 @@ class Root extends React.Component {
     this.socket.on('remove', (id) => {
       store.dispatch(removeTile(id));
     });
+
+    
   }
 
   render() {
