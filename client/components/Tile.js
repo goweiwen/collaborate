@@ -10,9 +10,9 @@ const Tile = (props) => (
     {(() => {
       switch (props.tile) {
         case 'text':
-          return <Text id={props.id} content={props.content} />
+          return <Text id={props.id} content={props.content} />;
         case 'image':
-          return <Image id={props.id} src={props.src} />
+          return <Image id={props.id} src={props.src} />;
         default:
           return <span>{props.type}</span>;
       }

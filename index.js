@@ -18,6 +18,7 @@ app.use(webpackMiddleware({
 
 app.use(serve({ rootDir: 'public' }));
 
+/* eslint-disable no-console */
 const server = app.listen(PORT, (err) => {
   if (err) {
     console.log(err);
@@ -32,7 +33,7 @@ let state = {
     {id: 1, tile: 'image', src: 'https://unsplash.it/200/300?image=1'},
     {id: 2, tile: 'text', content: 'hi'},
   ]
-}
+};
 
 const store = createStore(
   reducer,
