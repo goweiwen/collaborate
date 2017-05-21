@@ -7,6 +7,6 @@ const Image = (props) => <ImageDOM src={props.src} />;
 Image.propTypes = {
   id: PropTypes.number.isRequired,
   src: PropTypes.string.isRequired
-}
+};
 
 export default Image;

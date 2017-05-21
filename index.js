@@ -3,14 +3,22 @@ import serve from 'koa-static-server';
 import socketio from 'socket.io';
 import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
+import webpackMiddleware from 'koa-webpack';
 import { addTile, removeTile } from './actions';
 import reducer from './reducers';
 
 const PORT = 3000;
 const app = new Koa();
 
-app.use(serve({ rootDir: 'dist' }));
+app.use(webpackMiddleware({
+  dev: {
+    'publicPath': '/assets/'
+  }
+}));
 
+app.use(serve({ rootDir: 'public' }));
+
+/* eslint-disable no-console */
 const server = app.listen(PORT, (err) => {
   if (err) {
     console.log(err);
@@ -21,11 +29,11 @@ console.log('Listening on port 3000');
 
 let state = {
   tiles: [
-    {id: 0, tile: 'text', content: 'hi'},
+    {id: 0, tile: 'youtube', src: 'HtSuA80QTyo'},
     {id: 1, tile: 'image', src: 'https://unsplash.it/200/300?image=1'},
     {id: 2, tile: 'text', content: 'hi'},
   ]
-}
+};
 
 const store = createStore(
   reducer,

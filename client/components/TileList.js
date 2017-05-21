@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Tile from './Tile';
 import { Button } from 'semantic-ui-react';
 
-
 const TileList = (props, context) => (
     <div>
       <Button onClick={ () => props.addTile(context.socket, props.tiles.length) }>

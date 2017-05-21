@@ -5,10 +5,11 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
+import io from 'socket.io-client';
+import 'babel-polyfill';
 import App from './components/App';
 import { addTile, removeTile } from '../actions';
 import reducer from '../reducers';
-import io from 'socket.io-client';
 
 const store = createStore(
   reducer,
@@ -24,7 +25,7 @@ class Root extends React.Component {
     this.socket = io();
 
     this.socket.on('initialise', (tiles) => {
-      tiles.forEach((tile) => store.dispatch(addTile(tile)))
+      tiles.forEach((tile) => store.dispatch(addTile(tile)));
     });
 
     this.socket.on('add', (tile) => {
@@ -53,5 +54,6 @@ Root.childContextTypes = {
 
 ReactDOM.render(
   <Root />,
+  // eslint-disable-next-line no-undef
   document.getElementById('root')
 );

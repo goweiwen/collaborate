@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Card} from 'semantic-ui-react';
 import Text from './tiles/Text';
 import Image from './tiles/Image';
+import YouTube from './tiles/YouTube';
 // import { Text, Image } from './tiles';
 
 const Tile = (props, context) => (
@@ -11,9 +12,11 @@ const Tile = (props, context) => (
     {(() => {
       switch (props.tile) {
         case 'text':
-          return <Text id={props.id} content={props.content} />
+          return <Text id={props.id} content={props.content} />;
         case 'image':
-          return <Image id={props.id} src={props.src} />
+          return <Image id={props.id} src={props.src} />;
+        case 'youtube':
+          return <YouTube id={props.id} src={props.src} />;
         default:
           return <span>{props.type}</span>;
       }
