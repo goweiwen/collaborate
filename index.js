@@ -3,13 +3,20 @@ import serve from 'koa-static-server';
 import socketio from 'socket.io';
 import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
+import webpackMiddleware from 'koa-webpack';
 import { addTile, removeTile } from './actions';
 import reducer from './reducers';
 
 const PORT = 3000;
 const app = new Koa();
 
-app.use(serve({ rootDir: 'dist' }));
+app.use(webpackMiddleware({
+  dev: {
+    'publicPath': '/assets/'
+  }
+}));
+
+app.use(serve({ rootDir: 'public' }));
 
 const server = app.listen(PORT, (err) => {
   if (err) {
