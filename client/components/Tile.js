@@ -4,7 +4,6 @@ import { Button, Card} from 'semantic-ui-react';
 import Text from './tiles/Text';
 import Image from './tiles/Image';
 import YouTube from './tiles/YouTube';
-// import { Text, Image } from './tiles';
 
 const Tile = (props, context) => (
   <Card id={props.id}>
