@@ -1,4 +1,6 @@
 import Koa from 'koa';
+import Router from 'koa-router';
+import multer from 'koa-multer';
 import serve from 'koa-static-server';
 import socketio from 'socket.io';
 import { applyMiddleware, createStore } from 'redux';
@@ -9,24 +11,32 @@ import reducer from './reducers/server';
 
 const PORT = 3000;
 const app = new Koa();
+const router = new Router();
 
-app.use(webpackMiddleware({
-  dev: {
-    'publicPath': '/assets/'
-  }
-}));
+// Upload endpoint
+const upload = multer({ dest: 'public/uploads/' });
 
-app.use(serve({ rootDir: 'public' }));
+// Routes
+router
+  .post('/upload', upload.single('file'), async (ctx, next) => {
+    const { filename, originalname } = ctx.req.file;
+    ctx.body = { filename, originalname }
+    return await next();
+  })
+  .get('/*', serve({ rootDir: 'public' }));
 
-/* eslint-disable no-console */
-const server = app.listen(PORT, (err) => {
-  if (err) {
-    console.log(err);
-  }
-});
+app
+  .use(webpackMiddleware({ dev: {
+    'publicPath': '/assets/',
+    'lazy': false
+  } }))
+  .use(router.routes());
 
+
+const server = app.listen(PORT, (err) => { if (err) console.log(err); });
 console.log('Listening on port 3000');
 
+// Redux
 let state = {
   tiles: [
     {id: 0, tile: 'youtube', src: 'HtSuA80QTyo'},
@@ -41,6 +51,7 @@ const store = createStore(
   applyMiddleware(logger)
 );
 
+// Socket.io
 const io = socketio(server);
 
 io.on('connection', (socket) => {

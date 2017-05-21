@@ -1,6 +1,7 @@
 {
     "env": {
         "es6": true,
+        "es7": true,
         "node": true
     },
     "extends": "eslint:recommended",
@@ -33,6 +34,7 @@
             "always"
         ],
         "react/jsx-uses-react": 1,
-        "react/jsx-uses-vars": 1
+        "react/jsx-uses-vars": 1,
+        "no-console": 0
     }
 }

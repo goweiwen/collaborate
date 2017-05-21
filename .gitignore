@@ -55,3 +55,6 @@ yarn-error.log*
 
 # webpack
 /public/bundle.js
+
+# upload
+/public/uploads/
