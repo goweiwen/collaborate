@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'semantic-ui-react';
+import { Button, Card} from 'semantic-ui-react';
 import Text from './tiles/Text';
 import Image from './tiles/Image';
 // import { Text, Image } from './tiles';
 
-const Tile = (props) => (
+const Tile = (props, context) => (
   <Card id={props.id}>
+    <Button onClick={() => props.removeTile(context.socket, props.id)}> x </Button>
     {(() => {
       switch (props.tile) {
         case 'text':
@@ -24,7 +25,11 @@ Tile.propTypes = {
   id: PropTypes.number.isRequired,
   tile: PropTypes.string.isRequired,
   content: PropTypes.string,
-  src: PropTypes.string
+  src: PropTypes.string,
+  removeTile: PropTypes.func.isRequired
 };
 
+Tile.contextTypes = {
+  socket: PropTypes.object
+}
 export default Tile;

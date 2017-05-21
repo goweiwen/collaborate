@@ -3,7 +3,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Tile from './Tile';
 import { Button } from 'semantic-ui-react';
-import { updateTile } from '../actions';
+
 
 const TileList = (props, context) => (
     <div>
@@ -13,7 +13,7 @@ const TileList = (props, context) => (
       <Button onClick={ () => props.removeTile(context.socket, props.tiles.length - 1) }>
         Remove tile
       </Button>
-      { _.map(props.tiles, (tile) => <Tile key={tile.id} { ...tile } />) }
+      { _.map(props.tiles, (tile) => <Tile key={tile.id} { ...tile } removeTile={props.removeTile} />) }
     </div>
 );
 
