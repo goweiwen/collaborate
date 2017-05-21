@@ -33,5 +33,6 @@ Tile.propTypes = {
 
 Tile.contextTypes = {
   socket: PropTypes.object
-}
+};
+
 export default Tile;

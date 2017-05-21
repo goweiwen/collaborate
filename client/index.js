@@ -8,7 +8,7 @@ import logger from 'redux-logger';
 import io from 'socket.io-client';
 import 'babel-polyfill';
 import App from './components/App';
-import { addTile, removeTile } from '../actions';
+import { addTile, removeTile, addChatMessage } from '../actions';
 import reducer from '../reducers/client';
 
 const store = createStore(
@@ -26,17 +26,26 @@ class Root extends React.Component {
 
     this.socket.on('initialise', (tiles) => {
       tiles.forEach((tile) => store.dispatch(addTile(tile)));
+     
+    });
+
+    this.socket.on('initialise chat', (messages) => {
+      messages.forEach((message) => store.dispatch(addChatMessage(message)));
     });
 
     this.socket.on('add', (tile) => {
       store.dispatch(addTile(tile));
     });
 
+    this.socket.on('add chat message', (message) => {
+      store.dispatch(addChatMessage(message));
+    });
+
     this.socket.on('remove', (id) => {
       store.dispatch(removeTile(id));
     });
 
-    
+
   }
 
   render() {

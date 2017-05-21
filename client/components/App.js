@@ -5,6 +5,8 @@ import { Container, Grid } from 'semantic-ui-react';
 import SideMenu from './SideMenu';
 import request from 'superagent';
 
+import ChatContainer from '../containers/ChatContainer';
+
 const onDrop = async (acceptedFiles) => {
   const req = request.post('/upload');
   acceptedFiles.forEach((file) => {
@@ -30,7 +32,13 @@ const App = () =>
         </Container>
         </Grid.Column>
       </div>
+    <Grid.Column>
+      <ChatContainer/>
+    </Grid.Column>
     </Grid>
   </Dropzone>;
+
+
+
 
 export default App;
