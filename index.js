@@ -29,7 +29,7 @@ console.log('Listening on port 3000');
 
 let state = {
   tiles: [
-    {id: 0, tile: 'text', content: 'hi'},
+    {id: 0, tile: 'youtube', src: 'HtSuA80QTyo'},
     {id: 1, tile: 'image', src: 'https://unsplash.it/200/300?image=1'},
     {id: 2, tile: 'text', content: 'hi'},
   ]
