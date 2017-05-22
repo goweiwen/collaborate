@@ -1090,7 +1090,7 @@ circular-json@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.1.tgz#be8b36aefccde8b3ca7aa2d6afc07a37242c0d2d"
 
-classnames@^2.1.5:
+classnames@^2.1.5, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
@@ -3853,6 +3853,10 @@ lodash.isempty@^4.2.1:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.isempty/-/lodash.isempty-4.4.0.tgz#6f86cbedd8be4ec987be9aaf33c9684db1b31e7e"
 
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+
 lodash.isobject@~2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/lodash.isobject/-/lodash.isobject-2.4.1.tgz#5a2e47fe69953f1ee631a7eba1fe64d2d06558f5"
@@ -4880,6 +4884,12 @@ react-dom@^15.5.4:
     object-assign "^4.1.0"
     prop-types "~15.5.7"
 
+react-draggable@^2.2.3:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-2.2.6.tgz#3a806e10f2da6babfea4136be6510e89b0d76901"
+  dependencies:
+    classnames "^2.2.5"
+
 react-dropzone@^3.13.1:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-3.13.1.tgz#5380d47585b44ad2877c0b5a9b92abe7bd2a12e5"
@@ -4909,6 +4919,19 @@ react-redux@^5.0.5:
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
+
+react-resizable-box@^2.0.3:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-resizable-box/-/react-resizable-box-2.0.4.tgz#60113dfef9f9e1ccb88a3ea9a386b3992e0431d8"
+  dependencies:
+    lodash.isequal "^4.5.0"
+
+react-rnd@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/react-rnd/-/react-rnd-5.0.3.tgz#6445636d29131f44f4a859b716a2417ad5239db5"
+  dependencies:
+    react-draggable "^2.2.3"
+    react-resizable-box "^2.0.3"
 
 react-router-dom@^4.1.1:
   version "4.1.1"

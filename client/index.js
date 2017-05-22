@@ -8,7 +8,7 @@ import logger from 'redux-logger';
 import io from 'socket.io-client';
 import 'babel-polyfill';
 import App from './components/App';
-import { addTile, removeTile, addChatMessage } from '../actions';
+import { addTile, removeTile, addChatMessage, updateTile } from '../actions';
 import reducer from '../reducers/client';
 
 const store = createStore(
@@ -43,6 +43,10 @@ class Root extends React.Component {
 
     this.socket.on('remove', (id) => {
       store.dispatch(removeTile(id));
+    });
+
+    this.socket.on('update tile', (tile) =>{
+      store.dispatch(updateTile(tile));
     });
 
 

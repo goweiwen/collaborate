@@ -6,7 +6,7 @@ import socketio from 'socket.io';
 import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
 import webpackMiddleware from 'koa-webpack';
-import { addTile, removeTile, addChatMessage } from './actions';
+import { addTile, removeTile, addChatMessage, updateTile } from './actions';
 import reducer from './reducers/server';
 
 const PORT = 3000;
@@ -44,10 +44,19 @@ let state = {
   ],
 
   tiles: [
-    {id: 0, tile: 'youtube', src: 'HtSuA80QTyo'},
-    {id: 1, tile: 'image', src: 'https://unsplash.it/200/300?image=1'},
-    {id: 2, tile: 'text', content: 'hi'},
-  ]
+    
+    {id: 0, tile: 'youtube', src: 'HtSuA80QTyo',
+     layout: {x:0, y:0, width:300, height:300}
+    },
+    
+    {id: 1, tile: 'image', src: 'https://unsplash.it/200/300?image=1',
+     layout: {x:0, y:0, width:300, height:300}
+    },
+    
+    {id: 2, tile: 'text', content: 'hi',
+     layout: {x:0, y:0, width:300, height:300}
+    },
+  ],
 };
 
 const store = createStore(
@@ -77,6 +86,12 @@ io.on('connection', (socket) => {
     store.dispatch(removeTile(id));
     socket.broadcast.emit('remove', id);
   });
+
+  socket.on('update tile', (tile)=> {
+    store.dispatch(updateTile(tile));
+    socket.broadcast.emit('update tile', tile);    
+  });
+
 
   socket.on('add chat message', (message) => {
       store.dispatch(addChatMessage(message));
