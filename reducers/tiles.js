@@ -1,4 +1,4 @@
-import { ADD_TILE, UPDATE_TILE, REMOVE_TILE, EDIT_TILE_LAYOUT } from '../actions';
+import { ADD_TILE, UPDATE_TILE, REMOVE_TILE } from '../actions';
 
 function tiles(state = [], action) {
   switch (action.type) {

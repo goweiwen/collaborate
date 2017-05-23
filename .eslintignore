@@ -1,4 +1,4 @@
 public/*.js
 semantic/
 
-linterrors
+dist/bundle.js
