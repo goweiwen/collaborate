@@ -20,7 +20,7 @@ const upload = multer({ dest: 'public/uploads/' });
 router
   .post('/upload', upload.single('file'), async (ctx, next) => {
     const { filename, originalname } = ctx.req.file;
-    ctx.body = { filename, originalname }
+    ctx.body = { filename, originalname };
     return await next();
   })
   .get('/*', serve({ rootDir: 'public' }));
@@ -44,17 +44,17 @@ let state = {
   ],
 
   tiles: [
-    
-    {id: 0, tile: 'youtube', src: 'HtSuA80QTyo',
-     layout: {x:0, y:0, width:300, height:300}
+    {
+      id: 0, tile: 'youtube', src: 'HtSuA80QTyo',
+      layout: {x:0, y:0, width:300, height:300}
     },
-    
-    {id: 1, tile: 'image', src: 'https://unsplash.it/200/300?image=1',
-     layout: {x:0, y:0, width:300, height:300}
+    {
+      id: 1, tile: 'image', src: 'https://unsplash.it/200/300?image=1',
+      layout: {x:0, y:0, width:300, height:300}
     },
-    
-    {id: 2, tile: 'text', content: 'hi',
-     layout: {x:0, y:0, width:300, height:300}
+    {
+      id: 2, tile: 'text', content: 'hi',
+      layout: {x:0, y:0, width:300, height:300}
     },
   ],
 };
@@ -89,12 +89,12 @@ io.on('connection', (socket) => {
 
   socket.on('update tile', (tile)=> {
     store.dispatch(updateTile(tile));
-    socket.broadcast.emit('update tile', tile);    
+    socket.broadcast.emit('update tile', tile);
   });
 
 
   socket.on('add chat message', (message) => {
-      store.dispatch(addChatMessage(message));
-      socket.broadcast.emit('add chat message', message);
-    });
+    store.dispatch(addChatMessage(message));
+    socket.broadcast.emit('add chat message', message);
+  });
 });

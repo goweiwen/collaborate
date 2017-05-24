@@ -32,9 +32,9 @@ const App = () =>
         </Container>
         </Grid.Column>
       </div>
-    <Grid.Column>
-      <ChatContainer/>
-    </Grid.Column>
+      <Grid.Column>
+        <ChatContainer/>
+      </Grid.Column>
     </Grid>
   </Dropzone>;
 
