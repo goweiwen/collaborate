@@ -2,6 +2,7 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import multer from 'koa-multer';
 import serve from 'koa-static-server';
+import cors from 'kcors';
 import socketio from 'socket.io';
 import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
@@ -26,13 +27,14 @@ router
   .get('/*', serve({ rootDir: 'public' }));
 
 app
+  .use(cors())
   .use(webpackMiddleware({ dev: {
     'publicPath': '/assets/',
     'lazy': false
   } }))
   .use(router.routes());
 
-
+// Start server
 const server = app.listen(PORT, (err) => { if (err) console.log(err); });
 console.log('Listening on port 3000');
 
@@ -45,15 +47,20 @@ let state = {
 
   tiles: [
     {
-      id: 0, tile: 'youtube', src: 'HtSuA80QTyo',
+      id: 0, tileType: 'youtube', src: 'HtSuA80QTyo',
       layout: {x:0, y:0, width:300, height:300}
     },
     {
-      id: 1, tile: 'image', src: 'https://unsplash.it/200/300?image=1',
+      id: 1, tileType: 'image', src: 'https://unsplash.it/200/300?image=1',
       layout: {x:0, y:0, width:300, height:300}
     },
     {
-      id: 2, tile: 'text', content: 'hi',
+      id: 2, tileType: 'text', content: 'hi',
+      layout: {x:0, y:0, width:300, height:300}
+    },
+    {
+      id: 3, tileType: 'pdf', page: 0,
+      src: 'http://www.comp.nus.edu.sg/~cs2100/lect/cs2100-1-intro.pdf',
       layout: {x:0, y:0, width:300, height:300}
     },
   ],

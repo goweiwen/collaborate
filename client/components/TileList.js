@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import Tile from './Tile';
+import Tile from '../containers/Tile';
 import { Button} from 'semantic-ui-react';
 
 const TileList = (props, context) => {
