@@ -5,12 +5,12 @@ import Text from './tiles/Text';
 import Image from './tiles/Image';
 import YouTube from './tiles/YouTube';
 import Rnd from 'react-rnd';
+import _ from 'lodash';
 
-
-
+const padding = {padding: '10px'}
 const Tile = (props, context) => (
-  <Card fluid id={props.id} style={{height: '100%'}}>
-    <Button onClick={() => props.removeTile(context.socket, props.id)}> x </Button>
+  <Card fluid id={props.id} style={{height: '100%', padding:'10px'}}>
+    {/*<Button onClick={() => props.removeTile(context.socket, props.id)}> x </Button>*/}
     {(() => {
       switch (props.tile) {
         case 'text':
@@ -38,6 +38,21 @@ Tile.contextTypes = {
   socket: PropTypes.object
 };
 
+function getTranslateXValue(translateString){
+  const n = translateString.indexOf('(');
+  const n1 = translateString.indexOf(',');
+  const res = parseInt(translateString.slice(n+1,n1-2));
+  return res;
+
+}
+function getTranslateYValue(translateString){
+  const n = translateString.indexOf(',');
+  const n1 = translateString.indexOf(')');
+  const res = parseInt(translateString.slice(n+1,n1-1));  
+  return res;
+
+}
+
 
 class RndTile extends React.Component {
   
@@ -49,32 +64,37 @@ class RndTile extends React.Component {
   }
 
   handleMoveStop(){
+   
+
     const props = this.props;
     const context = this.context;
     const rnd = this.rnd;
     const layout = {...props.layout};
     const rect = rnd.wrapper.firstChild.getBoundingClientRect();
-        
-    const top = rect.top;
-    const left = rect.left;
+   
+    const transform = rnd.wrapper.style.transform;
+    const y = getTranslateYValue(transform);
+    const x = getTranslateXValue(transform);
+
     const height = rect.height;
     const width = rect.width;
 
-    layout.x = left - 391.75;
-    layout.y = top - 61;  
+    layout.x = x;
+    layout.y = y;    
     layout.height = height;
     layout.width = width;
 
-    const tile = {...props, layout};
-    props.updateTile(context.socket, tile);
-
+    if(!_.isEqual(layout, props.layout)) {
+      const tile = {...props, layout};
+      props.updateTile(context.socket, tile);
+    }
   }
  
   render() {
     const props = this.props;    
     return (
       <Rnd 
-       style={{outline: '#FFFF00 dotted thick', position:'absolute' }}
+       style={{position:'absolute' }}
         ref={c => { this.rnd = c; }}
         default={props.layout}
         minWidth={200}
@@ -82,7 +102,7 @@ class RndTile extends React.Component {
         bounds="parent"
         onResizeStop={this.handleMoveStop.bind(this)}
         onDragStop={this.handleMoveStop.bind(this)}>
-        <Tile {...props}  />
+        <Tile {...props}/>
       </Rnd>
     );
   }

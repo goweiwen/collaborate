@@ -54,7 +54,7 @@ let state = {
     },
     
     {id: 2, tile: 'text', content: 'hi',
-     layout: {x:0, y:0, width:300, height:300}
+     layout: {x:40, y:50, width:300, height:300}
     },
   ],
 };

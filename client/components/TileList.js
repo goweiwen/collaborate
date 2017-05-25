@@ -14,7 +14,7 @@ const TileList = (props, context) => {
       <Button onClick={ () => props.removeTile(context.socket, props.tiles.length - 1) }>
         Remove tile
       </Button>
-      <div  style={{width: '1024px', height: '720px', outline: '#00FF00 dotted thick'}} >
+      <div style={{width: '1024px', height: '720px',}} >
         { _.map(props.tiles, (tile) => {return <Tile key={tile.id} { ...tile } removeTile={props.removeTile} updateTile={props.updateTile}/>;})}
       </div>
     </div>);
