@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="semantic.min.css">
+		<style>
+			* {
+				transition: left 0.2s, top 0.2s !important;
+			}
+			div.ui.card {
+				margin: 0;
+				position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="competitive-programming" class="ui fluid card" style="width: 420px; left: 440px; top: 10px;">
+			<img class="ui image" src="presentation/pdf/competitive-programming/0.png" style="margin: 0;">
+		</div>
+		<div id="c-programming" class="ui fluid card" style="width: 420px; left: 10px; top: 10px;">
+			<img class="ui image" src="presentation/pdf/c-programming/0.png" style="margin: 0;">
+		</div>
+		<script src="presentation/jquery.js"></script>
+		<script>
+			let state = 0;
+			function update() {
+				switch (state) {
+					case 0:
+						$('#c-programming').css('left', '300px');
+					case 1:
+						break;
+					case 2:
+						break;
+					default:
+						console.log(state);
+				}
+				state++;
+			}
+			document.onclick = update;
+		</script>
+		<script src="semantic.min.js"></script>
+	</body>
+</html>
