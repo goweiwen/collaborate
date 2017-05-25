@@ -4,21 +4,23 @@ import { Button, Card } from 'semantic-ui-react';
 import Text from './tiles/Text';
 import Image from './tiles/Image';
 import YouTube from './tiles/YouTube';
+import PDF from './tiles/PDF';
 import Rnd from 'react-rnd';
 import _ from 'lodash';
 
-const padding = {padding: '10px'}
 const Tile = (props, context) => (
   <Card fluid id={props.id} style={{height: '100%', padding:'10px'}}>
-    {/*<Button onClick={() => props.removeTile(context.socket, props.id)}> x </Button>*/}
+   <Button onClick={() => props.removeTile(context.socket, props.id)}> x </Button>
     {(() => {
-      switch (props.tile) {
+      switch (props.tileType) {
         case 'text':
           return <Text id={props.id} content={props.content} />;
         case 'image':
           return <Image inline id={props.id} src={props.src} />;
         case 'youtube':
           return <YouTube id={props.id} src={props.src} />;
+        case 'pdf':
+          return <PDF id={props.id} {...props} />;
         default:
           return <span>{props.type}</span>;
       }
@@ -28,7 +30,8 @@ const Tile = (props, context) => (
 
 Tile.propTypes = {
   id: PropTypes.number.isRequired,
-  tile: PropTypes.string.isRequired,
+  tileType: PropTypes.string.isRequired,
+  tile: PropTypes.object.isRequired,
   content: PropTypes.string,
   src: PropTypes.string,
   removeTile: PropTypes.func.isRequired
@@ -55,7 +58,7 @@ function getTranslateYValue(translateString){
 
 
 class RndTile extends React.Component {
-  
+
   componentWillUpdate(nextProps) {
     const layout = nextProps.layout;
     let rnd = this.rnd;

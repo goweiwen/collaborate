@@ -6,7 +6,7 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": 7,
+        "ecmaVersion": 8,
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
             "jsx": true
@@ -31,6 +31,10 @@
             "single"
         ],
         "semi": [
+            "error",
+            "always"
+        ],
+        "array-bracket-spacing": [
             "error",
             "always"
         ],
