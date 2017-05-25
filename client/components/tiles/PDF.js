@@ -12,6 +12,7 @@ const onPageLoad = (socket, tile) => ({ pageIndex }) => {
 const PDF = (props, context) =>
   <ReactPDF
       file={props.src}
+      width={300}
       pageIndex={props.page}
       onPageLoad={onPageLoad(context.socket, props.tile)}
   />;

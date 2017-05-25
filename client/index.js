@@ -26,7 +26,6 @@ class Root extends React.Component {
 
     this.socket.on('initialise', (tiles) => {
       tiles.forEach((tile) => store.dispatch(addTile(tile)));
-     
     });
 
     this.socket.on('initialise chat', (messages) => {
@@ -48,7 +47,6 @@ class Root extends React.Component {
     this.socket.on('update tile', (tile) =>{
       store.dispatch(updateTile(tile));
     });
-
 
   }
 

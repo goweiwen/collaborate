@@ -12,7 +12,8 @@ const onDrop = async (acceptedFiles) => {
   acceptedFiles.forEach((file) => {
     req.attach('file', file);
   });
-  console.log(await req);
+  const src = await req;
+  // addTile({ ...
 };
 
 const App = () =>
