@@ -1,36 +1,30 @@
 import React from 'react';
 import TileList from '../containers/TileList';
 import Dropzone from 'react-dropzone';
-import { Container, Grid } from 'semantic-ui-react';
-import SideMenu from './SideMenu';
 import request from 'superagent';
-
-import ChatContainer from '../containers/ChatContainer';
 
 const onDrop = async (acceptedFiles) => {
   const req = request.post('/upload');
   acceptedFiles.forEach((file) => {
     req.attach('file', file);
   });
-
   console.log(await req);
 };
 
 const App = (props, context) => {
-  console.log(props)
   return(
   <Dropzone
     style={{}}
     disableClick
     onDrop={onDrop}
   >
-    <TileList {...props}/>    
-    
-  </Dropzone>);
-}
 
-
-
+    <div className='workspace'>
+      <TileList />
+    </div>
+  </Dropzone>
+);
+};
 
 
 export default App;
@@ -50,3 +44,4 @@ export default App;
         <ChatContainer/>
       </Grid.Column>
     </Grid>*/
+

@@ -26,14 +26,11 @@ class Root extends React.Component {
 
     this.socket.on('initiliase layouts', (layouts) => {
       store.dispatch(initialiseLayouts(layouts));
-    })
+    });
 
     this.socket.on('initialise tiles', (tiles) => {
       tiles.forEach((tile) => store.dispatch(addTile(tile, tile.id)));
-    });
-
-
-
+    });  
     this.socket.on('initialise chat', (messages) => {
       messages.forEach((message) => store.dispatch(addChatMessage(message)));
     });
@@ -58,7 +55,6 @@ class Root extends React.Component {
     this.socket.on('update layout', (layout, id) => {
       store.dispatch(updateLayout(layout, id));
     });
-
 
   }
 

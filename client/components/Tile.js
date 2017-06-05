@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card } from 'semantic-ui-react';
 import Text from './tiles/Text';
 import Image from './tiles/Image';
 import YouTube from './tiles/YouTube';
@@ -9,8 +8,7 @@ import Rnd from 'react-rnd';
 import _ from 'lodash';
 
 const Tile = (props, context) => (
-  <Card fluid id={props.id} style={{height: '100%', padding:'10px'}}>
-   <Button onClick={() => props.removeTile(context.socket, props.id)}> x </Button>
+  <div className='card' id={props.id} style={{height: '100%', padding:'10px'}}>
     {(() => {
       switch (props.tileType) {
         case 'text':
@@ -25,7 +23,8 @@ const Tile = (props, context) => (
           return <span>{props.type}</span>;
       }
     })()}
-  </Card>
+   <button className='close-button' onClick={() => props.removeTile(context.socket, props.id) }/>
+  </div>
 );
 
 Tile.propTypes = {
@@ -51,7 +50,7 @@ function getTranslateXValue(translateString){
 function getTranslateYValue(translateString){
   const n = translateString.indexOf(',');
   const n1 = translateString.indexOf(')');
-  const res = parseInt(translateString.slice(n+1,n1-1));  
+  const res = parseInt(translateString.slice(n+1,n1-1));
   return res;
 
 }
@@ -67,12 +66,18 @@ class RndTile extends React.Component {
   }
 
   handleMoveStop(){
+
    
     const {...tile} = this.props;
+
+
+
+    const props = this.props;
+    const context = this.context;
     const rnd = this.rnd;
     const layout = {...tile.layout};
     const rect = rnd.wrapper.firstChild.getBoundingClientRect();
-   
+
     const transform = rnd.wrapper.style.transform;
     const y = getTranslateYValue(transform);
     const x = getTranslateXValue(transform);
@@ -80,7 +85,7 @@ class RndTile extends React.Component {
     const width = rect.width;
 
     layout.x = x;
-    layout.y = y;    
+    layout.y = y;
     layout.height = height;
     layout.width = width;
 
@@ -102,11 +107,11 @@ class RndTile extends React.Component {
       this.props.updateLayout(this.context.socket, layout, tile.id);
     }
   }
- 
+
   render() {
-    const props = this.props;    
+    const props = this.props;
     return (
-      <Rnd 
+      <Rnd
        style={{position:'absolute' }}
         ref={c => { this.rnd = c; }}
         default={props.layout}

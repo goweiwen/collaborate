@@ -60,21 +60,31 @@ let state = {
 messages: [
     {id:0, user:'Admin', text:'Welcome'},
     {id:1, user:'Nicholas', text:'World'}
+=======
+  messages: [
+    { id: 0, user: 'Admin', text: 'Welcome' },
+    { id: 1, user: 'Nicholas', text: 'World' }
+>>>>>>> 90438733e00ce8a18b9be7a1d8026b85366c10f2
   ],
 
 
 tiles: [
     {
       id: 0, tileType: 'youtube', src: 'HtSuA80QTyo',
-      layout: {x:0, y:0, width:300, height:300}
+      layout: { x: 0, y: 0, width: 300, height: 300 }
     },
     {
+<<<<<<< HEAD
       id: 1, tileType: 'image', src: 'https://unsplash.it/200/300?image=1',
       layout: {x:300, y:0, width:300, height:300}
+=======
+      id: 1, tileType: 'image', src: 'https://unsplash.it/200/300',
+      layout: { x: 310, y: 0, width: 300, height: 300 }
+>>>>>>> 90438733e00ce8a18b9be7a1d8026b85366c10f2
     },
-        
     {
       id: 2, tileType: 'text', content: 'hi',
+<<<<<<< HEAD
       layout: {x:600, y:0, width:300, height:300},
     }, 
 
@@ -82,6 +92,14 @@ tiles: [
       id: 3, tileType: 'pdf', page: 0,
       src: 'http://www.comp.nus.edu.sg/~cs2100/lect/cs2100-1-intro.pdf',
       layout: {x:0, y:300, width:300, height:300}
+=======
+      layout: { x: 0, y: 310, width: 300, height: 300 },
+    },
+    {
+      id: 3, tileType: 'pdf', page: 0,
+      src: 'uploads/The C Programming Language - 2nd Edition - Kernighan & Ritchie.pdf',
+      layout: { x: 310, y: 310, width: 300, height: 300 }
+>>>>>>> 90438733e00ce8a18b9be7a1d8026b85366c10f2
     },
 
      {
