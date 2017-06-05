@@ -7,7 +7,7 @@ import socketio from 'socket.io';
 import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
 import webpackMiddleware from 'koa-webpack';
-import { addTile, removeTile, addChatMessage, updateTile } from './actions';
+import { addTile, removeTile, addChatMessage, updateTile, updateLayout } from './actions';
 import reducer from './reducers/server';
 
 const PORT = 3000;
@@ -34,39 +34,68 @@ app
   } }))
   .use(router.routes());
 
-// Start server
+     // Start server
 const server = app.listen(PORT, (err) => { if (err) console.log(err); });
 console.log('Listening on port 3000');
 
 // Redux
 let state = {
-  messages: [
+  
+  tiles: [
+    {id: 0, tileType: 'text', content: '0',}, 
+    {id: 1, tileType: 'text', content: '1',}, 
+    {id: 2, tileType: 'text', content: '2',}, 
+  ],
+
+   layouts: [
+    {x:0, y:0, width:300, height:300},
+    {x:300, y:0, width:300, height:300},
+    {x:600, y:0, width:300, height:300},
+   ],
+};
+
+
+/* 
+
+messages: [
     {id:0, user:'Admin', text:'Welcome'},
     {id:1, user:'Nicholas', text:'World'}
   ],
 
-  tiles: [
+
+tiles: [
     {
       id: 0, tileType: 'youtube', src: 'HtSuA80QTyo',
       layout: {x:0, y:0, width:300, height:300}
     },
     {
       id: 1, tileType: 'image', src: 'https://unsplash.it/200/300?image=1',
-      layout: {x:0, y:0, width:300, height:300}
+      layout: {x:300, y:0, width:300, height:300}
     },
         
     {
       id: 2, tileType: 'text', content: 'hi',
-      layout: {x:40, y:50, width:300, height:300},
+      layout: {x:600, y:0, width:300, height:300},
     }, 
 
     {
       id: 3, tileType: 'pdf', page: 0,
       src: 'http://www.comp.nus.edu.sg/~cs2100/lect/cs2100-1-intro.pdf',
-      layout: {x:0, y:0, width:300, height:300}
+      layout: {x:0, y:300, width:300, height:300}
     },
-  ],
-};
+
+     {
+      id: 4, tileType: 'pdf', page: 0,
+      src: 'uploads/Tutorial1.pdf',
+      layout: {x:300, y:300, width:300, height:300}
+    },
+
+    {
+      id: 5, tileType: 'pdf', page: 0,
+      src: 'http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf',
+      layout: {x:600, y:300, width:300, height:300}
+    },
+  ]*/
 
 const store = createStore(
   reducer,
@@ -79,26 +108,35 @@ const io = socketio(server);
 
 io.on('connection', (socket) => {
   console.log('user connected');
-  socket.emit('initialise', store.getState().tiles);
+  //console.log(store.getState().layouts)
+  socket.emit('initiliase layouts', store.getState().layouts);
+  socket.emit('initialise tiles', store.getState().tiles);
   socket.emit('initialise chat', store.getState().messages);
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 
-  socket.on('add', (tile) => {
-    store.dispatch(addTile(tile));
-    socket.broadcast.emit('add', tile);
+  socket.on('add', (tile, id) => {
+    store.dispatch(addTile(tile, id));
+    socket.broadcast.emit('add', tile, id);
   });
 
   socket.on('remove', (id) => {
     store.dispatch(removeTile(id));
+    store.dispatch(updateLayout(undefined, id));
     socket.broadcast.emit('remove', id);
+
   });
 
   socket.on('update tile', (tile)=> {
     store.dispatch(updateTile(tile));
     socket.broadcast.emit('update tile', tile);
+  });
+
+  socket.on('update layout', (layout, id) => {
+    store.dispatch(updateLayout(layout, id));
+    socket.broadcast.emit('update layout', layout, id);
   });
 
 

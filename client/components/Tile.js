@@ -68,17 +68,14 @@ class RndTile extends React.Component {
 
   handleMoveStop(){
    
-
-    const props = this.props;
-    const context = this.context;
+    const {...tile} = this.props;
     const rnd = this.rnd;
-    const layout = {...props.layout};
+    const layout = {...tile.layout};
     const rect = rnd.wrapper.firstChild.getBoundingClientRect();
    
     const transform = rnd.wrapper.style.transform;
     const y = getTranslateYValue(transform);
     const x = getTranslateXValue(transform);
-
     const height = rect.height;
     const width = rect.width;
 
@@ -87,9 +84,22 @@ class RndTile extends React.Component {
     layout.height = height;
     layout.width = width;
 
-    if(!_.isEqual(layout, props.layout)) {
-      const tile = {...props, layout};
-      props.updateTile(context.socket, tile);
+   //snap to grid
+    const snapX = (layout.x % 50 > 25) ? 50:0;
+    const snapY = (layout.y % 50 > 25) ? 50:0;
+
+    layout.x = layout.x - (layout.x%50) + snapX //+ margin;
+    layout.y = layout.y- (layout.y%50) + snapY //+ margin;
+
+    const snapHeight = (layout.height % 50 > 25) ? 50:0;
+    const snapWidth = (layout.width % 50 > 25) ? 50:0;
+
+
+    layout.height = layout.height - (layout.height%50) + snapHeight //- margin;
+    layout.width = layout.width- (layout.width%50) + snapWidth //- margin;
+
+    if(!_.isEqual(layout, tile.layout)) {
+      this.props.updateLayout(this.context.socket, layout, tile.id);
     }
   }
  
@@ -104,8 +114,9 @@ class RndTile extends React.Component {
         minHeight={200}
         bounds="parent"
         onResizeStop={this.handleMoveStop.bind(this)}
-        onDragStop={this.handleMoveStop.bind(this)}>
-        <Tile {...props}/>
+        onDragStop={this.handleMoveStop.bind(this)}
+        width={props.layout.width}>
+        <Tile {...props} />
       </Rnd>
     );
   }

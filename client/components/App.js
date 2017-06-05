@@ -12,33 +12,41 @@ const onDrop = async (acceptedFiles) => {
   acceptedFiles.forEach((file) => {
     req.attach('file', file);
   });
+
   console.log(await req);
 };
 
-const App = () =>
+const App = (props, context) => {
+  console.log(props)
+  return(
   <Dropzone
     style={{}}
     disableClick
     onDrop={onDrop}
   >
-    <Grid>
+    <TileList {...props}/>    
+    
+  </Dropzone>);
+}
+
+
+
+
+
+export default App;
+
+/* <Grid>
       <Grid.Column>
           <SideMenu/>
       </Grid.Column>
       <div style={{ marginLeft: '250px' }}>
         <Grid.Column>
           <Container style={{ padding: '3em 3em' }}>
-            <TileList />
+            <TileList {...props}/>
           </Container>
         </Grid.Column>
       </div>
       <Grid.Column>
         <ChatContainer/>
       </Grid.Column>
-    </Grid>
-  </Dropzone>;
-
-
-
-
-export default App;
+    </Grid>*/

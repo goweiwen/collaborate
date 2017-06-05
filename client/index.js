@@ -8,7 +8,7 @@ import logger from 'redux-logger';
 import io from 'socket.io-client';
 import 'babel-polyfill';
 import App from './components/App';
-import { addTile, removeTile, addChatMessage, updateTile } from '../actions';
+import { addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout } from '../actions';
 import reducer from '../reducers/client';
 
 const store = createStore(
@@ -24,17 +24,22 @@ class Root extends React.Component {
   componentWillMount() {
     this.socket = io();
 
-    this.socket.on('initialise', (tiles) => {
-      tiles.forEach((tile) => store.dispatch(addTile(tile)));
-     
+    this.socket.on('initiliase layouts', (layouts) => {
+      store.dispatch(initialiseLayouts(layouts));
+    })
+
+    this.socket.on('initialise tiles', (tiles) => {
+      tiles.forEach((tile) => store.dispatch(addTile(tile, tile.id)));
     });
+
+
 
     this.socket.on('initialise chat', (messages) => {
       messages.forEach((message) => store.dispatch(addChatMessage(message)));
     });
 
-    this.socket.on('add', (tile) => {
-      store.dispatch(addTile(tile));
+    this.socket.on('add', (tile, id) => {
+      store.dispatch(addTile(tile, id));
     });
 
     this.socket.on('add chat message', (message) => {
@@ -43,10 +48,15 @@ class Root extends React.Component {
 
     this.socket.on('remove', (id) => {
       store.dispatch(removeTile(id));
+      store.dispatch(updateLayout(undefined, id));
     });
 
     this.socket.on('update tile', (tile) =>{
       store.dispatch(updateTile(tile));
+    });
+
+    this.socket.on('update layout', (layout, id) => {
+      store.dispatch(updateLayout(layout, id));
     });
 
 

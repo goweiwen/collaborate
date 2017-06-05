@@ -5,23 +5,26 @@ import Tile from '../containers/Tile';
 import { Button} from 'semantic-ui-react';
 
 const TileList = (props, context) => {
- 
+
+  const id = (props.tiles.length) === 0 ? 0 : props.tiles[props.tiles.length-1].id + 1;
+  
   return (
     <div >
-      <Button onClick={ () => props.addTile(context.socket, props.tiles.length) }>
+      <Button onClick={ () => props.addTile(context.socket, id) }>
         Add tile
       </Button>
       <Button onClick={ () => props.removeTile(context.socket, props.tiles.length - 1) }>
         Remove tile
       </Button>
-      <div style={{width: '1024px', height: '720px',}} >
-        { _.map(props.tiles, (tile) => {return <Tile key={tile.id} { ...tile } removeTile={props.removeTile} updateTile={props.updateTile}/>;})}
+      <div style={{width: '100vh', height: '100vh',}} >
+        { _.map(props.tiles, (tile) => {return <Tile key={tile.id} layout={props.layouts[tile.id]} { ...tile } removeTile={props.removeTile} updateLayout={props.updateLayout}/>;})}
       </div>
     </div>);
 };
 
 TileList.propTypes = {
   tiles: PropTypes.array.isRequired,
+  layouts: PropTypes.array.isRequired,
   addTile: PropTypes.func.isRequired,
   removeTile: PropTypes.func.isRequired
 };

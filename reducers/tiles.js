@@ -6,7 +6,7 @@ function tiles(state = [], action) {
       return [
         ...state,
         {
-          id: (state.length === 0 ? 0 : state[state.length-1].id + 1),
+          id: action.id,
           ...action.tile
         }
       ];
