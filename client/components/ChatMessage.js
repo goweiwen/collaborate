@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Comment} from 'semantic-ui-react';
 
-const ChatMessage = (props) => ( 
-    <Comment>
-      <Comment.Author>{props.user}</Comment.Author>
-      <Comment.Text>{props.text}</Comment.Text>
-    </Comment>
+const ChatMessage = (props) => (
+    <div>
+      <span>{props.user}</span>
+      <p>{props.text}</p>
+    </div>
 );
-
 
 ChatMessage.propTypes = {
   id: PropTypes.number.isRequired,

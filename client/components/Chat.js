@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { Button, Comment, Form, Header } from 'semantic-ui-react';
 import ChatMessage from './ChatMessage';
 
 const formStyle = {
@@ -17,17 +16,15 @@ const commentStyle = {
   overflow: 'scroll'
 };
 
-
-
 const Chat = (props, context) => (
     <div style={{width: '250px'}}>
-      
-      <Comment.Group style={commentStyle}>
-        <Header as='h3' dividing> Comments </Header>
-          {_.map(props.messages, (message) => <ChatMessage key={message.id} {...message}/>)}
-      </Comment.Group>    
-      
-      <Form style={formStyle} reply onSubmit={ e => {
+
+      <p style={commentStyle}>
+        <h3>Comments</h3>
+        {_.map(props.messages, (message) => <ChatMessage key={message.id} {...message}/>)}
+      </p>
+
+      <form style={formStyle} reply onSubmit={ e => {
         e.preventDefault();
         const text = document.getElementById('form_input').value;
         if(!text){
@@ -42,11 +39,10 @@ const Chat = (props, context) => (
         document.getElementById('form_input').value = '';
         props.addChatMessage(context.socket, message);
       }}>
-      <Form.TextArea id="form_input"/>
-      <Button content='Add Reply' type='submit'/>
-      </Form>
+      <input type='text-area' id='form_input'/>
+      <button content='Add Reply' type='submit'/>
+      </form>
     </div>
-    
 );
 
 Chat.propTypes = {
@@ -57,6 +53,5 @@ Chat.propTypes = {
 Chat.contextTypes = {
   socket: PropTypes.object
 };
-
 
 export default Chat;
