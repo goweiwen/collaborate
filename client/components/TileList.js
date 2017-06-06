@@ -25,7 +25,7 @@ const TileList = (props, context) => {
 
 TileList.propTypes = {
   tiles: PropTypes.array.isRequired,
-  layouts: PropTypes.array.isRequired,
+  layouts: PropTypes.object.isRequired,
   addTile: PropTypes.func.isRequired,
   removeTile: PropTypes.func.isRequired
 };

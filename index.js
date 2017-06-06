@@ -47,11 +47,11 @@ let state = {
     {id: 2, tileType: 'text', content: '2',}, 
   ],
 
-   layouts: [
-    {x:0, y:0, width:300, height:300},
-    {x:300, y:0, width:300, height:300},
-    {x:600, y:0, width:300, height:300},
-   ],
+   layouts: {
+    0: {x:0, y:0, width:300, height:300},
+    1: {x:300, y:0, width:300, height:300},
+    2: {x:600, y:0, width:300, height:300},
+   },
 };
 
 
