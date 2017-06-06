@@ -9,22 +9,18 @@ const onPageLoad = (socket, tile) => ({ pageIndex }) => {
   updateTile(tile.id, newTile);
 };
 
-const PDF = (props, context) => 
+const PDF = (props, context) =>
   <ReactPDF
-          
       file={props.src}
       width={300}
       pageIndex={props.page}
       onPageLoad={onPageLoad(context.socket, props.tile)}
   />;
-  
+
 
 PDF.propTypes = {
   id: PropTypes.number.isRequired,
   src: PropTypes.string.isRequired,
- /* pageIndex: PropTypes.number.isRequired,
-  onDocumentLoad: PropTypes.func.isRequired,
-  onPageLoad: PropTypes.func.isRequired,*/
   tile: PropTypes.object.isRequired
 };
 

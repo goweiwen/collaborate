@@ -7,19 +7,19 @@ function layouts(state = {}, action){
       var newLayouts = { ...state };
 
       if(action.layout === undefined) {
-        delete newLayouts[action.id]
+        delete newLayouts[action.id];
         return newLayouts;
       }
 
       newLayouts[action.id] = action.layout;
       return newLayouts;
-    
+
     case INITIALISE_LAYOUTS:
       return { ...action.layouts };
     default:
-      return state;    
+      return state;
   }
-  
+
 }
 
 export default layouts;

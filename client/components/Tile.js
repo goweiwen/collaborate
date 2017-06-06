@@ -66,11 +66,9 @@ class RndTile extends React.Component {
   }
 
   handleMoveStop(){
-
-   
     const {...tile} = this.props;
 
-
+    const margin = 5;
 
     const props = this.props;
     const context = this.context;
@@ -93,15 +91,15 @@ class RndTile extends React.Component {
     const snapX = (layout.x % 50 > 25) ? 50:0;
     const snapY = (layout.y % 50 > 25) ? 50:0;
 
-    layout.x = layout.x - (layout.x%50) + snapX //+ margin;
-    layout.y = layout.y- (layout.y%50) + snapY //+ margin;
+    layout.x = layout.x - (layout.x%50) + snapX + margin;
+    layout.y = layout.y- (layout.y%50) + snapY + margin;
 
     const snapHeight = (layout.height % 50 > 25) ? 50:0;
     const snapWidth = (layout.width % 50 > 25) ? 50:0;
 
 
-    layout.height = layout.height - (layout.height%50) + snapHeight //- margin;
-    layout.width = layout.width- (layout.width%50) + snapWidth //- margin;
+    layout.height = layout.height - (layout.height%50) + snapHeight - 2*margin;
+    layout.width = layout.width- (layout.width%50) + snapWidth - 2*margin;
 
     if(!_.isEqual(layout, tile.layout)) {
       this.props.updateLayout(this.context.socket, layout, tile.id);

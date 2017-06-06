@@ -30,7 +30,8 @@ class Root extends React.Component {
 
     this.socket.on('initialise tiles', (tiles) => {
       tiles.forEach((tile) => store.dispatch(addTile(tile, tile.id)));
-    });  
+    });
+
     this.socket.on('initialise chat', (messages) => {
       messages.forEach((message) => store.dispatch(addChatMessage(message)));
     });

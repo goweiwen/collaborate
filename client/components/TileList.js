@@ -4,11 +4,8 @@ import PropTypes from 'prop-types';
 import Tile from '../containers/Tile';
 
 const TileList = (props, context) => {
-
-
   const id = (props.tiles.length) === 0 ? 0 : props.tiles[props.tiles.length-1].id + 1;
-  
- 
+
   return (
     <div >
       <button onClick={ () => props.addTile(context.socket, id) }>
