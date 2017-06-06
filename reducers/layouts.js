@@ -13,13 +13,13 @@ function layouts(state = {}, action){
 
       newLayouts[action.id] = action.layout;
       return newLayouts;
-    
+
     case INITIALISE_LAYOUTS:
       return { ...action.layouts };
     default:
-      return state;    
+      return state;
   }
-  
+
 }
 
 export default layouts;

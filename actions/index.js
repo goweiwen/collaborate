@@ -16,7 +16,7 @@ export const updateLayout = (layout, id) => ({type: UPDATE_LAYOUT, layout, id});
 
 //SideMenu Actions
 export const TOGGLE_SIDEMENU = 'TOGGLE_SIDEMENU';
-export const toggleSideMenu = () => ({type:TOGGLE_SIDEMENU}); 
+export const toggleSideMenu = () => ({type:TOGGLE_SIDEMENU});
 
 //Chat Actions
 export const ADD_CHAT_MESSAGE = 'ADD_CHAT_MESSAGE';

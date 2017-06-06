@@ -2,6 +2,10 @@ img {
   pointer-events: none;
 }
 
+div:not(.react-draggable-dragging) {
+  transition: transform 0.2s;
+}
+
 button.close-button {
   position: absolute;
   top: 5px;

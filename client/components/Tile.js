@@ -69,6 +69,11 @@ class RndTile extends React.Component {
     const tile = this.props.tile;
 
     //const props = this.props;
+
+
+    const margin = 5;
+
+    const props = this.props;
     const context = this.context;
     const rnd = this.rnd;
     const layout = {...tile.layout};
@@ -89,15 +94,25 @@ class RndTile extends React.Component {
     const snapX = (layout.x % 50 > 25) ? 50:0;
     const snapY = (layout.y % 50 > 25) ? 50:0;
 
+/*<<<<<<< HEAD
     layout.x = layout.x - (layout.x%50) + snapX; //+ margin;
     layout.y = layout.y- (layout.y%50) + snapY; //+ margin;
-
+=======
+    
+>>>>>>> 78375637fece72a2a9179eae02b6b04868a03585
+*/
     const snapHeight = (layout.height % 50 > 25) ? 50:0;
     const snapWidth = (layout.width % 50 > 25) ? 50:0;
 
-
+    layout.x = layout.x - (layout.x%50) + snapX + margin;
+    layout.y = layout.y- (layout.y%50) + snapY + margin;
+/*<<<<<<< HEAD
     layout.height = layout.height - (layout.height%50) + snapHeight; //- margin;
     layout.width = layout.width- (layout.width%50) + snapWidth; //- margin;
+=======*/
+    layout.height = layout.height - (layout.height%50) + snapHeight - 2*margin;
+    layout.width = layout.width- (layout.width%50) + snapWidth - 2*margin;
+//>>>>>>> 78375637fece72a2a9179eae02b6b04868a03585
 
     if(!_.isEqual(layout, tile.layout)) {
       this.props.updateLayout(context.socket, layout, tile.id);
