@@ -7,12 +7,12 @@ const mapStateToProps = (state) => ({tiles: state.tiles, layouts: state.layouts}
 const mapDispatchToProps = (dispatch) => ({
   addTile: (socket, id) => {
     //const tile = { tileType: 'image', src: `https://unsplash.it/200/300?image=${id}`, layout: {x:0, y:300, height:'300px', width: '300px'} };
-    const tile = { tileType: 'image', src: ``,};
+    const tile = { tileType: 'image', src: '',};
     const layout = {x:0, y:300, height:'300px', width: '300px'}; 
     socket.emit('add', tile, id);
     socket.emit('update layout', layout, id);
     dispatch(addTile(tile, id));
-    dispatch(updateLayout(layout, id))
+    dispatch(updateLayout(layout, id));
   },
   removeTile: (socket, id) => {
     socket.emit('remove', id);

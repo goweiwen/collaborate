@@ -7,7 +7,7 @@ function layouts(state = {}, action){
       var newLayouts = { ...state };
 
       if(action.layout === undefined) {
-        delete newLayouts[action.id]
+        delete newLayouts[action.id];
         return newLayouts;
       }
 
