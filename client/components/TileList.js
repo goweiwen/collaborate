@@ -60,7 +60,7 @@ const TileList = (props, context) => {
       
         
 
-      //pack new tile upwards
+/*      //pack new tile upwards
       //assumes layout already packed before tile's layout was edited
       //we just have to pack the edited tile upwards before we settle collisions
 
@@ -94,7 +94,7 @@ const TileList = (props, context) => {
           break;
         }  
 
-      }
+      }*/
 
       layouts[id] = layout;
 

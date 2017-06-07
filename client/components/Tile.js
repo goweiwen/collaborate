@@ -59,8 +59,18 @@ function getTranslateYValue(translateString){
 class RndTile extends React.Component {
 
   componentWillUpdate(nextProps) {
-    const layout = nextProps.layout;
+    let layout = {...nextProps.layout};
     let rnd = this.rnd;
+
+    const margin = 5;
+
+    layout.x += margin;
+    layout.y += margin;
+    layout.height -= margin;
+    layout.width -= margin;
+
+
+
     rnd.updateSize({width: layout.width, height: layout.height});
     rnd.updatePosition({x: layout.x, y: layout.y});
   }
@@ -71,7 +81,6 @@ class RndTile extends React.Component {
     //const props = this.props;
 
 
-    const margin = 5;
 
     const props = this.props;
     const context = this.context;
@@ -94,25 +103,21 @@ class RndTile extends React.Component {
     const snapX = (layout.x % 50 > 25) ? 50:0;
     const snapY = (layout.y % 50 > 25) ? 50:0;
 
-/*<<<<<<< HEAD
-    layout.x = layout.x - (layout.x%50) + snapX; //+ margin;
-    layout.y = layout.y- (layout.y%50) + snapY; //+ margin;
-=======
-    
->>>>>>> 78375637fece72a2a9179eae02b6b04868a03585
-*/
+
     const snapHeight = (layout.height % 50 > 25) ? 50:0;
     const snapWidth = (layout.width % 50 > 25) ? 50:0;
 
-    layout.x = layout.x - (layout.x%50) + snapX + margin;
-    layout.y = layout.y- (layout.y%50) + snapY + margin;
-/*<<<<<<< HEAD
+    layout.x = layout.x - (layout.x%50) + snapX; //+ margin;
+    layout.y = layout.y- (layout.y%50) + snapY; //+ margin;
+
+    // layout.x = layout.x - (layout.x%50) + snapX + margin;
+    // layout.y = layout.y- (layout.y%50) + snapY + margin;
+
     layout.height = layout.height - (layout.height%50) + snapHeight; //- margin;
     layout.width = layout.width- (layout.width%50) + snapWidth; //- margin;
-=======*/
-    layout.height = layout.height - (layout.height%50) + snapHeight - 2*margin;
-    layout.width = layout.width- (layout.width%50) + snapWidth - 2*margin;
-//>>>>>>> 78375637fece72a2a9179eae02b6b04868a03585
+
+    // layout.height = layout.height - (layout.height%50) + snapHeight - 2*margin;
+    // layout.width = layout.width- (layout.width%50) + snapWidth - 2*margin;
 
     if(!_.isEqual(layout, tile.layout)) {
       this.props.updateLayout(context.socket, layout, tile.id);
@@ -121,11 +126,19 @@ class RndTile extends React.Component {
 
   render() {
     const props = this.props;
+    let layout = {...props.layout};
+    const margin = 5;
+
+    layout.x += margin;
+    layout.y += margin;
+    layout.height -= margin;
+    layout.width -= margin;
+
     return (
       <Rnd
        style={{position:'absolute' }}
         ref={c => { this.rnd = c; }}
-        default={props.layout}
+        default={layout}
         minWidth={200}
         minHeight={200}
         bounds="parent"
