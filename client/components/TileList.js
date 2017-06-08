@@ -57,18 +57,11 @@ const TileList = (props, context) => {
   
     return function(socket, layout, id) {
      
-      // console.log('------ LAYOUT -------')
-      // console.log(layout);
-      // console.log('------ ID -------')
-      // console.log(id);
-    
       let layouts = { ... prevlayouts}; 
       
       layouts[id] = layout;
-     
-      //console.log('------ START RESOLVE-------')
+
       let finalLayouts = packTiles(resolveCurrentCollisions(layouts, [ id ], 0));
-      //console.log("------FINAL LAYOUTS -----");
 
       for(const id in finalLayouts){
         props.updateLayout(socket, finalLayouts[id], id);

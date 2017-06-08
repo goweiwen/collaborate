@@ -75,13 +75,8 @@ class RndTile extends React.Component {
     rnd.updatePosition({x: layout.x, y: layout.y});
   }
 
-  handleMoveStop(){
+   handleMoveStop(){
     const tile = this.props.tile;
-
-    //const props = this.props;
-
-
-
     const props = this.props;
     const context = this.context;
     const rnd = this.rnd;
@@ -103,21 +98,15 @@ class RndTile extends React.Component {
     const snapX = (layout.x % 50 > 25) ? 50:0;
     const snapY = (layout.y % 50 > 25) ? 50:0;
 
-
     const snapHeight = (layout.height % 50 > 25) ? 50:0;
     const snapWidth = (layout.width % 50 > 25) ? 50:0;
 
-    layout.x = layout.x - (layout.x%50) + snapX; //+ margin;
-    layout.y = layout.y- (layout.y%50) + snapY; //+ margin;
+    layout.x = layout.x - (layout.x%50) + snapX; 
+    layout.y = layout.y- (layout.y%50) + snapY;
 
-    // layout.x = layout.x - (layout.x%50) + snapX + margin;
-    // layout.y = layout.y- (layout.y%50) + snapY + margin;
+    layout.height = layout.height - (layout.height%50) + snapHeight; 
+    layout.width = layout.width- (layout.width%50) + snapWidth; 
 
-    layout.height = layout.height - (layout.height%50) + snapHeight; //- margin;
-    layout.width = layout.width- (layout.width%50) + snapWidth; //- margin;
-
-    // layout.height = layout.height - (layout.height%50) + snapHeight - 2*margin;
-    // layout.width = layout.width- (layout.width%50) + snapWidth - 2*margin;
 
     if(!_.isEqual(layout, tile.layout)) {
       this.props.updateLayout(context.socket, layout, tile.id);
