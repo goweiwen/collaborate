@@ -4,6 +4,7 @@ import Text from './tiles/Text';
 import Image from './tiles/Image';
 import YouTube from './tiles/YouTube';
 import PDF from './tiles/PDF';
+import GoogleDoc from './tiles/GoogleDoc';
 import Rnd from 'react-rnd';
 import _ from 'lodash';
 
@@ -19,6 +20,8 @@ const Tile = (props, context) => (
           return <YouTube id={props.id} src={props.src} />;
         case 'pdf':
           return <PDF id={props.id} {...props} />;
+        case 'googledoc':
+          return <GoogleDoc id={props.id} src={props.src}/>
         default:
           return <span>{props.type}</span>;
       }
