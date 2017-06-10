@@ -7,7 +7,7 @@ const style = {
   left: 0,
   width: '100%',
   height: '100%',
-}
+};
 
 const YouTube = (props) =>
 

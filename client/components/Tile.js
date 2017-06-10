@@ -10,7 +10,7 @@ import _ from 'lodash';
 
 const Tile = (props, context) => {
 
-return(
+  return(
   <div className='card' id={props.id} style={{height: '100%', padding:'10px', backgroundColor:'grey'}}>
     {(() => {
       switch (props.tileType) {
@@ -23,14 +23,14 @@ return(
         case 'pdf':
           return <PDF id={props.id} {...props} width={props.width} height={props.height}/>;
         case 'googledoc':
-          return <GoogleDoc id={props.id} src={props.src} width={props.width} height={props.height}/>
+          return <GoogleDoc id={props.id} src={props.src} width={props.width} height={props.height}/>;
         default:
           return <span>{props.type}</span>;
       }
     })()}
    <button className='close-button' onClick={() => props.removeTile(context.socket, props.id) }/>
   </div>
-);
+  );
 
 };
 
@@ -82,8 +82,7 @@ class RndTile extends React.Component {
     rnd.updatePosition({x: layout.x, y: layout.y});
   }
 
-   handleMoveStop(){
-    //console.log(this.props)
+  handleMoveStop(){
     const tile = this.props.tile;
     const props = this.props;
     const context = this.context;
@@ -117,8 +116,6 @@ class RndTile extends React.Component {
 
 
     if(!_.isEqual(layout, tile.layout)) {
-      console.log('handleMoveStop')
-      console.log(layout)
       this.props.updateLayout(context.socket, layout, tile.id);
     }
   }
