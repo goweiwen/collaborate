@@ -8,20 +8,22 @@ import GoogleDoc from './tiles/GoogleDoc';
 import Rnd from 'react-rnd';
 import _ from 'lodash';
 
-const Tile = (props, context) => (
-  <div className='card' id={props.id} style={{height: '100%', padding:'10px'}}>
+const Tile = (props, context) => {
+
+return(
+  <div className='card' id={props.id} style={{height: '100%', padding:'10px', backgroundColor:'grey'}}>
     {(() => {
       switch (props.tileType) {
         case 'text':
-          return <Text id={props.id} content={props.content} />;
+          return <Text id={props.id} content={props.content} width={props.width} height={props.height}/>;
         case 'image':
-          return <Image inline id={props.id} src={props.src} />;
+          return <Image inline id={props.id} src={props.src} width={props.width} height={props.height}/>;
         case 'youtube':
-          return <YouTube id={props.id} src={props.src} />;
+          return <YouTube id={props.id} src={props.src} width={props.width} height={props.height}/>;
         case 'pdf':
-          return <PDF id={props.id} {...props} />;
+          return <PDF id={props.id} {...props} width={props.width} height={props.height}/>;
         case 'googledoc':
-          return <GoogleDoc id={props.id} src={props.src}/>
+          return <GoogleDoc id={props.id} src={props.src} width={props.width} height={props.height}/>
         default:
           return <span>{props.type}</span>;
       }
@@ -29,6 +31,8 @@ const Tile = (props, context) => (
    <button className='close-button' onClick={() => props.removeTile(context.socket, props.id) }/>
   </div>
 );
+
+};
 
 Tile.propTypes = {
   id: PropTypes.number.isRequired,
@@ -79,11 +83,12 @@ class RndTile extends React.Component {
   }
 
    handleMoveStop(){
+    //console.log(this.props)
     const tile = this.props.tile;
     const props = this.props;
     const context = this.context;
     const rnd = this.rnd;
-    const layout = {...tile.layout};
+    const layout = {...props.layout};
     const rect = rnd.wrapper.firstChild.getBoundingClientRect();
 
     const transform = rnd.wrapper.style.transform;
@@ -112,6 +117,8 @@ class RndTile extends React.Component {
 
 
     if(!_.isEqual(layout, tile.layout)) {
+      console.log('handleMoveStop')
+      console.log(layout)
       this.props.updateLayout(context.socket, layout, tile.id);
     }
   }
@@ -120,7 +127,6 @@ class RndTile extends React.Component {
     const props = this.props;
     let layout = {...props.layout};
     const margin = 5;
-
     layout.x += margin;
     layout.y += margin;
     layout.height -= margin;
@@ -136,8 +142,8 @@ class RndTile extends React.Component {
         bounds="parent"
         onResizeStop={this.handleMoveStop.bind(this)}
         onDragStop={this.handleMoveStop.bind(this)}
-        width={props.layout.width}>
-        <Tile {...props} />
+        lockAspectRatio={layout.lockAspectRatio}>
+        <Tile height={layout.height} width={layout.width} {...props} />
       </Rnd>
     );
   }

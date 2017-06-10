@@ -58,10 +58,12 @@ const TileList = (props, context) => {
     return function(socket, layout, id) {
      
       let layouts = { ... prevlayouts}; 
+
       
       layouts[id] = layout;
+      let beforeLayouts= resolveCurrentCollisions(layouts, [ id ]);
 
-      let finalLayouts = packTiles(resolveCurrentCollisions(layouts, [ id ], 0));
+      let finalLayouts = packTiles(beforeLayouts);
 
       for(const id in finalLayouts){
         props.updateLayout(socket, finalLayouts[id], id);
@@ -71,9 +73,9 @@ const TileList = (props, context) => {
 
   //layouts is the current layouts of the tileList while layouts are moving around to accomodate edits
       //ids is the last moved layouts from the previous iteration
-      //count just for debug
 
-  function resolveCurrentCollisions(layouts, ids, count) {
+
+  function resolveCurrentCollisions(layouts, ids) {
     
     //we did not move anything in the previous iteration. layout is valid and no collisions
     if(ids.length === 0){
@@ -88,7 +90,7 @@ const TileList = (props, context) => {
    //for each last move tile, we check if we have new collision with other tiles
     _.forEach(ids, (id) => {
       _.forEach(layouts, (layout, layoutid_string) => {
-        const layoutid = parseInt(layoutid_string,10);
+        const layoutid = parseInt(layoutid_string, 10);
         if(layoutid !== id) {
           if(layoutsCollide(layouts[layoutid], layouts[id])) {
             newCollisions.add(layoutid);
@@ -131,7 +133,7 @@ const TileList = (props, context) => {
     }
 
     //now that we have moved all the newly collided tiles, we will check in the next iteration if there are new collisions
-    return resolveCurrentCollisions(newLayouts, newIDs, count+1);
+    return resolveCurrentCollisions(newLayouts, newIDs);
   }
   
  
@@ -144,7 +146,7 @@ const TileList = (props, context) => {
       <button onClick={ () => props.removeTile(context.socket, props.tiles.length - 1) }>
         Remove tile
       </button>
-      <div style={{width: '1024px', height: '720px',}}>
+      <div style={{width: '100vw', height: '100vh',}}>
         { _.map(props.tiles, (tile) => {return <Tile key={tile.id} { ...tile } layout={props.layouts[tile.id]} removeTile={props.removeTile} updateLayout={resolveCollisions(props.layouts)}/>;})}
       </div>
     </div>);

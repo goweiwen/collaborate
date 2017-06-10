@@ -9,10 +9,13 @@ const onPageLoad = (socket, tile) => ({ pageIndex }) => {
   updateTile(tile.id, newTile);
 };
 
+const padding = 10;
+
 const PDF = (props, context) =>
   <ReactPDF
+      style={{height: '100%'}}
       file={props.src}
-      width={300}
+      width={props.width - 2*padding}
       pageIndex={props.page}
       onPageLoad={onPageLoad(context.socket, props.tile)}
   />;

@@ -42,19 +42,19 @@ console.log('Listening on port 3000');
 let state = {
   
   tiles: [
-    {id: 0, tileType: 'text', content: '0',}, 
-    {id: 1, tileType: 'text', content: '1',}, 
+    {id: 0, tileType: 'pdf', page: 0, src: 'uploads/Tutorial1.pdf',}, 
+    {id: 1, tileType: 'image', src: 'https://unsplash.it/200/300',}, 
     {id: 2, tileType: 'text', content: '2',},
     {id: 3, tileType: 'youtube', src: 'HtSuA80QTyo',},
     {id: 4, tileType: 'googledoc', src: 'https://docs.google.com/document/d/1Xf0bxn-cvB18ycAxP27bDqeYAYq_JqKY6psZoPJuT-E/edit?usp=sharing',}  
   ],
 
   layouts: {
-    0: {x:0, y:0, width:300, height:300},
-    1: {x:300, y:0, width:300, height:300},
-    2: {x:600, y:0, width:300, height:300},
-    3: {x:0, y:300, width:300, height:300},
-    4: {x:300, y:300, width:300, height:300},
+    0: {x:0, y:0, width:300, height:450, lockAspectRatio: true,},
+    1: {x:300, y:0, width:300, height:450, lockAspectRatio: true,},
+    2: {x:600, y:0, width:300, height:300, lockAspectRatio: false,},
+    3: {x:0, y:450, width:300, height:300, lockAspectRatio: false,},
+    4: {x:300, y:450, width:300, height:300, lockAspectRatio: false,},
   },
 };
 
