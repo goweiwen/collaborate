@@ -1,73 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Rnd from 'react-rnd';
+import _ from 'lodash';
 import Text from './tiles/Text';
 import Image from './tiles/Image';
 import YouTube from './tiles/YouTube';
 import PDF from './tiles/PDF';
 import GoogleDoc from './tiles/GoogleDoc';
-import Rnd from 'react-rnd';
-import _ from 'lodash';
 
-const Tile = (props, context) => {
-
-  return(
-  <div className='card' id={props.id} style={{height: '100%', padding:'10px', backgroundColor:'grey'}}>
+const Tile = (props, context) => (
+  <div className="card" id={props.id} style={{ height: '100%', padding: '10px', backgroundColor: 'grey' }}>
     {(() => {
       switch (props.tileType) {
         case 'text':
-          return <Text id={props.id} content={props.content} width={props.width} height={props.height}/>;
+          return <Text id={props.id} content={props.content} width={props.width} height={props.height} />;
         case 'image':
-          return <Image inline id={props.id} src={props.src} width={props.width} height={props.height}/>;
+          return <Image inline id={props.id} src={props.src} width={props.width} height={props.height} />;
         case 'youtube':
-          return <YouTube id={props.id} src={props.src} width={props.width} height={props.height}/>;
+          return <YouTube id={props.id} src={props.src} width={props.width} height={props.height} />;
         case 'pdf':
-          return <PDF id={props.id} {...props} width={props.width} height={props.height}/>;
+          return <PDF id={props.id} {...props} width={props.width} height={props.height} />;
         case 'googledoc':
-          return <GoogleDoc id={props.id} src={props.src} width={props.width} height={props.height}/>;
+          return <GoogleDoc id={props.id} src={props.src} width={props.width} height={props.height} />;
         default:
           return <span>{props.type}</span>;
       }
     })()}
-   <button className='close-button' onClick={() => props.removeTile(context.socket, props.id) }/>
+    <button className="close-button" onClick={() => props.removeTile(context.socket, props.id)} />
   </div>
   );
-
-};
 
 Tile.propTypes = {
   id: PropTypes.number.isRequired,
   tileType: PropTypes.string.isRequired,
-  tile: PropTypes.object.isRequired,
-  content: PropTypes.string,
-  src: PropTypes.string,
-  removeTile: PropTypes.func.isRequired
+  removeTile: PropTypes.func.isRequired,
 };
 
 Tile.contextTypes = {
-  socket: PropTypes.object
+  socket: PropTypes.object,
 };
 
-function getTranslateXValue(translateString){
+function getTranslateXValue(translateString) {
   const n = translateString.indexOf('(');
   const n1 = translateString.indexOf(',');
-  const res = parseInt(translateString.slice(n+1,n1-2));
+  const res = parseInt(translateString.slice(n + 1, n1 - 2), 10);
   return res;
-
 }
-function getTranslateYValue(translateString){
+function getTranslateYValue(translateString) {
   const n = translateString.indexOf(',');
   const n1 = translateString.indexOf(')');
-  const res = parseInt(translateString.slice(n+1,n1-1));
+  const res = parseInt(translateString.slice(n + 1, n1 - 1), 10);
   return res;
-
 }
 
 
 class RndTile extends React.Component {
 
   componentWillUpdate(nextProps) {
-    let layout = {...nextProps.layout};
-    let rnd = this.rnd;
+    const layout = { ...nextProps.layout };
+    const rnd = this.rnd;
 
     const margin = 5;
 
@@ -77,17 +68,16 @@ class RndTile extends React.Component {
     layout.width -= margin;
 
 
-
-    rnd.updateSize({width: layout.width, height: layout.height});
-    rnd.updatePosition({x: layout.x, y: layout.y});
+    rnd.updateSize({ width: layout.width, height: layout.height });
+    rnd.updatePosition({ x: layout.x, y: layout.y });
   }
 
-  handleMoveStop(){
+  handleMoveStop() {
     const tile = this.props.tile;
     const props = this.props;
     const context = this.context;
     const rnd = this.rnd;
-    const layout = {...props.layout};
+    const layout = { ...props.layout };
     const rect = rnd.wrapper.firstChild.getBoundingClientRect();
 
     const transform = rnd.wrapper.style.transform;
@@ -101,28 +91,28 @@ class RndTile extends React.Component {
     layout.height = height;
     layout.width = width;
 
-    //snap to grid
-    const snapX = (layout.x % 50 > 25) ? 50:0;
-    const snapY = (layout.y % 50 > 25) ? 50:0;
+    // snap to grid
+    const snapX = (layout.x % 50 > 25) ? 50 : 0;
+    const snapY = (layout.y % 50 > 25) ? 50 : 0;
 
-    const snapHeight = (layout.height % 50 > 25) ? 50:0;
-    const snapWidth = (layout.width % 50 > 25) ? 50:0;
+    const snapHeight = (layout.height % 50 > 25) ? 50 : 0;
+    const snapWidth = (layout.width % 50 > 25) ? 50 : 0;
 
-    layout.x = layout.x - (layout.x%50) + snapX; 
-    layout.y = layout.y- (layout.y%50) + snapY;
+    layout.x -= (layout.x % 50) - snapX;
+    layout.y -= (layout.y % 50) - snapY;
 
-    layout.height = layout.height - (layout.height%50) + snapHeight; 
-    layout.width = layout.width- (layout.width%50) + snapWidth; 
+    layout.height -= (layout.height % 50) - snapHeight;
+    layout.width -= (layout.width % 50) - snapWidth;
 
 
-    if(!_.isEqual(layout, tile.layout)) {
+    if (!_.isEqual(layout, tile.layout)) {
       this.props.updateLayout(context.socket, layout, tile.id);
     }
   }
 
   render() {
     const props = this.props;
-    let layout = {...props.layout};
+    const layout = { ...props.layout };
     const margin = 5;
     layout.x += margin;
     layout.y += margin;
@@ -131,26 +121,29 @@ class RndTile extends React.Component {
 
     return (
       <Rnd
-       style={{position:'absolute' }}
-        ref={c => { this.rnd = c; }}
+        style={{ position: 'absolute' }}
+        ref={(c) => { this.rnd = c; }}
         default={layout}
         minWidth={200}
         minHeight={200}
         bounds="parent"
         onResizeStop={this.handleMoveStop.bind(this)}
         onDragStop={this.handleMoveStop.bind(this)}
-        lockAspectRatio={layout.lockAspectRatio}>
+        lockAspectRatio={layout.lockAspectRatio}
+      >
         <Tile height={layout.height} width={layout.width} {...props} />
       </Rnd>
     );
   }
 }
 
-RndTile.contextTypes = {
-  socket: PropTypes.object
+RndTile.propTypes = {
+  tile: PropTypes.object.isRequired,
+  updateLayout: PropTypes.function.isRequired,
 };
 
-
-
+RndTile.contextTypes = {
+  socket: PropTypes.object,
+};
 
 export default RndTile;

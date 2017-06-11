@@ -1,12 +1,13 @@
-import {INITIALISE_LAYOUTS, UPDATE_LAYOUT} from '../actions';
+import { INITIALISE_LAYOUTS, UPDATE_LAYOUT } from '../actions';
 
-function layouts(state = {}, action){
+function layouts(state = {}, action) {
+  let newLayouts;
+
   switch (action.type) {
-
     case UPDATE_LAYOUT:
-      var newLayouts = { ...state };
+      newLayouts = { ...state };
 
-      if(action.layout === undefined) {
+      if (action.layout === undefined) {
         delete newLayouts[action.id];
         return newLayouts;
       }
@@ -19,7 +20,6 @@ function layouts(state = {}, action){
     default:
       return state;
   }
-
 }
 
 export default layouts;

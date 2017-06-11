@@ -7,13 +7,13 @@ function tiles(state = [], action) {
         ...state,
         {
           id: action.id,
-          ...action.tile
-        }
+          ...action.tile,
+        },
       ];
     case UPDATE_TILE:
-      return state.map((tile) => tile.id === action.tile.id ? action.tile : tile);
+      return state.map(tile => (tile.id === action.tile.id ? action.tile : tile));
     case REMOVE_TILE:
-      return state.filter((tile) => tile.id !== action.id);
+      return state.filter(tile => tile.id !== action.id);
     default:
       return state;
   }

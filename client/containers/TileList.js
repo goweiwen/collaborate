@@ -2,18 +2,17 @@ import { connect } from 'react-redux';
 import TileList from '../components/TileList';
 import { addTile, removeTile, updateTile, updateLayout } from '../../actions';
 
-const mapStateToProps = (state) => ({tiles: state.tiles, layouts: state.layouts});
+const mapStateToProps = state => ({ tiles: state.tiles, layouts: state.layouts });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   addTile: (socket, id) => {
-    //const tile = { tileType: 'image', src: `https://unsplash.it/200/300?image=${id}`, layout: {x:0, y:300, height:'300px', width: '300px'} };
-    const tile = { tileType: 'image', src: '',};
-    const layout = {x:0, y:300, height:300, width: 300, lockAspectRatio: false}; 
+    // const tile = { tileType: 'image', src: `https://unsplash.it/200/300?image=${id}`, layout: {x:0, y:300, height:'300px', width: '300px'} };
+    const tile = { tileType: 'image', src: '' };
+    const layout = { x: 0, y: 300, height: 300, width: 300, lockAspectRatio: false };
     socket.emit('update layout', layout, id);
     socket.emit('add', tile, id);
     dispatch(updateLayout(layout, id));
     dispatch(addTile(tile, id));
-    
   },
   removeTile: (socket, id) => {
     socket.emit('remove', id);
@@ -28,7 +27,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateLayout: (socket, layout, id) => {
     socket.emit('update layout', layout, id);
     dispatch(updateLayout(layout, id));
-  }
+  },
 
 });
 

@@ -12,23 +12,24 @@ const onPageLoad = (socket, tile) => ({ pageIndex }) => {
 const padding = 10;
 
 const PDF = (props, context) =>
-  <ReactPDF
-      style={{height: '100%'}}
-      file={props.src}
-      width={props.width - 2*padding}
-      pageIndex={props.page}
-      onPageLoad={onPageLoad(context.socket, props.tile)}
-  />;
+  (<ReactPDF
+    style={{ height: '100%' }}
+    file={props.src}
+    width={props.width - 2 * padding}
+    pageIndex={props.page}
+    onPageLoad={onPageLoad(context.socket, props.tile)}
+  />);
 
 
 PDF.propTypes = {
-  id: PropTypes.number.isRequired,
   src: PropTypes.string.isRequired,
-  tile: PropTypes.object.isRequired
+  tile: PropTypes.object.isRequired,
+  width: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
 };
 
 PDF.contextTypes = {
-  socket: PropTypes.object
+  socket: PropTypes.object,
 };
 
 export default PDF;

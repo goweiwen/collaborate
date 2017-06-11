@@ -13,7 +13,7 @@ import reducer from '../reducers/client';
 
 const store = createStore(
   reducer,
-  applyMiddleware(logger)
+  applyMiddleware(logger),
 );
 
 class Root extends React.Component {
@@ -29,11 +29,11 @@ class Root extends React.Component {
     });
 
     this.socket.on('initialise tiles', (tiles) => {
-      tiles.forEach((tile) => store.dispatch(addTile(tile, tile.id)));
+      tiles.forEach(tile => store.dispatch(addTile(tile, tile.id)));
     });
 
     this.socket.on('initialise chat', (messages) => {
-      messages.forEach((message) => store.dispatch(addChatMessage(message)));
+      messages.forEach(message => store.dispatch(addChatMessage(message)));
     });
 
     this.socket.on('add', (tile, id) => {
@@ -49,14 +49,13 @@ class Root extends React.Component {
       store.dispatch(updateLayout(undefined, id));
     });
 
-    this.socket.on('update tile', (tile) =>{
+    this.socket.on('update tile', (tile) => {
       store.dispatch(updateTile(tile));
     });
 
     this.socket.on('update layout', (layout, id) => {
       store.dispatch(updateLayout(layout, id));
     });
-
   }
 
   render() {
@@ -71,11 +70,11 @@ class Root extends React.Component {
 }
 
 Root.childContextTypes = {
-  socket: PropTypes.object
+  socket: PropTypes.object,
 };
 
 ReactDOM.render(
   <Root />,
   // eslint-disable-next-line no-undef
-  document.getElementById('root')
+  document.getElementById('root'),
 );

@@ -4,20 +4,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './client/index.html',
   filename: 'index.html',
-  inject: 'body'
+  inject: 'body',
 });
 
 module.exports = {
   entry: './client/index.js',
   output: {
     path: path.join(path.resolve('public'), 'assets'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   module: {
     loaders: [
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
-    ]
+      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
+    ],
   },
-  plugins: [ HtmlWebpackPluginConfig ]
+  plugins: [HtmlWebpackPluginConfig],
 };
