@@ -139,7 +139,7 @@ class RndTile extends React.Component {
 
 RndTile.propTypes = {
   tile: PropTypes.object.isRequired,
-  updateLayout: PropTypes.function.isRequired,
+  updateLayout: PropTypes.func.isRequired,
 };
 
 RndTile.contextTypes = {
