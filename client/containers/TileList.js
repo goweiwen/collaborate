@@ -14,6 +14,14 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateLayout(layout, id));
     dispatch(addTile(tile, id));
   },
+
+  submitTile: (socket, id, tile, layout) => {
+    socket.emit('update layout', layout, id);
+    socket.emit('add', tile, id);
+    dispatch(updateLayout(layout, id));
+    dispatch(addTile(tile, id));
+  },
+
   removeTile: (socket, id) => {
     socket.emit('remove', id);
     dispatch(removeTile(id));

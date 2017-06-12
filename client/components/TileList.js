@@ -2,11 +2,12 @@ import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Tile from '../containers/Tile';
+import AddTileForm from './AddTileForm';
 
 const TileList = (props, context) => {
   const id = (props.tiles.length) === 0 ? 0 : props.tiles[props.tiles.length - 1].id + 1;
 
-  function packTiles(prevLayouts) {
+  const packTiles = (prevLayouts) => {
     const layoutsCopy = { ...prevLayouts };
     const newLayouts = { ...prevLayouts };
 
@@ -51,8 +52,8 @@ const TileList = (props, context) => {
     return newLayouts;
   }
 
-  function resolveCollisions(prevlayouts) {
-    return function (socket, layout, id) {
+  const resolveCollisions = (prevlayouts) => {
+    return (socket, layout, id) => {
       const layouts = { ...prevlayouts };
 
 
@@ -68,10 +69,8 @@ const TileList = (props, context) => {
   }
 
   // layouts is the current layouts of the tileList while layouts are moving around to accomodate edits
-      // ids is the last moved layouts from the previous iteration
-
-
-  function resolveCurrentCollisions(layouts, ids) {
+  // ids is the last moved layouts from the previous iteration
+  const resolveCurrentCollisions = (layouts, ids) => {
     // we did not move anything in the previous iteration. layout is valid and no collisions
     if (ids.length === 0) {
       return layouts;
@@ -131,12 +130,33 @@ const TileList = (props, context) => {
     return resolveCurrentCollisions(newLayouts, newIDs);
   }
 
+  const submitTile = (tile, layout) => {
+    const prevLayouts = props.layouts;
+
+    while(true) {
+      let valid = true;
+      _.forEach(prevLayouts, (otherLayout, layoutIdString) => {
+        if(layoutsCollide(layout, otherLayout)){
+          valid = false;
+        }
+      });
+
+      if(valid === true) {
+        break;
+      } else {
+        layout.y += 50;
+      }
+    }
+
+    props.submitTile(context.socket, id, tile, layout);
+  }
 
   return (
     <div >
       <button onClick={() => props.addTile(context.socket, id)}>
         Add tile
       </button>
+      <AddTileForm visible={false} submitTile={submitTile}/>
       <button onClick={() => props.removeTile(context.socket, props.tiles.length - 1)}>
         Remove tile
       </button>
@@ -145,6 +165,9 @@ const TileList = (props, context) => {
       </div>
     </div>);
 };
+
+
+ 
 
 
 TileList.propTypes = {
