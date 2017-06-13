@@ -152,9 +152,12 @@ const TileList = (props, context) => {
     props.submitTile(context.socket, id, tile, currentLayout);
   };
 
+  const tile = { tileType: 'image', src: '' };
+  const layout = { x: 0, y: 0, height: 300, width: 300, lockAspectRatio: false };
+
   return (
     <div >
-      <button onClick={() => props.addTile(context.socket, id)}>
+      <button onClick={() => submitTile(tile, layout)}>
         Add tile
       </button>
       <AddTileForm visible={false} submitTile={submitTile} />
@@ -170,7 +173,6 @@ const TileList = (props, context) => {
 TileList.propTypes = {
   tiles: PropTypes.array.isRequired,
   layouts: PropTypes.object.isRequired,
-  addTile: PropTypes.func.isRequired,
   removeTile: PropTypes.func.isRequired,
 };
 
