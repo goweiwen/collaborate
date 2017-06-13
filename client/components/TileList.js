@@ -50,23 +50,20 @@ const TileList = (props, context) => {
       newLayouts[currentID] = currentLayout;
     }
     return newLayouts;
-  }
+  };
 
-  const resolveCollisions = (prevlayouts) => {
-    return (socket, layout, id) => {
-      const layouts = { ...prevlayouts };
+  const resolveCollisions = prevlayouts => (socket, layout, id) => {
+    const layouts = { ...prevlayouts };
 
+    layouts[id] = layout;
+    const beforeLayouts = resolveCurrentCollisions(layouts, [id]);
 
-      layouts[id] = layout;
-      const beforeLayouts = resolveCurrentCollisions(layouts, [id]);
+    const finalLayouts = packTiles(beforeLayouts);
 
-      const finalLayouts = packTiles(beforeLayouts);
-
-      for (const i in finalLayouts) {
-        props.updateLayout(socket, finalLayouts[i], i);
-      }
-    };
-  }
+    for (const i in finalLayouts) {
+      props.updateLayout(socket, finalLayouts[i], i);
+    }
+  };
 
   // layouts is the current layouts of the tileList while layouts are moving around to accomodate edits
   // ids is the last moved layouts from the previous iteration
@@ -128,35 +125,39 @@ const TileList = (props, context) => {
 
     // now that we have moved all the newly collided tiles, we will check in the next iteration if there are new collisions
     return resolveCurrentCollisions(newLayouts, newIDs);
-  }
+  };
 
   const submitTile = (tile, layout) => {
     const prevLayouts = props.layouts;
+    let currentLayout = layout;
+    let valid = false;
 
-    while(true) {
-      let valid = true;
-      _.forEach(prevLayouts, (otherLayout, layoutIdString) => {
-        if(layoutsCollide(layout, otherLayout)){
-          valid = false;
-        }
-      });
+    const updateValid = (otherLayout) => {
+      if ((layoutsCollide(currentLayout, otherLayout))) {
+        valid = false;
+      }
+    };
 
-      if(valid === true) {
+    while (!valid) {
+      valid = true;
+      _.forEach(prevLayouts, updateValid);
+
+      if (valid === true) {
         break;
       } else {
-        layout.y += 50;
+        currentLayout = { ...currentLayout, y: currentLayout.y + 50 };
       }
     }
 
-    props.submitTile(context.socket, id, tile, layout);
-  }
+    props.submitTile(context.socket, id, tile, currentLayout);
+  };
 
   return (
     <div >
       <button onClick={() => props.addTile(context.socket, id)}>
         Add tile
       </button>
-      <AddTileForm visible={false} submitTile={submitTile}/>
+      <AddTileForm visible={false} submitTile={submitTile} />
       <button onClick={() => props.removeTile(context.socket, props.tiles.length - 1)}>
         Remove tile
       </button>
@@ -165,10 +166,6 @@ const TileList = (props, context) => {
       </div>
     </div>);
 };
-
-
- 
-
 
 TileList.propTypes = {
   tiles: PropTypes.array.isRequired,
