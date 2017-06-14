@@ -152,17 +152,17 @@ const TileList = (props, context) => {
     props.submitTile(context.socket, id, tile, currentLayout);
   };
 
-  const removeTile = (prevLayouts) => (socket, id) => {
+  const removeTile = prevLayouts => (socket, id) => {
     props.removeTile(context.socket, id);
 
-    let newLayouts = { ...prevLayouts };
+    const newLayouts = { ...prevLayouts };
     delete newLayouts[id];
 
     const packedNewLayouts = packTiles(newLayouts);
     for (const i in packedNewLayouts) {
       props.updateLayout(socket, packedNewLayouts[i], i);
     }
-  }
+  };
 
   const tile = { tileType: 'image', src: '' };
   const layout = { x: 0, y: 0, height: 300, width: 300, lockAspectRatio: false };
