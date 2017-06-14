@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import socketio from 'socket.io';
+import cookie from 'cookie';
 import { applyMiddleware, createStore } from 'redux';
 import reduxLogger from 'redux-logger';
 import reducer from './reducers/server';
@@ -8,6 +9,7 @@ import {
   addTile, updateTile, removeTile, addChatMessage, updateLayout,
   ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, INITIALISE_LAYOUTS,
 } from './actions';
+import redisStore from './middleware/store';
 
 // Redux
 const state = {
@@ -35,14 +37,27 @@ const store = createStore(
 
 export default (server) => {
   const io = socketio(server);
+
+  io.set('authorization', async (data, accept) => {
+    const sid = cookie.parse(data.headers.cookie)['koa:sess'];
+    const session = await redisStore.get(sid);
+    if (session) {
+      // eslint-disable-next-line no-param-reassign
+      data.name = session.passport.user;
+      accept(null, true);
+    } else {
+      console.log('Authentication error.');
+    }
+  });
+
   io.on('connection', (socket) => {
-    console.log('user connected');
+    console.log(`${socket.request.name} connected`);
     socket.emit(INITIALISE_LAYOUTS, store.getState().layouts);
     socket.emit('initialise tiles', store.getState().tiles);
     socket.emit('initialise chat', store.getState().messages);
 
     socket.on('disconnect', () => {
-      console.log('user disconnected');
+      console.log(`${socket.request.name} disconnected`);
     });
 
     socket.on(ADD_TILE, (tile, id) => {
@@ -71,4 +86,6 @@ export default (server) => {
       socket.broadcast.emit(ADD_CHAT_MESSAGE, message);
     });
   });
+
+  return io;
 };

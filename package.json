@@ -4,18 +4,20 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --exec babel-node index.js",
-    "webpack": "webpack -w",
-    "server": "concurrently --kill-others \"yarn webpack\" \"yarn start\"",
-    "lint": "eslint ."
+    "start": "npm run develop",
+    "develop": "concurrently \"nodemon --exec babel-node index.js\" \"redis-server\"",
+    "production": "concurrently --kill-others \"yarn start\" \"redis-server\"",
+    "lint": "eslint --fix ."
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "cookie": "^0.3.1",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
     "koa-logger": "^3.0.0",
     "koa-multer": "^1.0.1",
     "koa-passport": "^3.0.0",
+    "koa-redis": "^3.0.0",
     "koa-route": "^3.2.0",
     "koa-router": "^7.1.1",
     "koa-session": "^5.1.0",
