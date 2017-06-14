@@ -111,6 +111,7 @@ import reduxLogger from 'redux-logger';
 import { applyMiddleware, createStore } from 'redux';
 import { addTile, removeTile, addChatMessage, updateTile, updateLayout } from './actions';
 import reducer from './reducers/server';
+import { ADD_TILE, UPDATE_TILE, REMOVE_TILE, INITIALISE_LAYOUTS, UPDATE_LAYOUT, ADD_CHAT_MESSAGE } from './actions';
 
 const store = createStore(
   reducer,
@@ -124,7 +125,7 @@ import socketio from 'socket.io';
 const io = socketio(server);
 io.on('connection', (socket) => {
   console.log('user connected');
-  socket.emit('initiliase layouts', store.getState().layouts);
+  socket.emit(INITIALISE_LAYOUTS, store.getState().layouts);
   socket.emit('initialise tiles', store.getState().tiles);
   socket.emit('initialise chat', store.getState().messages);
 
@@ -132,29 +133,29 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 
-  socket.on('add', (tile, id) => {
+  socket.on(ADD_TILE, (tile, id) => {
     store.dispatch(addTile(tile, id));
-    socket.broadcast.emit('add', tile, id);
+    socket.broadcast.emit(ADD_TILE, tile, id);
   });
 
-  socket.on('remove', (id) => {
+  socket.on(REMOVE_TILE, (id) => {
     store.dispatch(removeTile(id));
     store.dispatch(updateLayout(undefined, id));
-    socket.broadcast.emit('remove', id);
+    socket.broadcast.emit(REMOVE_TILE, id);
   });
 
-  socket.on('update tile', (tile) => {
+  socket.on(UPDATE_TILE, (tile) => {
     store.dispatch(updateTile(tile));
-    socket.broadcast.emit('update tile', tile);
+    socket.broadcast.emit(UPDATE_TILE, tile);
   });
 
-  socket.on('update layout', (layout, id) => {
+  socket.on(UPDATE_LAYOUT, (layout, id) => {
     store.dispatch(updateLayout(layout, id));
-    socket.broadcast.emit('update layout', layout, id);
+    socket.broadcast.emit(UPDATE_LAYOUT, layout, id);
   });
 
-  socket.on('add chat message', (message) => {
+  socket.on(ADD_CHAT_MESSAGE, (message) => {
     store.dispatch(addChatMessage(message));
-    socket.broadcast.emit('add chat message', message);
+    socket.broadcast.emit(ADD_CHAT_MESSAGE, message);
   });
 });
