@@ -152,6 +152,18 @@ const TileList = (props, context) => {
     props.submitTile(context.socket, id, tile, currentLayout);
   };
 
+  const removeTile = (prevLayouts) => (socket, id) => {
+    props.removeTile(context.socket, id);
+
+    let newLayouts = { ...prevLayouts };
+    delete newLayouts[id];
+
+    const packedNewLayouts = packTiles(newLayouts);
+    for (const i in packedNewLayouts) {
+      props.updateLayout(socket, packedNewLayouts[i], i);
+    }
+  }
+
   const tile = { tileType: 'image', src: '' };
   const layout = { x: 0, y: 0, height: 300, width: 300, lockAspectRatio: false };
 
@@ -161,11 +173,11 @@ const TileList = (props, context) => {
         Add tile
       </button>
       <AddTileForm visible={false} submitTile={submitTile} />
-      <button onClick={() => props.removeTile(context.socket, props.tiles.length - 1)}>
+      <button onClick={() => (removeTile(props.layouts))(context.socket, props.tiles.length - 1)}>
         Remove tile
       </button>
       <div style={{ width: '100vw', height: '100vh' }}>
-        { _.map(props.tiles, tile => <Tile key={tile.id} {...tile} layout={props.layouts[tile.id]} removeTile={props.removeTile} updateLayout={resolveCollisions(props.layouts)} />)}
+        { _.map(props.tiles, tile => <Tile key={tile.id} {...tile} layout={props.layouts[tile.id]} removeTile={removeTile(props.layouts)} updateLayout={resolveCollisions(props.layouts)} />)}
       </div>
     </div>);
 };
