@@ -167,8 +167,16 @@ const TileList = (props, context) => {
   const tile = { tileType: 'image', src: '' };
   const layout = { x: 0, y: 0, height: 300, width: 300, lockAspectRatio: false };
 
+  let toggleLayoutLockButton;
+  if (props.layoutsSettings.locked) {
+    toggleLayoutLockButton = <button onClick={() => props.toggleLayoutLock()}> Unlock Layout </button>;
+  } else {
+    toggleLayoutLockButton = <button onClick={() => props.toggleLayoutLock()}> Lock Layout </button>;
+  }
+
   return (
     <div >
+      {toggleLayoutLockButton}
       <button onClick={() => submitTile(tile, layout)}>
         Add tile
       </button>
@@ -177,7 +185,7 @@ const TileList = (props, context) => {
         Remove tile
       </button>
       <div style={{ width: '100vw', height: '100vh' }}>
-        { _.map(props.tiles, tile => <Tile key={tile.id} {...tile} layout={props.layouts[tile.id]} removeTile={removeTile(props.layouts)} updateLayout={resolveCollisions(props.layouts)} />)}
+        { _.map(props.tiles, tile => <Tile locked={props.layoutsSettings.locked} key={tile.id} {...tile} layout={props.layouts[tile.id]} removeTile={removeTile(props.layouts)} updateLayout={resolveCollisions(props.layouts)} />)}
       </div>
     </div>);
 };
@@ -185,7 +193,9 @@ const TileList = (props, context) => {
 TileList.propTypes = {
   tiles: PropTypes.array.isRequired,
   layouts: PropTypes.object.isRequired,
+  layoutsSettings: PropTypes.object.isRequired,
   removeTile: PropTypes.func.isRequired,
+  toggleLayoutLock: PropTypes.func.isRequired,
 };
 
 TileList.contextTypes = {

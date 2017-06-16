@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import TileList from '../components/TileList';
-import { addTile, removeTile, updateTile, updateLayout } from '../../actions';
-import { ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT } from '../../actions';
+import {
+  addTile, removeTile, updateTile, updateLayout, toggleLayoutLock,
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT } from '../../actions';
 
 
-const mapStateToProps = state => ({ tiles: state.tiles, layouts: state.layouts });
+const mapStateToProps = state => ({ tiles: state.tiles, layouts: state.layouts, layoutsSettings: state.layoutsSettings });
 
 const mapDispatchToProps = dispatch => ({
   submitTile: (socket, id, tile, layout) => {
@@ -27,6 +28,10 @@ const mapDispatchToProps = dispatch => ({
   updateLayout: (socket, layout, id) => {
     socket.emit(UPDATE_LAYOUT, layout, id);
     dispatch(updateLayout(layout, id));
+  },
+
+  toggleLayoutLock: () => {
+    dispatch(toggleLayoutLock());
   },
 
 });

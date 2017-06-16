@@ -104,8 +104,7 @@ class RndTile extends React.Component {
     layout.height -= (layout.height % 50) - snapHeight;
     layout.width -= (layout.width % 50) - snapWidth;
 
-
-    if (!_.isEqual(layout, tile.layout)) {
+    if (!_.isEqual(layout, props.layout)) {
       this.props.updateLayout(context.socket, layout, tile.id);
     }
   }
@@ -119,6 +118,35 @@ class RndTile extends React.Component {
     layout.height -= margin;
     layout.width -= margin;
 
+    let Enable = {
+      bottom: true,
+      bottomLeft: true,
+      bottomRight: true,
+      left: true,
+      right: true,
+      top: true,
+      topLeft: true,
+      topRight: true,
+    };
+
+    let dragAxis = 'both';
+
+    if (props.locked) {
+      Enable = {
+        bottom: false,
+        bottomLeft: false,
+        bottomRight: false,
+        left: false,
+        right: false,
+        top: false,
+        topLeft: false,
+        topRight: false,
+      };
+
+      dragAxis = 'none';
+    }
+
+
     return (
       <Rnd
         style={{ position: 'absolute' }}
@@ -130,6 +158,8 @@ class RndTile extends React.Component {
         onResizeStop={this.handleMoveStop.bind(this)}
         onDragStop={this.handleMoveStop.bind(this)}
         lockAspectRatio={layout.lockAspectRatio}
+        dragAxis={dragAxis}
+        enableResizing={Enable}
       >
         <Tile height={layout.height} width={layout.width} {...props} />
       </Rnd>
