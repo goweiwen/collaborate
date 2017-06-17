@@ -2,45 +2,33 @@
 
 import socketio from 'socket.io';
 import cookie from 'cookie';
-import { applyMiddleware, createStore } from 'redux';
+import { compose, applyMiddleware, createStore } from 'redux';
+import { persistStore, autoRehydrate } from 'redux-persist';
+import { AsyncNodeStorage } from 'redux-persist-node-storage';
 import reduxLogger from 'redux-logger';
 import reducer from './reducers/server';
 import {
   addTile, updateTile, removeTile, addChatMessage, updateLayout,
   ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, INITIALISE_LAYOUTS,
 } from './actions';
-import redisStore from './middleware/store';
-
-// Redux
-const state = {
-  tiles: [
-    { id: 0, tileType: 'pdf', page: 0, src: 'uploads/The C Programming Language - 2nd Edition - Kernighan & Ritchie.pdf' },
-    { id: 1, tileType: 'image', src: 'https://unsplash.it/200/300' },
-    { id: 2, tileType: 'text', content: '2' },
-    { id: 3, tileType: 'youtube', src: 'HtSuA80QTyo' },
-    { id: 4, tileType: 'googledoc', src: 'https://docs.google.com/document/d/1Xf0bxn-cvB18ycAxP27bDqeYAYq_JqKY6psZoPJuT-E/edit?usp=sharing' },
-  ],
-  layouts: {
-    0: { x: 0, y: 0, width: 300, height: 450, lockAspectRatio: true },
-    1: { x: 300, y: 0, width: 300, height: 450, lockAspectRatio: true },
-    2: { x: 600, y: 0, width: 300, height: 300, lockAspectRatio: false },
-    3: { x: 0, y: 450, width: 300, height: 300, lockAspectRatio: false },
-    4: { x: 300, y: 450, width: 300, height: 300, lockAspectRatio: false },
-  },
-};
+import sessionStore from './middleware/store';
 
 const store = createStore(
   reducer,
-  state,
-  applyMiddleware(reduxLogger),
+  undefined,
+  compose(
+    applyMiddleware(reduxLogger),
+    autoRehydrate(),
+  ),
 );
+persistStore(store, { storage: new AsyncNodeStorage('./scratch') });
 
 export default (server) => {
   const io = socketio(server);
 
   io.set('authorization', async (data, accept) => {
     const sid = cookie.parse(data.headers.cookie)['koa:sess'];
-    const session = await redisStore.get(sid);
+    const session = await sessionStore.get(sid);
     if (session) {
       // eslint-disable-next-line no-param-reassign
       data.name = session.passport.user;

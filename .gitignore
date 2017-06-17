@@ -62,3 +62,6 @@ yarn-error.log*
 
 # redis
 dump.rdb
+
+# node-localstorage
+/scratch
