@@ -9,7 +9,7 @@ import PDF from './tiles/PDF';
 import GoogleDoc from './tiles/GoogleDoc';
 
 const Tile = (props, context) => (
-  <div className="card" id={props.id} style={{ height: '100%', padding: '10px', backgroundColor: 'grey' }}>
+  <div className={`card tile ${props.enableResizing.top ? '' : 'locked'}`} id={props.id} style={{ height: '100%', padding: '10px' }}>
     {(() => {
       switch (props.tileType) {
         case 'text':
@@ -26,7 +26,9 @@ const Tile = (props, context) => (
           return <span>{props.type}</span>;
       }
     })()}
-    <button className="close-button" onClick={() => props.removeTile(context.socket, props.id)} />
+    <button className="close-button" onClick={() => props.removeTile(context.socket, props.id)} >
+      <span>✕</span>
+    </button>
   </div>
   );
 
@@ -118,38 +120,9 @@ class RndTile extends React.Component {
     layout.height -= margin;
     layout.width -= margin;
 
-    let Enable = {
-      bottom: true,
-      bottomLeft: true,
-      bottomRight: true,
-      left: true,
-      right: true,
-      top: true,
-      topLeft: true,
-      topRight: true,
-    };
-
-    let dragAxis = 'both';
-
-    if (props.locked) {
-      Enable = {
-        bottom: false,
-        bottomLeft: false,
-        bottomRight: false,
-        left: false,
-        right: false,
-        top: false,
-        topLeft: false,
-        topRight: false,
-      };
-
-      dragAxis = 'none';
-    }
-
-
     return (
       <Rnd
-        style={{ position: 'absolute' }}
+        style={{ position: 'absolute', cursor: props.enableResizing.top ? 'move' : 'auto' }}
         ref={(c) => { this.rnd = c; }}
         default={layout}
         minWidth={200}
@@ -158,8 +131,8 @@ class RndTile extends React.Component {
         onResizeStop={this.handleMoveStop.bind(this)}
         onDragStop={this.handleMoveStop.bind(this)}
         lockAspectRatio={layout.lockAspectRatio}
-        dragAxis={dragAxis}
-        enableResizing={Enable}
+        dragAxis={props.enableResizing.top ? 'both' : 'none'}
+        enableResizing={props.enableResizing}
       >
         <Tile height={layout.height} width={layout.width} {...props} />
       </Rnd>

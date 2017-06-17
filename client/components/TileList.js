@@ -4,6 +4,28 @@ import PropTypes from 'prop-types';
 import Tile from '../containers/Tile';
 import AddTileForm from './AddTileForm';
 
+const ENABLED = {
+  bottom: true,
+  bottomLeft: true,
+  bottomRight: true,
+  left: true,
+  right: true,
+  top: true,
+  topLeft: true,
+  topRight: true,
+};
+
+const DISABLED = {
+  bottom: false,
+  bottomLeft: false,
+  bottomRight: false,
+  left: false,
+  right: false,
+  top: false,
+  topLeft: false,
+  topRight: false,
+};
+
 const TileList = (props, context) => {
   const id = (props.tiles.length) === 0 ? 0 : props.tiles[props.tiles.length - 1].id + 1;
 
@@ -177,15 +199,9 @@ const TileList = (props, context) => {
   return (
     <div >
       {toggleLayoutLockButton}
-      <button onClick={() => submitTile(tile, layout)}>
-        Add tile
-      </button>
       <AddTileForm visible={false} submitTile={submitTile} />
-      <button onClick={() => (removeTile(props.layouts))(context.socket, props.tiles.length - 1)}>
-        Remove tile
-      </button>
       <div style={{ width: '100vw', height: '100vh' }}>
-        { _.map(props.tiles, tile => <Tile locked={props.layoutsSettings.locked} key={tile.id} {...tile} layout={props.layouts[tile.id]} removeTile={removeTile(props.layouts)} updateLayout={resolveCollisions(props.layouts)} />)}
+        { _.map(props.tiles, tile => <Tile enableResizing={props.layoutsSettings.locked ? DISABLED : ENABLED} key={tile.id} {...tile} layout={props.layouts[tile.id]} removeTile={removeTile(props.layouts)} updateLayout={resolveCollisions(props.layouts)} />)}
       </div>
     </div>);
 };

@@ -2,17 +2,30 @@ img {
   pointer-events: none;
 }
 
+body {
+  background: url('assets/sativa.png') repeat;
+}
+
 div:not(.react-draggable-dragging) {
   transition: transform 0.2s;
 }
 
-button.close-button {
+.tile button.close-button {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 2px;
+  right: 2px;
   width: 20px;
   height: 20px;
   margin: 0;
   padding: 0;
   cursor: pointer;
+}
+
+.tile button.close-button > span {
+  display: block;
+  margin-top: -2px;
+}
+
+.tile.locked button.close-button {
+  display: none;
 }
