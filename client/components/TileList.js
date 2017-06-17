@@ -186,9 +186,6 @@ const TileList = (props, context) => {
     }
   };
 
-  const tile = { tileType: 'image', src: '' };
-  const layout = { x: 0, y: 0, height: 300, width: 300, lockAspectRatio: false };
-
   let toggleLayoutLockButton;
   if (props.layoutsSettings.locked) {
     toggleLayoutLockButton = <button onClick={() => props.toggleLayoutLock()}> Unlock Layout </button>;

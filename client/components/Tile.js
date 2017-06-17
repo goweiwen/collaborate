@@ -10,6 +10,7 @@ import GoogleDoc from './tiles/GoogleDoc';
 
 const Tile = (props, context) => (
   <div className={`card tile ${props.enableResizing.top ? '' : 'locked'}`} id={props.id} style={{ height: '100%', padding: '10px' }}>
+    <div className="overlay" />
     {(() => {
       switch (props.tileType) {
         case 'text':
@@ -36,6 +37,7 @@ Tile.propTypes = {
   id: PropTypes.number.isRequired,
   tileType: PropTypes.string.isRequired,
   removeTile: PropTypes.func.isRequired,
+  enableResizing: PropTypes.object.isRequired,
 };
 
 Tile.contextTypes = {
@@ -134,7 +136,7 @@ class RndTile extends React.Component {
         dragAxis={props.enableResizing.top ? 'both' : 'none'}
         enableResizing={props.enableResizing}
       >
-        <Tile height={layout.height} width={layout.width} {...props} />
+        <Tile height={layout.height} width={layout.width} locked={!props.enableResizing.top} {...props} />
       </Rnd>
     );
   }
@@ -143,6 +145,7 @@ class RndTile extends React.Component {
 RndTile.propTypes = {
   tile: PropTypes.object.isRequired,
   updateLayout: PropTypes.func.isRequired,
+  enableResizing: PropTypes.object.isRequired,
 };
 
 RndTile.contextTypes = {
