@@ -2,26 +2,28 @@
 
 import socketio from 'socket.io';
 import cookie from 'cookie';
-import { compose, applyMiddleware, createStore } from 'redux';
-import { persistStore, autoRehydrate } from 'redux-persist';
-import { AsyncNodeStorage } from 'redux-persist-node-storage';
+import { applyMiddleware, createStore } from 'redux';
 import reduxLogger from 'redux-logger';
 import reducer from './reducers/server';
+import db from './db';
 import {
   addTile, updateTile, removeTile, addChatMessage, updateLayout, updateAnnotation,
   ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, INITIALISE_LAYOUTS, UPDATE_ANNOTATION,
 } from './actions';
 import sessionStore from './middleware/store';
 
-const store = createStore(
-  reducer,
-  undefined,
-  compose(
-    applyMiddleware(reduxLogger),
-    autoRehydrate(),
-  ),
-);
-persistStore(store, { storage: new AsyncNodeStorage('./scratch') });
+let store;
+db.get('redux', (err, initialState) => {
+  store = createStore(
+    reducer,
+    initialState ? JSON.parse(initialState) : undefined,
+    applyMiddleware(reduxLogger, persist),
+  );
+});
+const persist = store => next => (action) => {
+  next(action);
+  db.set('redux', JSON.stringify(store.getState()));
+}
 
 export default (server) => {
   const io = socketio(server);

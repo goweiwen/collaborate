@@ -188,20 +188,26 @@ const TileList = (props, context) => {
     }
   };
 
-  let toggleLayoutLockButton;
-  if (props.layoutsSettings.locked) {
-    toggleLayoutLockButton = <button onClick={() => props.toggleLayoutLock()}> Unlock Layout </button>;
-  } else {
-    toggleLayoutLockButton = <button onClick={() => props.toggleLayoutLock()}> Lock Layout </button>;
-  }
+  const toggleLayoutLockButton = <button onClick={() => props.toggleLayoutLock()}>{ props.layoutsSettings.locked ? 'Unlock Layout' : 'Lock Layout'} </button>;
 
   return (
     <div >
       {toggleLayoutLockButton}
       <AddTileForm visible={false} submitTile={submitTile} />
+
       <AnnotationLayer />
-      <div style={{ width: '100vw', height: '100vh' }}>
-        { _.map(props.tiles, tile => <Tile enableResizing={props.layoutsSettings.locked ? DISABLED : ENABLED} key={tile.id} {...tile} layout={props.layouts[tile.id]} removeTile={removeTile(props.layouts)} updateLayout={resolveCollisions(props.layouts)} />)}
+      <div style={{ width: '1900px', height: '4000px' }}>
+        { _.map(props.tiles, tile => (
+          <Tile
+            key={tile.id}
+            layout={props.layouts[tile.id]}
+            bounds="parent"
+            removeTile={removeTile(props.layouts)}
+            updateLayout={resolveCollisions(props.layouts)}
+            enableResizing={props.layoutsSettings.locked ? DISABLED : ENABLED}
+            {...tile}
+          />
+        ))}
       </div>
     </div>);
 };
