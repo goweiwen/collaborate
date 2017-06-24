@@ -17,7 +17,7 @@ const emitRemoveTile = (dispatch, socket, id) => {
 const mapStateToProps = state => ({
   tiles: state.tiles,
   layouts: state.layouts,
-  layoutsSettings: state.layoutsSettings,
+  tool: state.tool,
 });
 
 const mapDispatchToProps = dispatch => ({

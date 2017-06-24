@@ -7,8 +7,6 @@ export default class AnnotationLayer extends React.Component {
     super(props);
     this.state = {
       drawing: false,
-      active: false,
-      erase: false,
     };
   }
 
@@ -53,8 +51,9 @@ export default class AnnotationLayer extends React.Component {
     ctx.lineTo(x1, y1);
     ctx.lineWidth = 2;
     ctx.strokeStyle = 'black';
+    ctx.lineCap = 'round';
 
-    if (this.state.erase) {
+    if (this.props.tool === 'eraser') {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.lineWidth = 40;
     }
@@ -99,24 +98,14 @@ export default class AnnotationLayer extends React.Component {
 
 
   render() {
-    let toggle = <button style={{ zIndex: 4 }} onClick={() => { this.setState(state => ({ active: !state.active })); }}>Annotate!</button>;
-    if (this.state.active) {
-      toggle = <button style={{ zIndex: 4 }} onClick={() => { this.setState(state => ({ active: !state.active })); }}>Turn off Annnotate</button>;
-    }
-    let tool = <button onClick={() => { this.setState(state => ({ erase: !state.erase })); }}>Use Eraser</button>;
-    if (this.state.erase) {
-      tool = <button onClick={() => { this.setState(state => ({ erase: !state.erase })); }}>Use Pen</button>;
-    }
+    const { tool } = this.props;
 
     return (
       <div>
-        <p>
-          {toggle}
-          {tool}
-          <button onClick={() => { this.clear(true); }}>Clear</button></p>
+        {/* <button onClick={() => { this.clear(true); }}>Clear</button></p> */}
         <canvas
           className="AnnotationCanvas"
-          style={{ position: 'absolute', zIndex: 3, pointerEvents: (this.state.active) ? 'all' : 'none' }}
+          style={{ position: 'absolute', zIndex: 3, pointerEvents: tool === 'pen' || tool === 'eraser' ? 'all' : 'none' }}
           ref={(canvas) => { this.canvas = canvas; }}
           onMouseDown={e => this.mouseDown(e)}
           onMouseUp={e => this.mouseUp(e)}
@@ -134,6 +123,9 @@ AnnotationLayer.contextTypes = {
 AnnotationLayer.propTypes = {
   annotation: PropTypes.string.isRequired,
   updateAnnotation: PropTypes.func.isRequired,
+  usePenTool: PropTypes.func.isRequired,
+  useEraserTool: PropTypes.func.isRequired,
+  tool: PropTypes.string.isRequired,
 };
 
  // limit the number of events per second

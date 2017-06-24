@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import Toolbar from '../components/Toolbar';
+import Menubar from '../components/Menubar';
 import {
-  addTile, removeTile, updateTile, updateLayout, toggleLayoutLock,
+  addTile, removeTile, updateTile, updateLayout, useSelectTool, useDragTool, usePenTool, useEraserTool,
   ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT } from '../../actions';
 import { layoutsCollide } from '../util/collision';
 
-const mapStateToProps = state => ({ tiles: state.tiles, layouts: state.layouts, layoutsSettings: state.layoutsSettings });
+const mapStateToProps = state => ({ tiles: state.tiles, tool: state.tool, layouts: state.layouts, layoutsSettings: state.layoutsSettings });
 
 const emitSubmitTile = (dispatch, socket, id, tile, layout) => {
   socket.emit(UPDATE_LAYOUT, layout, id);
@@ -57,10 +57,22 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateLayout(layout, id));
   },
 
-  toggleLayoutLock: () => {
-    dispatch(toggleLayoutLock());
+  useSelectTool: () => {
+    dispatch(useSelectTool());
+  },
+
+  useDragTool: () => {
+    dispatch(useDragTool());
+  },
+
+  usePenTool: () => {
+    dispatch(usePenTool());
+  },
+
+  useEraserTool: () => {
+    dispatch(useEraserTool());
   },
 
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Menubar);

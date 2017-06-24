@@ -8,8 +8,30 @@ import YouTube from './tiles/YouTube';
 import PDF from './tiles/PDF';
 import GoogleDoc from './tiles/GoogleDoc';
 
+const ENABLED = {
+  bottom: true,
+  bottomLeft: true,
+  bottomRight: true,
+  left: true,
+  right: true,
+  top: true,
+  topLeft: true,
+  topRight: true,
+};
+
+const DISABLED = {
+  bottom: false,
+  bottomLeft: false,
+  bottomRight: false,
+  left: false,
+  right: false,
+  top: false,
+  topLeft: false,
+  topRight: false,
+};
+
 const Tile = (props, context) => (
-  <div className={`card tile ${props.enableResizing.top ? '' : 'locked'}`} id={props.id} style={{ height: '100%', padding: '10px' }}>
+  <div className={`card tile ${props.tool === 'drag' ? '' : 'locked'}`} id={props.id} style={{ height: '100%', padding: '10px' }}>
     <div className="overlay" />
     {(() => {
       switch (props.tileType) {
@@ -37,8 +59,8 @@ Tile.propTypes = {
   id: PropTypes.number.isRequired,
   tileType: PropTypes.string.isRequired,
   removeTile: PropTypes.func.isRequired,
-  enableResizing: PropTypes.object.isRequired,
   updateTile: PropTypes.func.isRequired,
+  tool: PropTypes.string.isRequired,
 };
 
 Tile.contextTypes = {
@@ -124,7 +146,7 @@ class RndTile extends React.Component {
 
     return (
       <Rnd
-        style={{ position: 'absolute', cursor: props.enableResizing.top ? 'move' : 'auto' }}
+        style={{ position: 'absolute', cursor: props.tool === 'drag' ? 'move' : 'auto' }}
         ref={(c) => { this.rnd = c; }}
         default={layout}
         minWidth={200}
@@ -132,10 +154,10 @@ class RndTile extends React.Component {
         onResizeStop={this.handleMoveStop.bind(this)}
         onDragStop={this.handleMoveStop.bind(this)}
         lockAspectRatio={layout.lockAspectRatio}
-        enableResizing={props.enableResizing}
-        disableDragging={!props.enableResizing.top}
+        enableResizing={props.tool === 'drag' ? ENABLED : DISABLED }
+        disableDragging={props.tool !== 'drag'}
       >
-        <Tile height={layout.height} width={layout.width} locked={!props.enableResizing.top} {...props} />
+        <Tile height={layout.height} width={layout.width} {...props} />
       </Rnd>
     );
   }
@@ -144,8 +166,8 @@ class RndTile extends React.Component {
 RndTile.propTypes = {
   tile: PropTypes.object.isRequired,
   updateLayout: PropTypes.func.isRequired,
-  enableResizing: PropTypes.object.isRequired,
   updateTile: PropTypes.func.isRequired,
+  tool: PropTypes.string.isRequired,
 };
 
 RndTile.contextTypes = {

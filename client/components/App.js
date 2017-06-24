@@ -2,7 +2,8 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import TileList from '../containers/TileList';
-import Toolbar from '../containers/Toolbar';
+import Toolbar from '../containers/Menubar';
+import AnnotationLayer from '../containers/AnnotationLayer';
 
 const onDrop = async (acceptedFiles) => {
   const req = request.post('/upload');
@@ -22,6 +23,7 @@ const App = () => (
     <div className="workspace">
 
       <Toolbar />
+      <AnnotationLayer />
       <TileList />
     </div>
   </Dropzone>

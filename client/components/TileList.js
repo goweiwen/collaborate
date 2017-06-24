@@ -3,30 +3,8 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Tile from '../containers/Tile';
 
-const ENABLED = {
-  bottom: true,
-  bottomLeft: true,
-  bottomRight: true,
-  left: true,
-  right: true,
-  top: true,
-  topLeft: true,
-  topRight: true,
-};
-
-const DISABLED = {
-  bottom: false,
-  bottomLeft: false,
-  bottomRight: false,
-  left: false,
-  right: false,
-  top: false,
-  topLeft: false,
-  topRight: false,
-};
-
 const TileList = (props, context) => {
-  const { tiles, layouts, layoutsSettings, removeTile, resolveCollisions } = props;
+  const { tiles, layouts, tool, removeTile, resolveCollisions } = props;
   const { socket } = context;
 
   return (
@@ -38,7 +16,7 @@ const TileList = (props, context) => {
           bounds="parent"
           removeTile={removeTile(socket, layouts)}
           updateLayout={resolveCollisions(socket, layouts)}
-          enableResizing={layoutsSettings.locked ? DISABLED : ENABLED}
+          tool={tool}
           {...tile}
         />
       ))}
@@ -48,7 +26,7 @@ const TileList = (props, context) => {
 TileList.propTypes = {
   tiles: PropTypes.array.isRequired,
   layouts: PropTypes.object.isRequired,
-  layoutsSettings: PropTypes.object.isRequired,
+  tool: PropTypes.object.isRequired,
   removeTile: PropTypes.func.isRequired,
   resolveCollisions: PropTypes.func.isRequired,
 };

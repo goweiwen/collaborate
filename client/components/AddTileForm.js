@@ -186,28 +186,30 @@ export default class AddTileForm extends React.Component {
     </div>);
 
     return (
-      <div>
-        <button onClick={this.handleToggleActive.bind(this)}> Add Tile Form</button>
-        <div className={modalActive}>
-          <div className="modal-background" />
+      <a className={this.props.className} onClick={this.handleToggleActive.bind(this)}><i className="fa fa-plus" />
+        <div>
+          <div className={modalActive}>
+            <div className="modal-background" />
 
-          <div className="modal-card">
-            <div className="modal-card-body">
-              {type}
-              {src}
-              {content}
-              {height}
-              {width}
-              {LAR}
-              {submit}
+            <div className="modal-card">
+              <div className="modal-card-body">
+                {type}
+                {src}
+                {content}
+                {height}
+                {width}
+                {LAR}
+                {submit}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </a>
     );
   }
 }
 
 AddTileForm.propTypes = {
   submitTile: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 };
