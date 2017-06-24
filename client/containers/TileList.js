@@ -23,7 +23,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 
   removeTile: (socket, prevLayouts) => (id) => {
-    emitRemoveTile(socket, id);
+    emitRemoveTile(dispatch, socket, id);
 
     const newLayouts = { ...prevLayouts };
     delete newLayouts[id];
