@@ -21,9 +21,8 @@ export default class Text extends React.Component {
         ref={(textArea) => { this.textArea = textArea; }}
         onKeyUp={this.valueChange.bind(this)}
         onChange={this.valueChange.bind(this)}
-        noresize
         className="textarea is-paddingless"
-        style={{ border: 'none', boxShadow: 'none' }}
+        style={{ border: 'none', boxShadow: 'none', resize: 'none', height: '100%' }}
       >
         {this.props.content}
       </textarea>);
