@@ -19,6 +19,7 @@ const App = () => (
   >
 
     <div className="workspace">
+
       <TileList />
     </div>
   </Dropzone>

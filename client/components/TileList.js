@@ -3,6 +3,8 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Tile from '../containers/Tile';
 import AddTileForm from './AddTileForm';
+import AnnotationLayer from '../containers/AnnotationLayer';
+
 
 const ENABLED = {
   bottom: true,
@@ -197,6 +199,7 @@ const TileList = (props, context) => {
     <div >
       {toggleLayoutLockButton}
       <AddTileForm visible={false} submitTile={submitTile} />
+      <AnnotationLayer />
       <div style={{ width: '100vw', height: '100vh' }}>
         { _.map(props.tiles, tile => <Tile enableResizing={props.layoutsSettings.locked ? DISABLED : ENABLED} key={tile.id} {...tile} layout={props.layouts[tile.id]} removeTile={removeTile(props.layouts)} updateLayout={resolveCollisions(props.layouts)} />)}
       </div>

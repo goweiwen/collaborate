@@ -171,10 +171,14 @@ export default class AddTileForm extends React.Component {
         </p>
       </div>);
 
+    const validSubmission = (
+      this.state.width % 50 === 0 && this.state.width >= 300 && this.state.width <= 1000 &&
+      this.state.height % 50 === 0 && this.state.height >= 300 && this.state.height <= 1000);
+
     const submit =
     (<div className="field is-grouped">
       <p className="control">
-        <button className="button is-primary" onClick={this.submitTile.bind(this)}>Add Tile</button>
+        <button className="button is-primary" disabled={!validSubmission}onClick={this.submitTile.bind(this)}>Add Tile</button>
       </p>
       <p className="control">
         <button className="button is-link" onClick={this.cancel.bind(this)}>Cancel</button>

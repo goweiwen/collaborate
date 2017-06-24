@@ -23,3 +23,7 @@ export const toggleSideMenu = () => ({ type: TOGGLE_SIDEMENU });
 // Chat Actions
 export const ADD_CHAT_MESSAGE = 'ADD_CHAT_MESSAGE';
 export const addChatMessage = message => ({ type: ADD_CHAT_MESSAGE, message });
+
+// Annotation Actions
+export const UPDATE_ANNOTATION = 'UPDATE_ANNOTATION';
+export const updateAnnotation = dataURL => ({ type: UPDATE_ANNOTATION, dataURL });

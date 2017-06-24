@@ -8,8 +8,8 @@ import { AsyncNodeStorage } from 'redux-persist-node-storage';
 import reduxLogger from 'redux-logger';
 import reducer from './reducers/server';
 import {
-  addTile, updateTile, removeTile, addChatMessage, updateLayout,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, INITIALISE_LAYOUTS,
+  addTile, updateTile, removeTile, addChatMessage, updateLayout, updateAnnotation,
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, INITIALISE_LAYOUTS, UPDATE_ANNOTATION,
 } from './actions';
 import sessionStore from './middleware/store';
 
@@ -43,9 +43,18 @@ export default (server) => {
     socket.emit(INITIALISE_LAYOUTS, store.getState().layouts);
     socket.emit('initialise tiles', store.getState().tiles);
     socket.emit('initialise chat', store.getState().messages);
+    socket.emit('initialise annotation', store.getState().annotation);
 
     socket.on('disconnect', () => {
       console.log(`${socket.request.name} disconnected`);
+    });
+
+    socket.on('drawing', (x0, y0, x1, y1) => {
+      socket.broadcast.emit('drawing', x0, y0, x1, y1);
+    });
+
+    socket.on('clear', () => {
+      socket.broadcast.emit('clear');
     });
 
     socket.on(ADD_TILE, (tile, id) => {
@@ -72,6 +81,10 @@ export default (server) => {
     socket.on(ADD_CHAT_MESSAGE, (message) => {
       store.dispatch(addChatMessage(message));
       socket.broadcast.emit(ADD_CHAT_MESSAGE, message);
+    });
+
+    socket.on(UPDATE_ANNOTATION, (dataURL) => {
+      store.dispatch(updateAnnotation(dataURL));
     });
   });
 
