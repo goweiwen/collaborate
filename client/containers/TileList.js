@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import TileList from '../components/TileList';
-import { removeTile, updateLayout, REMOVE_TILE, UPDATE_LAYOUT } from '../../actions';
+import { removeTile, updateLayout, updateTile, REMOVE_TILE, UPDATE_LAYOUT, UPDATE_TILE } from '../../actions';
 import { resolveCurrentCollisions, packTiles } from '../util/collision';
 
 const emitUpdateLayout = (dispatch, socket, layout, id) => {
@@ -45,6 +45,11 @@ const mapDispatchToProps = dispatch => ({
     for (const i in finalLayouts) {
       emitUpdateLayout(dispatch, socket, finalLayouts[i], i);
     }
+  },
+
+  updateTile: (socket, tile) => {
+    socket.emit(UPDATE_TILE, tile);
+    dispatch(updateTile(tile));
   },
 
 });

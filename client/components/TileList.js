@@ -17,6 +17,7 @@ const TileList = (props, context) => {
           removeTile={removeTile(socket, layouts)}
           updateLayout={resolveCollisions(socket, layouts)}
           tool={tool}
+          updateTile={props.updateTile}
           {...tile}
         />
       ))}
@@ -26,7 +27,7 @@ const TileList = (props, context) => {
 TileList.propTypes = {
   tiles: PropTypes.array.isRequired,
   layouts: PropTypes.object.isRequired,
-  tool: PropTypes.object.isRequired,
+  tool: PropTypes.string.isRequired,
   removeTile: PropTypes.func.isRequired,
   resolveCollisions: PropTypes.func.isRequired,
 };

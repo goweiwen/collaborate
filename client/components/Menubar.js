@@ -30,7 +30,7 @@ const Menubar = (props, context) => {
 Menubar.propTypes = {
   tiles: PropTypes.array.isRequired,
   layouts: PropTypes.object.isRequired,
-  tool: PropTypes.object.isRequired,
+  tool: PropTypes.string.isRequired,
   submitTile: PropTypes.func.isRequired,
   useSelectTool: PropTypes.func.isRequired,
   useDragTool: PropTypes.func.isRequired,
