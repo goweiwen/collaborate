@@ -154,7 +154,7 @@ class RndTile extends React.Component {
         onResizeStop={this.handleMoveStop.bind(this)}
         onDragStop={this.handleMoveStop.bind(this)}
         lockAspectRatio={layout.lockAspectRatio}
-        enableResizing={props.tool === 'drag' ? ENABLED : DISABLED }
+        enableResizing={props.tool === 'drag' ? ENABLED : DISABLED}
         disableDragging={props.tool !== 'drag'}
       >
         <Tile height={layout.height} width={layout.width} {...props} />
