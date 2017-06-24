@@ -31,7 +31,7 @@ const DISABLED = {
 };
 
 const Tile = (props, context) => (
-  <div className={`card tile ${props.tool === 'drag' ? '' : 'locked'}`} id={props.id} style={{ height: '100%', padding: '10px' }}>
+  <div className={`card tile ${props.tool === 'drag' ? '' : 'locked'} ${props.tileType === 'image' || props.tileType === 'youtube' ? 'is-paddingless' : ''}`} id={props.id} style={{ height: '100%', padding: '10px' }}>
     <div className="overlay" />
     {(() => {
       switch (props.tileType) {
