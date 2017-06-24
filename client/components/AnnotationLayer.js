@@ -48,13 +48,12 @@ export default class AnnotationLayer extends React.Component {
     ctx.beginPath();
     ctx.moveTo(x0, y0);
     ctx.lineTo(x1, y1);
-    console.log(ctx.globalCompositeOperation);
     ctx.lineWidth = 2;
     ctx.strokeStyle = 'black';
 
     if (this.state.erase) {
       ctx.globalCompositeOperation = 'destination-out';
-      ctx.lineWidth = 10;
+      ctx.lineWidth = 40;
     }
 
     ctx.stroke();
