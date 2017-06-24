@@ -8,6 +8,7 @@ export default class AnnotationLayer extends React.Component {
     this.state = {
       drawing: false,
       active: false,
+      erase: false,
     };
   }
 
@@ -15,8 +16,8 @@ export default class AnnotationLayer extends React.Component {
   componentDidMount() {
     this.ctx = this.canvas.getContext('2d');
     this.context.socket.on('drawing', this.drawLine.bind(this));
-    this.canvas.width = 1600;
-    this.canvas.height = 974;
+    this.canvas.width = 1900;
+    this.canvas.height = 4000;
     const rect = this.canvas.getBoundingClientRect();
     this.top = rect.top;
     this.left = rect.left;
@@ -28,7 +29,7 @@ export default class AnnotationLayer extends React.Component {
     img.src = nextProps.annotation;
     img.onload = () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.drawImage(img, 0, 0); // Or at whatever offset you like
+      this.ctx.drawImage(img, 0, 0);
     };
   }
 
@@ -47,10 +48,18 @@ export default class AnnotationLayer extends React.Component {
     ctx.beginPath();
     ctx.moveTo(x0, y0);
     ctx.lineTo(x1, y1);
-    ctx.strokeStyle = 'black';
+    console.log(ctx.globalCompositeOperation);
     ctx.lineWidth = 2;
+    ctx.strokeStyle = 'black';
+
+    if (this.state.erase) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineWidth = 10;
+    }
+
     ctx.stroke();
     ctx.closePath();
+    ctx.globalCompositeOperation = 'source-over';
 
     if (!emit) { return; }
 
@@ -64,7 +73,7 @@ export default class AnnotationLayer extends React.Component {
   mouseDown(e) {
     e.preventDefault();
     e.persist();
-    this.setState(() => ({ drawing: true, x: e.clientX, y: e.clientY + window.scrollY - this.top }));
+    this.setState(() => ({ drawing: true, x: e.clientX + window.scrollX - this.left, y: e.clientY + window.scrollY - this.top }));
   }
 
   mouseUp(e) {
@@ -72,16 +81,17 @@ export default class AnnotationLayer extends React.Component {
     e.persist();
     const dataURL = this.canvas.toDataURL();
     this.props.updateAnnotation(this.context.socket, dataURL);
-    this.setState(() => ({ drawing: false, x: e.clientX, y: e.clientY + window.scrollY - this.top }));
+    this.setState(() => ({ drawing: false, x: e.clientX + window.scrollX - this.left, y: e.clientY + window.scrollY - this.top }));
   }
 
   mouseMove(e) {
     e.preventDefault();
     e.persist();
 
+
     if (this.state.drawing) {
-      this.drawLine(this.state.x, this.state.y, e.clientX + window.scrollX, e.clientY + window.scrollY - this.top, true);
-      this.setState(() => ({ x: e.clientX + window.scrollX, y: e.clientY + window.scrollY - this.top }));
+      this.drawLine(this.state.x, this.state.y, e.clientX + window.scrollX - this.left, e.clientY + window.scrollY - this.top, true);
+      this.setState(() => ({ x: e.clientX + window.scrollX - this.left, y: e.clientY + window.scrollY - this.top }));
     }
   }
 
@@ -91,13 +101,19 @@ export default class AnnotationLayer extends React.Component {
     if (this.state.active) {
       toggle = <button style={{ zIndex: 4 }} onClick={() => { this.setState(state => ({ active: !state.active })); }}>Turn off Annnotate</button>;
     }
+    let tool = <button onClick={() => { this.setState(state => ({ erase: !state.erase })); }}>Use Eraser</button>;
+    if (this.state.erase) {
+      tool = <button onClick={() => { this.setState(state => ({ erase: !state.erase })); }}>Use Pen</button>;
+    }
 
     return (
       <div>
         <p>
           {toggle}
+          {tool}
           <button onClick={() => { this.clear(true); }}>Clear</button></p>
         <canvas
+          className="AnnotationCanvas"
           style={{ position: 'absolute', zIndex: 3, pointerEvents: (this.state.active) ? 'all' : 'none' }}
           ref={(canvas) => { this.canvas = canvas; }}
           onMouseDown={e => this.mouseDown(e)}

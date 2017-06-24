@@ -23,7 +23,7 @@ db.get('redux', (err, initialState) => {
 const persist = store => next => (action) => {
   next(action);
   db.set('redux', JSON.stringify(store.getState()));
-}
+};
 
 export default (server) => {
   const io = socketio(server);

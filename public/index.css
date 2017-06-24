@@ -38,10 +38,14 @@ div:not(.react-draggable-dragging) {
   height: 100%;
   width: 100%;
   /*pointer-events:none;*/
-   background-color: rgba(0,0,0,0.5);
-   z-index: 1;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1;
 }
 
 .tile.locked div.overlay {
   display: none;
+}
+
+.AnnotationCanvas {
+  cursor: url('assets/brushCursor.png'), crosshair;
 }
