@@ -205,6 +205,7 @@ const TileList = (props, context) => {
             removeTile={removeTile(props.layouts)}
             updateLayout={resolveCollisions(props.layouts)}
             enableResizing={props.layoutsSettings.locked ? DISABLED : ENABLED}
+            updateTile={props.updateTile}
             {...tile}
           />
         ))}
@@ -218,6 +219,7 @@ TileList.propTypes = {
   layoutsSettings: PropTypes.object.isRequired,
   removeTile: PropTypes.func.isRequired,
   toggleLayoutLock: PropTypes.func.isRequired,
+  updateTile: PropTypes.func.isRequired,
 };
 
 TileList.contextTypes = {

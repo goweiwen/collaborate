@@ -1,10 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Text = props => <p>{props.content}</p>;
+
+export default class Text extends React.Component {
+
+
+  componentWillReceiveProps(nextProps) {
+    this.textArea.value = nextProps.content;
+  }
+
+  valueChange() {
+    const content = this.textArea.value;
+    const tile = { id: this.props.id, tileType: 'text', content };
+    this.props.updateTile(this.context.socket, tile);
+  }
+
+  render() {
+    return (
+      <textarea
+        ref={(textArea) => { this.textArea = textArea; }}
+        onKeyUp={this.valueChange.bind(this)}
+        onChange={this.valueChange.bind(this)}
+      >
+        {this.props.content}
+      </textarea>);
+  }
+}
 
 Text.propTypes = {
   content: PropTypes.string.isRequired,
+  updateTile: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
-export default Text;
+Text.contextTypes = {
+  socket: PropTypes.object,
+};

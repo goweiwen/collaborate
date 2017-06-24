@@ -14,7 +14,7 @@ const Tile = (props, context) => (
     {(() => {
       switch (props.tileType) {
         case 'text':
-          return <Text id={props.id} content={props.content} width={props.width} height={props.height} />;
+          return <Text id={props.id} content={props.content} width={props.width} height={props.height} updateTile={props.updateTile} />;
         case 'image':
           return <Image inline id={props.id} src={props.src} width={props.width} height={props.height} />;
         case 'youtube':
@@ -38,6 +38,7 @@ Tile.propTypes = {
   tileType: PropTypes.string.isRequired,
   removeTile: PropTypes.func.isRequired,
   enableResizing: PropTypes.object.isRequired,
+  updateTile: PropTypes.func.isRequired,
 };
 
 Tile.contextTypes = {
@@ -145,6 +146,7 @@ RndTile.propTypes = {
   tile: PropTypes.object.isRequired,
   updateLayout: PropTypes.func.isRequired,
   enableResizing: PropTypes.object.isRequired,
+  updateTile: PropTypes.func.isRequired,
 };
 
 RndTile.contextTypes = {
