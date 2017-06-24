@@ -49,7 +49,7 @@ const Tile = (props, context) => (
           return <span>{props.type}</span>;
       }
     })()}
-    <button className="close-button" onClick={() => props.removeTile(context.socket, props.id)} >
+    <button className="close-button" onClick={() => props.removeTile(props.id)} >
       <span>✕</span>
     </button>
   </div>

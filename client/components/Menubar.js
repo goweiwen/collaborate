@@ -14,8 +14,8 @@ const Menubar = (props, context) => {
       <div className="nav-left">
         <a className={`nav-item ${tool === 'select' ? 'is-active' : ''}`} onClick={useSelectTool}><i className="fa fa-mouse-pointer" /></a>
         <a className={`nav-item ${tool === 'drag' ? 'is-active' : ''}`} onClick={useDragTool}><i className="fa fa-arrows" /></a>
-        <a className={`nav-item ${tool === 'pen' ? 'is-active' : ''} `}onClick={usePenTool}><i className="fa fa-pencil" /></a>
-        <a className={`nav-item ${tool === 'eraser' ? 'is-active' : ''} `}onClick={useEraserTool}><i className="fa fa-eraser" /></a>
+        <a className={`nav-item ${tool === 'pen' ? 'is-active' : ''} `} onClick={usePenTool}><i className="fa fa-pencil" /></a>
+        <a className={`nav-item ${tool === 'eraser' ? 'is-active' : ''} `} onClick={useEraserTool}><i className="fa fa-eraser" /></a>
         <AddTileForm className="nav-item" visible={false} submitTile={submitTile(socket, layouts, id)} />
       </div>
       <div className="nav-center">

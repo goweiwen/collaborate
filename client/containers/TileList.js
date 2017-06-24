@@ -30,7 +30,7 @@ const mapDispatchToProps = dispatch => ({
 
     const packedNewLayouts = packTiles(newLayouts);
     for (const i in packedNewLayouts) {
-      emitUpdateLayout(socket, packedNewLayouts[i], i);
+      emitUpdateLayout(dispatch, socket, packedNewLayouts[i], i);
     }
   },
 
