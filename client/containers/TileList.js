@@ -1,37 +1,50 @@
 import { connect } from 'react-redux';
 import TileList from '../components/TileList';
-import {
-  addTile, removeTile, updateTile, updateLayout, toggleLayoutLock,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT } from '../../actions';
+import { removeTile, updateLayout, REMOVE_TILE, UPDATE_LAYOUT } from '../../actions';
+import { resolveCurrentCollisions, packTiles } from '../util/collision';
 
+const emitUpdateLayout = (dispatch, socket, layout, id) => {
+  socket.emit(UPDATE_LAYOUT, layout, id);
+  dispatch(updateLayout(layout, id));
+};
 
-const mapStateToProps = state => ({ tiles: state.tiles, layouts: state.layouts, layoutsSettings: state.layoutsSettings });
+const emitRemoveTile = (dispatch, socket, id) => {
+  socket.emit(REMOVE_TILE, id);
+  dispatch(removeTile(id));
+  dispatch(updateLayout(undefined, id));
+};
+
+const mapStateToProps = state => ({
+  tiles: state.tiles,
+  layouts: state.layouts,
+  layoutsSettings: state.layoutsSettings,
+});
 
 const mapDispatchToProps = dispatch => ({
-  submitTile: (socket, id, tile, layout) => {
-    socket.emit(UPDATE_LAYOUT, layout, id);
-    socket.emit(ADD_TILE, tile, id);
-    dispatch(updateLayout(layout, id));
-    dispatch(addTile(tile, id));
+
+  removeTile: (socket, prevLayouts) => (id) => {
+    emitRemoveTile(socket, id);
+
+    const newLayouts = { ...prevLayouts };
+    delete newLayouts[id];
+
+    const packedNewLayouts = packTiles(newLayouts);
+    for (const i in packedNewLayouts) {
+      emitUpdateLayout(socket, packedNewLayouts[i], i);
+    }
   },
 
-  removeTile: (socket, id) => {
-    socket.emit(REMOVE_TILE, id);
-    dispatch(removeTile(id));
-    dispatch(updateLayout(undefined, id));
-  },
-  updateTile: (socket, tile) => {
-    socket.emit(UPDATE_TILE, tile);
-    dispatch(updateTile(tile));
-  },
+  resolveCollisions: (socket, prevlayouts) => (layout, id) => {
+    const layouts = { ...prevlayouts };
 
-  updateLayout: (socket, layout, id) => {
-    socket.emit(UPDATE_LAYOUT, layout, id);
-    dispatch(updateLayout(layout, id));
-  },
+    layouts[id] = layout;
+    const beforeLayouts = resolveCurrentCollisions(layouts, [id]);
 
-  toggleLayoutLock: () => {
-    dispatch(toggleLayoutLock());
+    const finalLayouts = packTiles(beforeLayouts);
+
+    for (const i in finalLayouts) {
+      emitUpdateLayout(dispatch, socket, finalLayouts[i], i);
+    }
   },
 
 });

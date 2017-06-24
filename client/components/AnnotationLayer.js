@@ -15,12 +15,15 @@ export default class AnnotationLayer extends React.Component {
 
   componentDidMount() {
     this.ctx = this.canvas.getContext('2d');
-    this.context.socket.on('drawing', this.drawLine.bind(this));
+
     this.canvas.width = 1900;
     this.canvas.height = 4000;
+
     const rect = this.canvas.getBoundingClientRect();
     this.top = rect.top;
     this.left = rect.left;
+
+    this.context.socket.on('drawing', this.drawLine.bind(this));
     this.context.socket.on('clear', this.clear.bind(this));
   }
 
@@ -129,19 +132,19 @@ AnnotationLayer.contextTypes = {
 };
 
 AnnotationLayer.propTypes = {
-  annotation: PropTypes.string,
+  annotation: PropTypes.string.isRequired,
   updateAnnotation: PropTypes.func.isRequired,
 };
 
  // limit the number of events per second
-function throttle(callback, delay) {
+function throttle(callback, delay, ...rest) {
   let previousCall = new Date().getTime();
   return function () {
     const time = new Date().getTime();
 
     if ((time - previousCall) >= delay) {
       previousCall = time;
-      callback(...arguments);
+      callback(...rest);
     }
   };
 }

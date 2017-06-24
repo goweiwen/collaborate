@@ -80,7 +80,6 @@ class RndTile extends React.Component {
   handleMoveStop() {
     const tile = this.props.tile;
     const props = this.props;
-    const context = this.context;
     const rnd = this.rnd;
     const layout = { ...props.layout };
     const rect = rnd.wrapper.firstChild.getBoundingClientRect();
@@ -110,7 +109,7 @@ class RndTile extends React.Component {
     layout.width -= (layout.width % 50) - snapWidth;
 
     if (!_.isEqual(layout, props.layout)) {
-      this.props.updateLayout(context.socket, layout, tile.id);
+      this.props.updateLayout(layout, tile.id);
     }
   }
 
