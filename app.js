@@ -46,6 +46,7 @@ export default (server) => {
     socket.emit('initialise tiles', store.getState().tiles);
     socket.emit('initialise chat', store.getState().messages);
     socket.emit('initialise annotation', store.getState().annotation);
+    socket.emit('initialise user', socket.request.name);
 
     socket.on('disconnect', () => {
       console.log(`${socket.request.name} disconnected`);

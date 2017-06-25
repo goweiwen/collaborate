@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 const Menubar = (props, context) => {
   const { tiles, layouts, tool, submitTile, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool } = props;
-  const { socket } = context;
+  const { socket, user } = context;
 
   const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
 
@@ -31,7 +31,7 @@ const Menubar = (props, context) => {
         <img src="assets/logo.png" className="nav-item" />
       </div>
       <div className="nav-right">
-        <span className="nav-item">username</span>
+        <span className="nav-item">{user}</span>
       </div>
     </div>);
 };
@@ -50,6 +50,7 @@ Menubar.propTypes = {
 
 Menubar.contextTypes = {
   socket: PropTypes.object,
+  user: PropTypes.string,
 };
 
 export default Menubar;

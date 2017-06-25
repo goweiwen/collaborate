@@ -19,11 +19,15 @@ const store = createStore(
 
 class Root extends React.Component {
   getChildContext() {
-    return { socket: this.socket };
+    return { socket: this.socket, user: this.user };
   }
 
   componentWillMount() {
     this.socket = io();
+
+    this.socket.on('initialise user', (user) => {
+      this.user = user;
+    });
 
     this.socket.on(INITIALISE_LAYOUTS, (layouts) => {
       store.dispatch(initialiseLayouts(layouts));
@@ -80,6 +84,7 @@ class Root extends React.Component {
 
 Root.childContextTypes = {
   socket: PropTypes.object,
+  user: PropTypes.string,
 };
 
 ReactDOM.render(
