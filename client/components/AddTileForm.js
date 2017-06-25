@@ -186,7 +186,9 @@ export default class AddTileForm extends React.Component {
     </div>);
 
     return (
-      <a className={this.props.className} onClick={this.handleToggleActive.bind(this)}><i className="fa fa-plus" />
+      <div className="is-paddingless is-marginless nav-item">
+        <a className={this.props.className} onClick={this.handleToggleActive.bind(this)}><i className="fa fa-plus" />
+        </a>
         <div>
           <div className={modalActive}>
             <div className="modal-background" />
@@ -204,7 +206,7 @@ export default class AddTileForm extends React.Component {
             </div>
           </div>
         </div>
-      </a>
+      </div>
     );
   }
 }

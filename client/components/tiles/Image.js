@@ -7,7 +7,7 @@ const Image = props =>
     left: 0,
     width: props.width,
     height: props.height,
-    padding: 10 }}
+  }}
   >
     <img
       alt=""
