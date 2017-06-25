@@ -51,8 +51,8 @@ export default (server) => {
       console.log(`${socket.request.name} disconnected`);
     });
 
-    socket.on('drawing', (x0, y0, x1, y1) => {
-      socket.broadcast.emit('drawing', x0, y0, x1, y1);
+    socket.on('drawing', (x0, y0, x1, y1, erase) => {
+      socket.broadcast.emit('drawing', x0, y0, x1, y1, erase);
     });
 
     socket.on('clear', () => {
@@ -87,6 +87,7 @@ export default (server) => {
 
     socket.on(UPDATE_ANNOTATION, (dataURL) => {
       store.dispatch(updateAnnotation(dataURL));
+      /* socket.broadcast.emit(UPDATE_ANNOTATION, dataURL);*/
     });
   });
 

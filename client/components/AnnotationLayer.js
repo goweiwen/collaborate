@@ -26,12 +26,14 @@ export default class AnnotationLayer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const img = new Image();
-    img.src = nextProps.annotation;
-    img.onload = () => {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.drawImage(img, 0, 0);
-    };
+    if (this.props.tool === nextProps.tool) {
+      const img = new Image();
+      img.src = nextProps.annotation;
+      img.onload = () => {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.drawImage(img, 0, 0);
+      };
+    }
   }
 
   clear(save) {
@@ -44,7 +46,7 @@ export default class AnnotationLayer extends React.Component {
     }
   }
 
-  drawLine(x0, y0, x1, y1, emit) {
+  drawLine(x0, y0, x1, y1, erase, emit) {
     const ctx = this.ctx;
     ctx.beginPath();
     ctx.moveTo(x0, y0);
@@ -53,7 +55,7 @@ export default class AnnotationLayer extends React.Component {
     ctx.strokeStyle = 'black';
     ctx.lineCap = 'round';
 
-    if (this.props.tool === 'eraser') {
+    if (erase) {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.lineWidth = 40;
     }
@@ -64,10 +66,15 @@ export default class AnnotationLayer extends React.Component {
 
     if (!emit) { return; }
 
-
-    this.context.socket.emit('drawing',
-      x0, y0, x1, y1,
-    );
+    if (erase) {
+      this.context.socket.emit('drawing',
+        x0, y0, x1, y1, true,
+      );
+    } else {
+      this.context.socket.emit('drawing',
+        x0, y0, x1, y1, false,
+      );
+    }
   }
 
 
@@ -91,7 +98,7 @@ export default class AnnotationLayer extends React.Component {
 
 
     if (this.state.drawing) {
-      this.drawLine(this.state.x, this.state.y, e.clientX + window.scrollX - this.left, e.clientY + window.scrollY - this.top, true);
+      this.drawLine(this.state.x, this.state.y, e.clientX + window.scrollX - this.left, e.clientY + window.scrollY - this.top, (this.props.tool === 'eraser'), true);
       this.setState(() => ({ x: e.clientX + window.scrollX - this.left, y: e.clientY + window.scrollY - this.top }));
     }
   }

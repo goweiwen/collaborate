@@ -9,7 +9,7 @@ import io from 'socket.io-client';
 import 'babel-polyfill';
 import App from './components/App';
 import { addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout, updateAnnotation,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, INITIALISE_LAYOUTS, UPDATE_LAYOUT, ADD_CHAT_MESSAGE } from '../actions';
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, INITIALISE_LAYOUTS, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION } from '../actions';
 import reducer from '../reducers/client';
 
 const store = createStore(
@@ -43,6 +43,10 @@ class Root extends React.Component {
 
     this.socket.on(ADD_TILE, (tile, id) => {
       store.dispatch(addTile(tile, id));
+    });
+
+    this.socket.on(UPDATE_ANNOTATION, (dataURL) => {
+      store.dispatch(updateAnnotation(dataURL));
     });
 
     this.socket.on(ADD_CHAT_MESSAGE, (message) => {
