@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 export default class AnnotationLayer extends React.Component {
   // constructor
@@ -26,7 +27,7 @@ export default class AnnotationLayer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.tool === nextProps.tool) {
+    if (this.props.annotation !== nextProps.annotation) {
       const img = new Image();
       img.src = nextProps.annotation;
       img.onload = () => {
@@ -46,7 +47,7 @@ export default class AnnotationLayer extends React.Component {
     }
   }
 
-  drawLine(x0, y0, x1, y1, erase, emit) {
+  drawLine(x0, y0, x1, y1, tool, emit) {
     const ctx = this.ctx;
     ctx.beginPath();
     ctx.moveTo(x0, y0);
@@ -55,9 +56,12 @@ export default class AnnotationLayer extends React.Component {
     ctx.strokeStyle = 'black';
     ctx.lineCap = 'round';
 
-    if (erase) {
+    if (tool === 'eraser') {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.lineWidth = 40;
+    } else {
+      const color = _.split(tool, '_', 2)[1];
+      ctx.strokeStyle = color;
     }
 
     ctx.stroke();
@@ -66,15 +70,12 @@ export default class AnnotationLayer extends React.Component {
 
     if (!emit) { return; }
 
-    if (erase) {
-      this.context.socket.emit('drawing',
-        x0, y0, x1, y1, true,
-      );
-    } else {
-      this.context.socket.emit('drawing',
-        x0, y0, x1, y1, false,
-      );
-    }
+  
+    this.context.socket.emit('drawing',
+      x0, y0, x1, y1, tool,
+    );
+ 
+    
   }
 
 
@@ -98,7 +99,7 @@ export default class AnnotationLayer extends React.Component {
 
 
     if (this.state.drawing) {
-      this.drawLine(this.state.x, this.state.y, e.clientX + window.scrollX - this.left, e.clientY + window.scrollY - this.top, (this.props.tool === 'eraser'), true);
+      this.drawLine(this.state.x, this.state.y, e.clientX + window.scrollX - this.left, e.clientY + window.scrollY - this.top, this.props.tool, true);
       this.setState(() => ({ x: e.clientX + window.scrollX - this.left, y: e.clientY + window.scrollY - this.top }));
     }
   }
@@ -112,7 +113,7 @@ export default class AnnotationLayer extends React.Component {
         {/* <button onClick={() => { this.clear(true); }}>Clear</button></p> */}
         <canvas
           className="AnnotationCanvas"
-          style={{ position: 'absolute', zIndex: 3, pointerEvents: tool === 'pen' || tool === 'eraser' ? 'all' : 'none' }}
+          style={{ position: 'absolute', zIndex: 3, pointerEvents: _.startsWith(tool, 'pen_') || tool === 'eraser' ? 'all' : 'none' }}
           ref={(canvas) => { this.canvas = canvas; }}
           onMouseDown={e => this.mouseDown(e)}
           onMouseUp={e => this.mouseUp(e)}

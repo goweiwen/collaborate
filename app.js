@@ -51,8 +51,8 @@ export default (server) => {
       console.log(`${socket.request.name} disconnected`);
     });
 
-    socket.on('drawing', (x0, y0, x1, y1, erase) => {
-      socket.broadcast.emit('drawing', x0, y0, x1, y1, erase);
+    socket.on('drawing', (x0, y0, x1, y1, tool, erase) => {
+      socket.broadcast.emit('drawing', x0, y0, x1, y1, tool, erase);
     });
 
     socket.on('clear', () => {

@@ -17,13 +17,17 @@ export const updateLayout = (layout, id) => ({ type: UPDATE_LAYOUT, layout, id }
 // Menubar
 export const USE_SELECT_TOOL = 'USE_SELECT_TOOL';
 export const USE_DRAG_TOOL = 'USE_DRAG_TOOL';
-export const USE_PEN_TOOL = 'USE_PEN_TOOL';
 export const USE_ERASER_TOOL = 'USE_ERASER_TOOL';
+
+export const USE_PEN_TOOL = 'USE_PEN_TOOL';
+export const USE_PEN_COLOR_TOOL = 'USE_PEN_COLOR_TOOL';
 
 export const useSelectTool = () => ({ type: USE_SELECT_TOOL });
 export const useDragTool = () => ({ type: USE_DRAG_TOOL });
-export const usePenTool = () => ({ type: USE_PEN_TOOL });
 export const useEraserTool = () => ({ type: USE_ERASER_TOOL });
+export const usePenTool = () => ({ type: USE_PEN_TOOL });
+export const usePenColorTool = (color) => ({ type: USE_PEN_COLOR_TOOL, color });
+
 
 // SideMenu Actions
 export const TOGGLE_SIDEMENU = 'TOGGLE_SIDEMENU';

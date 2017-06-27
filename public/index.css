@@ -49,3 +49,17 @@ div:not(.react-draggable-dragging) {
 .AnnotationCanvas {
   cursor: url('assets/brushCursor.png'), crosshair;
 }
+
+.dropdown {
+  box-shadow: 0 0 4px #777;
+  display: block;
+  left: 0;
+  position: absolute;
+  top: 100%;
+ }
+
+.box.black { background-color: black; }
+.box.red { background-color: red; }
+.box.green { background-color: green; }
+.box.blue { background-color: blue; }
+.box.yellow { background-color: yellow; }

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import Menubar from '../components/Menubar';
 import {
-  addTile, removeTile, updateTile, updateLayout, useSelectTool, useDragTool, usePenTool, useEraserTool,
+  addTile, removeTile, updateTile, updateLayout, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool,
   ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT } from '../../actions';
 import { layoutsCollide } from '../util/collision';
 
@@ -72,6 +72,10 @@ const mapDispatchToProps = dispatch => ({
   useEraserTool: () => {
     dispatch(useEraserTool());
   },
+
+  usePenColorTool: (color) => {
+    dispatch(usePenColorTool(color));
+  }
 
 });
 
