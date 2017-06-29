@@ -4,6 +4,7 @@ img {
 
 body {
   background: url('assets/sativa.png') repeat;
+
 }
 
 div:not(.react-draggable-dragging) {
@@ -37,10 +38,11 @@ div:not(.react-draggable-dragging) {
   left: 0;
   height: 100%;
   width: 100%;
-  /*pointer-events:none;*/
   background-color: rgba(0,0,0,0.5);
   z-index: 1;
 }
+
+
 
 .tile.locked div.overlay {
   display: none;

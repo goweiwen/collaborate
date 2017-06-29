@@ -11,7 +11,7 @@ function layoutsSettings(state = 'select', action) {
     case USE_ERASER_TOOL:
       return 'eraser';
     case USE_PEN_COLOR_TOOL:
-      return 'pen_' + action.color;
+      return `pen_${action.color}`;
     default:
       return state;
   }

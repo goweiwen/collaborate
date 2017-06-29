@@ -70,12 +70,10 @@ export default class AnnotationLayer extends React.Component {
 
     if (!emit) { return; }
 
-  
+
     this.context.socket.emit('drawing',
       x0, y0, x1, y1, tool,
     );
- 
-    
   }
 
 

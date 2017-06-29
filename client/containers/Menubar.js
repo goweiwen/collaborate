@@ -75,7 +75,7 @@ const mapDispatchToProps = dispatch => ({
 
   usePenColorTool: (color) => {
     dispatch(usePenColorTool(color));
-  }
+  },
 
 });
 

@@ -11,15 +11,15 @@ const Menubar = (props, context) => {
 
   let penDropdown;
 
-  if(tool === 'pen') {
-    penDropdown =  
-      <div className="box dropdown">        
-          <a className="box black" onClick={() => {usePenColorTool('black')}}/>
-          <a className="box red" onClick={() => {usePenColorTool('red')}}/>
-          <a className="box green" onClick={() => {usePenColorTool('green')}}/>
-          <a className="box blue" onClick={() => {usePenColorTool('blue')}}/>
-          <a className="box yellow" onClick={() => {usePenColorTool('yellow')}}/>
-      </div>
+  if (tool === 'pen') {
+    penDropdown =
+      (<div className="box dropdown">
+        <a className="box black" onClick={() => { usePenColorTool('black'); }} />
+        <a className="box red" onClick={() => { usePenColorTool('red'); }} />
+        <a className="box green" onClick={() => { usePenColorTool('green'); }} />
+        <a className="box blue" onClick={() => { usePenColorTool('blue'); }} />
+        <a className="box yellow" onClick={() => { usePenColorTool('yellow'); }} />
+      </div>);
   }
 
   return (

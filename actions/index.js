@@ -26,7 +26,7 @@ export const useSelectTool = () => ({ type: USE_SELECT_TOOL });
 export const useDragTool = () => ({ type: USE_DRAG_TOOL });
 export const useEraserTool = () => ({ type: USE_ERASER_TOOL });
 export const usePenTool = () => ({ type: USE_PEN_TOOL });
-export const usePenColorTool = (color) => ({ type: USE_PEN_COLOR_TOOL, color });
+export const usePenColorTool = color => ({ type: USE_PEN_COLOR_TOOL, color });
 
 
 // SideMenu Actions
