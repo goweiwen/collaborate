@@ -23,6 +23,7 @@ const App = () => (
     <div className="workspace">
 
       <Toolbar />
+      <div style={{width: '100vw', height: 52}} />
       <AnnotationLayer />
       <TileList />
     </div>

@@ -13,7 +13,7 @@ export const resolveCurrentCollisions = (layouts, ids) => {
   // keeps track of which ids had collisions
   const collidedIDs = new Set();
 
-  // for each last move tile, we check if we have new collision.js with other tiles
+  // for each last move tile, we check if we have new collision with other tiles
   _.forEach(ids, (id) => {
     _.forEach(layouts, (layout, layoutIdString) => {
       const layoutid = parseInt(layoutIdString, 10);
@@ -62,6 +62,8 @@ export const resolveCurrentCollisions = (layouts, ids) => {
 };
 
 export const packTiles = (prevLayouts) => {
+
+  console.log(prevLayouts);
   const layoutsCopy = { ...prevLayouts };
   const newLayouts = { ...prevLayouts };
 
@@ -100,9 +102,11 @@ export const packTiles = (prevLayouts) => {
         currentLayout.y += 50;
         break;
       }
-    }
+    }    
     newLayouts[currentID] = currentLayout;
   }
+
+  console.log(newLayouts);
   return newLayouts;
 };
 

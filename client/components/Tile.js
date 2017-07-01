@@ -117,7 +117,7 @@ class RndTile extends React.Component {
 
     layout.x = x;
     layout.y = y;
-
+    console.log(y);
     // snap to grid
     const snapX = (layout.x % 50 > 25) ? 50 : 0;
     const snapY = (layout.y % 50 > 25) ? 50 : 0;
@@ -132,8 +132,9 @@ class RndTile extends React.Component {
     layout.width -= (layout.width % 50) - snapWidth;
 
     if (layout.x < 0 || layout.y < 0) {
-      layout.x = (x < 0) ? 0 : x;
-      layout.y = (y < 0) ? 0 : y;
+      layout.x = (x < 0) ? 0 : layout.x;
+      layout.y = (y < 0) ? 0 : layout.y;
+      console.log(layout);
       this.props.updateLayout(layout, tile.id);
       return;
     }

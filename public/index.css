@@ -60,6 +60,16 @@ div:not(.react-draggable-dragging) {
   top: 100%;
  }
 
+.nav { 
+  position: fixed;
+  width: 100vw;
+}
+
+.spacer {
+  height: 52px;
+  width: 100vw;
+}
+
 .box.black { background-color: black; }
 .box.red { background-color: red; }
 .box.green { background-color: green; }

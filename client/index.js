@@ -14,7 +14,7 @@ import reducer from '../reducers/client';
 
 const store = createStore(
   reducer,
-  applyMiddleware(logger),
+  applyMiddleware(),
 );
 
 class Root extends React.Component {
