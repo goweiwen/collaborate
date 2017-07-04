@@ -7,7 +7,7 @@ import AnnotationLayer from '../containers/AnnotationLayer';
 import { S3_URL } from '../../credentials';
 
 const uploadOptions = {
-  server: 'http://localhost:3000',
+  server: 'https://collaborate-app.herokuapp.com',
   s3Url: S3_URL,
 };
 
