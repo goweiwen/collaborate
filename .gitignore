@@ -66,5 +66,5 @@ dump.rdb
 # node-localstorage
 /scratch
 
-# credentials
-credentials.js
+# environment variables
+.env
