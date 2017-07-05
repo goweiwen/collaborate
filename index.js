@@ -6,6 +6,7 @@ import bodyParser from 'koa-bodyparser';
 import logger from 'koa-logger';
 import multer from './middleware/multer';
 import passport from './middleware/passport';
+import s3 from './middleware/s3';
 import session from './middleware/session';
 import staticServer from './middleware/staticServer';
 import webpack from './middleware/webpack';
@@ -22,6 +23,7 @@ session(app);
 app.use(bodyParser());
 multer(router);
 passport(app, router);
+s3(app, router);
 webpack(app);
 staticServer(app, router);
 

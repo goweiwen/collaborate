@@ -1,8 +1,6 @@
 import passport from 'koa-passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
-
-const GOOGLE_CLIENT_ID = '988996499797-tuq14tf6r4gh6hsghjop99o3is6nlt13.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = 'wNxB5QD5W_x5CfbhNjvaVMJ-';
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '../credentials';
 
 passport.use(new GoogleStrategy({
   clientID: GOOGLE_CLIENT_ID,

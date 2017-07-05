@@ -17,6 +17,39 @@ const store = createStore(
   applyMiddleware(),
 );
 
+const onFinishUpload = (socket, dispatch) => (info) => {
+  // eslint-disable-next-line no-console
+  console.log('File uploaded with filename', info.filename);
+  // eslint-disable-next-line no-console
+  console.log('Access it on s3 at', info.fileUrl);
+
+  const layout = {
+    x: 0,
+    y: 0,
+    width: 600,
+    height: 800,
+    lockAspectRatio: false,
+  }
+
+  const { tiles } = store.getState();
+  const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
+
+  const tile = {
+    id,
+    tileType: 'pdf',
+    src: info.fileUrl,
+    width: layout.width,
+    page: 0,
+  };
+
+  console.log(tile)
+
+  socket.emit(UPDATE_LAYOUT, layout, tile.id)
+  socket.emit(ADD_TILE, tile, tile.id)
+  dispatch(updateLayout(layout, tile.id));
+  dispatch(addTile(tile, tile.id));
+};
+
 class Root extends React.Component {
   getChildContext() {
     return { socket: this.socket, user: this.user };
@@ -75,7 +108,7 @@ class Root extends React.Component {
     return (
       <Provider store={store}>
         <Router>
-          <Route path="/" component={App} />
+          <Route path="/" component={() => <App onFinishUpload={onFinishUpload(this.socket, store.dispatch)} />} />
         </Router>
       </Provider>
     );
