@@ -4,7 +4,12 @@ img {
 
 body {
   background: url('assets/sativa.png') repeat;
+}
 
+
+.stop-scrolling {
+  height:100%;
+  overflow:hidden;
 }
 
 div:not(.react-draggable-dragging) {
@@ -62,11 +67,6 @@ div:not(.react-draggable-dragging) {
 
 .nav { 
   position: fixed;
-  width: 100vw;
-}
-
-.spacer {
-  height: 52px;
   width: 100vw;
 }
 

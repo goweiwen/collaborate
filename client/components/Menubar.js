@@ -28,7 +28,7 @@ const Menubar = (props, context) => {
         <AddTileForm className="nav-item" visible={false} submitTile={submitTile(socket, layouts, id)} />
       </div>
       <div className="nav-center">
-        <img src="assets/logo.png" className="nav-item" />
+        <img src="assets/logo.png" className="nav-item" id="logo" />
       </div>
       <div className="nav-right">
         <span className="nav-item">{user}</span>

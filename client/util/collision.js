@@ -62,8 +62,6 @@ export const resolveCurrentCollisions = (layouts, ids) => {
 };
 
 export const packTiles = (prevLayouts) => {
-
-  console.log(prevLayouts);
   const layoutsCopy = { ...prevLayouts };
   const newLayouts = { ...prevLayouts };
 
@@ -102,11 +100,10 @@ export const packTiles = (prevLayouts) => {
         currentLayout.y += 50;
         break;
       }
-    }    
+    }
     newLayouts[currentID] = currentLayout;
   }
 
-  console.log(newLayouts);
   return newLayouts;
 };
 

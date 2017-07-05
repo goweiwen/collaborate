@@ -4,6 +4,8 @@ import request from 'superagent';
 import TileList from '../containers/TileList';
 import Toolbar from '../containers/Menubar';
 import AnnotationLayer from '../containers/AnnotationLayer';
+import Joyride from './JoyRide';
+
 
 const onDrop = async (acceptedFiles) => {
   const req = request.post('/upload');
@@ -13,22 +15,21 @@ const onDrop = async (acceptedFiles) => {
   // console.log(await req);
 };
 
-const App = () => (
-  <Dropzone
+
+const App = () =>
+  (<Dropzone
     style={{}}
     disableClick
     onDrop={onDrop}
   >
-
     <div className="workspace">
-
+      <Joyride />
       <Toolbar />
-      <div style={{width: '100vw', height: 52}} />
+      <div style={{ width: '100vw', height: 52 }} />
       <AnnotationLayer />
       <TileList />
     </div>
-  </Dropzone>
-  );
+  </Dropzone>);
 
 
 export default App;
