@@ -6,10 +6,9 @@ body {
   background: url('assets/sativa.png') repeat;
 }
 
-
 .stop-scrolling {
-  height:100%;
-  overflow:hidden;
+  height: 100%;
+  overflow: hidden;
 }
 
 div:not(.react-draggable-dragging) {
@@ -43,18 +42,15 @@ div:not(.react-draggable-dragging) {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0,0,0,0.5);
   z-index: 1;
 }
-
-
 
 .tile.locked div.overlay {
   display: none;
 }
 
 .AnnotationCanvas {
-  cursor: url('assets/brushCursor.png'), crosshair;
+  cursor: url(assets/brushCursor.png) 3 29, crosshair;
 }
 
 .dropdown {
