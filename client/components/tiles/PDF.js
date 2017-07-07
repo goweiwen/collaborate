@@ -16,6 +16,7 @@ const PDF = (props, context) =>
     style={{ height: '100%' }}
     file={props.src}
     width={props.width - 2 * padding}
+    height={props.height - 2 * padding}
     pageIndex={props.page}
     onPageLoad={onPageLoad(context.socket, props.tile)}
   />);
@@ -25,6 +26,7 @@ PDF.propTypes = {
   src: PropTypes.string.isRequired,
   tile: PropTypes.object.isRequired,
   width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
 };
 

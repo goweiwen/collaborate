@@ -38,7 +38,6 @@ const onFinishUpload = (socket, dispatch) => (info) => {
     id,
     tileType: 'pdf',
     src: info.fileUrl,
-    width: layout.width,
     page: 0,
   };
 
