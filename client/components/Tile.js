@@ -41,7 +41,7 @@ const Tile = (props) => (
         case 'youtube':
           return <YouTube id={props.id} src={props.src} width={props.width} height={props.height} />;
         case 'pdf':
-          return <PDF id={props.id} {...props} width={props.width} height={props.height} />;
+          return <PDF id={props.id} {...props} width={props.width} height={props.height} updateTile={props.updateTile} />;
         case 'googledoc':
           return <GoogleDoc id={props.id} src={props.src} width={props.width} height={props.height} />;
         default:

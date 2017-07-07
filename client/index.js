@@ -41,8 +41,6 @@ const onFinishUpload = (socket, dispatch) => (info) => {
     page: 0,
   };
 
-  console.log(tile)
-
   socket.emit(UPDATE_LAYOUT, layout, tile.id)
   socket.emit(ADD_TILE, tile, tile.id)
   dispatch(updateLayout(layout, tile.id));
