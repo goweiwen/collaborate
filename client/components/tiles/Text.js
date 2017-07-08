@@ -11,7 +11,7 @@ export default class Text extends React.Component {
 
   valueChange() {
     const content = this.textArea.value;
-    const tile = { id: this.props.id, tileType: 'text', content };
+    const tile = { id: this.props.id, content };
     this.props.updateTile(this.context.socket, tile);
   }
 

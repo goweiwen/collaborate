@@ -11,7 +11,7 @@ function tiles(state = [], action) {
         },
       ];
     case UPDATE_TILE:
-      return state.map(tile => (tile.id === action.tile.id ? action.tile : tile));
+      return state.map(tile => (tile.id === action.tile.id ? { ...tile, ...action.tile } : tile));
     case REMOVE_TILE:
       return state.filter(tile => tile.id !== action.id);
     default:

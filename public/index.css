@@ -4,7 +4,9 @@ img {
 
 body {
   background: url('assets/tile background.png') repeat;
+
 }
+
 
 div:not(.react-draggable-dragging) {
   transition: transform 0.2s;
@@ -37,18 +39,15 @@ div:not(.react-draggable-dragging) {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0,0,0,0.5);
   z-index: 1;
 }
-
-
 
 .tile.locked div.overlay {
   display: none;
 }
 
 .AnnotationCanvas {
-  cursor: url('assets/brushCursor.png'), crosshair;
+  cursor: url(assets/brushCursor.png) 3 29, crosshair;
 }
 
 .dropdown {

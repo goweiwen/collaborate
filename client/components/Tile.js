@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Rnd from 'react-rnd';
-import _ from 'lodash';
 import Text from './tiles/Text';
 import Image from './tiles/Image';
 import YouTube from './tiles/YouTube';
@@ -30,7 +29,7 @@ const DISABLED = {
   topRight: false,
 };
 
-const Tile = (props, context) => (
+const Tile = (props) => (
   <div className={`card tile ${props.tool === 'drag' ? '' : 'locked'} ${props.tileType === 'image' || props.tileType === 'youtube' ? 'is-paddingless' : ''}`} id={props.id} style={{ height: '100%', padding: '10px' }}>
     <div className="overlay" />
     {(() => {
@@ -42,7 +41,7 @@ const Tile = (props, context) => (
         case 'youtube':
           return <YouTube id={props.id} src={props.src} width={props.width} height={props.height} />;
         case 'pdf':
-          return <PDF id={props.id} {...props} width={props.width} height={props.height} />;
+          return <PDF id={props.id} {...props} width={props.width} height={props.height} updateTile={props.updateTile} />;
         case 'googledoc':
           return <GoogleDoc id={props.id} src={props.src} width={props.width} height={props.height} />;
         default:
@@ -59,112 +58,67 @@ Tile.propTypes = {
   id: PropTypes.number.isRequired,
   tileType: PropTypes.string.isRequired,
   removeTile: PropTypes.func.isRequired,
-  updateTile: PropTypes.func.isRequired,
   tool: PropTypes.string.isRequired,
 };
 
-Tile.contextTypes = {
-  socket: PropTypes.object,
-};
-
-function getTranslateXValue(translateString) {
-  const n = translateString.indexOf('(');
-  const n1 = translateString.indexOf(',');
-  const res = parseInt(translateString.slice(n + 1, n1 - 2), 10);
-  return res;
-}
-function getTranslateYValue(translateString) {
-  const n = translateString.indexOf(',');
-  const n1 = translateString.indexOf(')');
-  const res = parseInt(translateString.slice(n + 1, n1 - 1), 10);
-  return res;
-}
-
+const GRID = 50;
+const HALF_GRID = GRID / 2;
+const MARGIN = 5;
 
 class RndTile extends React.Component {
 
-  componentWillUpdate(nextProps) {
-    const layout = { ...nextProps.layout };
-    const rnd = this.rnd;
+  constructor(props) {
+    super(props);
 
-    const margin = 5;
-
-    layout.x += margin;
-    layout.y += margin;
-    layout.height -= margin;
-    layout.width -= margin;
-
-
-    rnd.updateSize({ width: layout.width, height: layout.height });
-    rnd.updatePosition({ x: layout.x, y: layout.y });
+    this.onDragOrResizeStop = this.onDragOrResizeStop.bind(this);
   }
 
-  handleMoveStop() {
+  componentWillUpdate(nextProps) {
+    let { x, y, width, height } = nextProps.layout;
+
+    x += MARGIN;
+    y += MARGIN;
+    width -= MARGIN;
+    height -= MARGIN;
+
+    this.rnd.updatePosition({ x, y });
+    this.rnd.updateSize({ width, height });
+  }
+
+  onDragOrResizeStop() {
     const tile = this.props.tile;
-    const props = this.props;
-    const rnd = this.rnd;
-    const layout = { ...props.layout };
-    const rect = rnd.wrapper.firstChild.getBoundingClientRect();
 
-    const transform = rnd.wrapper.style.transform;
-    const y = getTranslateYValue(transform);
-    const x = getTranslateXValue(transform);
-    const height = rect.height;
-    const width = rect.width;
+    let { x, y } = this.rnd.draggable.state;
+    let { width, height } = this.rnd.resizable.state;
 
-    layout.height = height;
-    layout.width = width;
+    // Snap to grid
+    x += HALF_GRID - (x + HALF_GRID) % GRID;
+    y += HALF_GRID - (y + HALF_GRID) % GRID;
+    width += HALF_GRID - (width + HALF_GRID) % GRID;
+    height += HALF_GRID - (height + HALF_GRID) % GRID;
 
-    layout.x = x;
-    layout.y = y;
-    console.log(y);
-    // snap to grid
-    const snapX = (layout.x % 50 > 25) ? 50 : 0;
-    const snapY = (layout.y % 50 > 25) ? 50 : 0;
+    const layout = { ...this.props.layout, x, y, width, height };
 
-    const snapHeight = (layout.height % 50 > 25) ? 50 : 0;
-    const snapWidth = (layout.width % 50 > 25) ? 50 : 0;
-
-    layout.x -= (layout.x % 50) - snapX;
-    layout.y -= (layout.y % 50) - snapY;
-
-    layout.height -= (layout.height % 50) - snapHeight;
-    layout.width -= (layout.width % 50) - snapWidth;
-
-    if (layout.x < 0 || layout.y < 0) {
-      layout.x = (x < 0) ? 0 : layout.x;
-      layout.y = (y < 0) ? 0 : layout.y;
-      console.log(layout);
-      this.props.updateLayout(layout, tile.id);
-      return;
-    }
-    // optimization
-    if (!_.isEqual(layout, props.layout)) {
-      this.props.updateLayout(layout, tile.id);
-    }
+    this.props.updateLayout(layout, tile.id);
   }
 
   render() {
     const props = this.props;
-    const layout = { ...props.layout };
-    const margin = 5;
-    layout.x += margin;
-    layout.y += margin;
-    layout.height -= margin;
-    layout.width -= margin;
+    const layout = props.layout;
 
     return (
       <Rnd
         style={{ position: 'absolute', cursor: props.tool === 'drag' ? 'move' : 'auto' }}
         ref={(c) => { this.rnd = c; }}
-        default={layout}
+        default={{ x: layout.x + MARGIN, y: layout.y + MARGIN, width: layout.width - MARGIN, height: layout.height - MARGIN }}
         minWidth={200}
         minHeight={200}
-        onResizeStop={this.handleMoveStop.bind(this)}
-        onDragStop={this.handleMoveStop.bind(this)}
+        onResizeStop={this.onDragOrResizeStop }
+        onDragStop={this.onDragOrResizeStop }
         lockAspectRatio={layout.lockAspectRatio}
         enableResizing={props.tool === 'drag' ? ENABLED : DISABLED}
         disableDragging={props.tool !== 'drag'}
+        bounds="parent"
       >
         <Tile height={layout.height} width={layout.width} {...props} />
       </Rnd>
@@ -175,12 +129,7 @@ class RndTile extends React.Component {
 RndTile.propTypes = {
   tile: PropTypes.object.isRequired,
   updateLayout: PropTypes.func.isRequired,
-  updateTile: PropTypes.func.isRequired,
-  tool: PropTypes.string.isRequired,
-};
-
-RndTile.contextTypes = {
-  socket: PropTypes.object,
+  layout: PropTypes.object.isRequired,
 };
 
 export default RndTile;
