@@ -4,7 +4,7 @@ import AddTileForm from './AddTileForm';
 import _ from 'lodash';
 
 
-const Menubar = (props, context) => {
+const Menubar = (props, context) => { 
   const { tiles, layouts, tool, submitTile, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool } = props;
   const { socket, user } = context;
 

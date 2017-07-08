@@ -3,13 +3,7 @@ img {
 }
 
 body {
-  background: url('assets/sativa.png') repeat;
-}
-
-
-.stop-scrolling {
-  height:100%;
-  overflow:hidden;
+  background: url('assets/tile background.png') repeat;
 }
 
 div:not(.react-draggable-dragging) {
