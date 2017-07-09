@@ -14,12 +14,11 @@ const uploadOptions = {
 };
 
 
-
 const App = props => (
   <DropzoneS3Uploader
     style={{}}
     disableClick
-    onFinish={info => {props.onFinishUpload(info); console.log(info)}}
+    onFinish={(info) => { props.onFinishUpload(info); console.log(info); }}
     upload={uploadOptions}
     s3Url={S3_URL}
   >

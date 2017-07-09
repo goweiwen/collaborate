@@ -29,36 +29,47 @@ const DISABLED = {
   topRight: false,
 };
 
-const Tile = (props) => (
-  <div className={`card tile ${props.tool === 'drag' ? '' : 'locked'} ${props.tileType === 'image' || props.tileType === 'youtube' ? 'is-paddingless' : ''}`} id={props.id} style={{ height: '100%', padding: '10px' }}>
-    <div className="overlay" />
-    {(() => {
-      switch (props.tileType) {
-        case 'text':
-          return <Text id={props.id} content={props.content} width={props.width} height={props.height} updateTile={props.updateTile} />;
-        case 'image':
-          return <Image inline id={props.id} src={props.src} width={props.width} height={props.height} />;
-        case 'youtube':
-          return <YouTube id={props.id} src={props.src} width={props.width} height={props.height} />;
-        case 'pdf':
-          return <PDF id={props.id} {...props} width={props.width} height={props.height} updateTile={props.updateTile} />;
-        case 'googledoc':
-          return <GoogleDoc id={props.id} src={props.src} width={props.width} height={props.height} />;
-        default:
-          return <span>{props.type}</span>;
-      }
-    })()}
-    <button className="close-button" onClick={() => props.removeTile(props.id)} >
-      <span>✕</span>
-    </button>
-  </div>
+const Tile = (props) => {
+  const all = {
+    id: props.id,
+    tile: props.tile,
+    width: props.width,
+    height: props.height,
+  };
+  return (
+    <div className={`card tile ${props.tool === 'drag' ? '' : 'locked'} ${props.tileType}`} id={props.id} >
+      <div className="overlay" />
+      {(() => {
+        switch (props.tileType) {
+          case 'text':
+            return <Text {...all} content={props.content} updateTile={props.updateTile} />;
+          case 'image':
+            return <Image {...all} src={props.src} />;
+          case 'youtube':
+            return <YouTube {...all} src={props.src} />;
+          case 'pdf':
+            return <PDF {...all} src={props.src} page={props.page} updateTile={props.updateTile} />;
+          case 'googledoc':
+            return <GoogleDoc {...all} src={props.src} />;
+          default:
+            return <span>{props.type}</span>;
+        }
+      })()}
+      <button className="close-button" onClick={() => props.removeTile(props.id)} >
+        <span>✕</span>
+      </button>
+    </div>
   );
+};
 
 Tile.propTypes = {
   id: PropTypes.number.isRequired,
+  tile: PropTypes.object.isRequired,
   tileType: PropTypes.string.isRequired,
   removeTile: PropTypes.func.isRequired,
   tool: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
 };
 
 const GRID = 50;
@@ -113,14 +124,14 @@ class RndTile extends React.Component {
         default={{ x: layout.x + MARGIN, y: layout.y + MARGIN, width: layout.width - MARGIN, height: layout.height - MARGIN }}
         minWidth={200}
         minHeight={200}
-        onResizeStop={this.onDragOrResizeStop }
-        onDragStop={this.onDragOrResizeStop }
+        onResizeStop={this.onDragOrResizeStop}
+        onDragStop={this.onDragOrResizeStop}
         lockAspectRatio={layout.lockAspectRatio}
         enableResizing={props.tool === 'drag' ? ENABLED : DISABLED}
         disableDragging={props.tool !== 'drag'}
         bounds="parent"
       >
-        <Tile height={layout.height} width={layout.width} {...props} />
+        <Tile width={layout.width - MARGIN} height={layout.height - MARGIN} {...props} />
       </Rnd>
     );
   }

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AddTileForm from './AddTileForm';
 import _ from 'lodash';
+import AddTileForm from './AddTileForm';
 
 
 const Menubar = (props, context) => { 
   const { tiles, layouts, tool, submitTile, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool } = props;
+
   const { socket, user } = context;
 
   const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
@@ -28,7 +29,7 @@ const Menubar = (props, context) => {
         <AddTileForm tool={tool} useSelectTool={useSelectTool} useAddTileFormTool={useAddTileFormTool} className="nav-item" visible={false} submitTile={submitTile(socket, layouts, id)} />
       </div>
       <div className="nav-center">
-        <img src="assets/logo.png" className="nav-item" id="logo" />
+        <img alt="collaborate!" src="assets/logo.png" className="nav-item" id="logo" />
       </div>
       <div className="nav-right">
         <span className="nav-item">{user}</span>
