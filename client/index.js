@@ -29,7 +29,7 @@ const onFinishUpload = (socket, dispatch) => (info) => {
     width: 600,
     height: 800,
     lockAspectRatio: false,
-  }
+  };
 
   const { tiles } = store.getState();
   const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
@@ -41,8 +41,8 @@ const onFinishUpload = (socket, dispatch) => (info) => {
     page: 0,
   };
 
-  socket.emit(UPDATE_LAYOUT, layout, tile.id)
-  socket.emit(ADD_TILE, tile, tile.id)
+  socket.emit(UPDATE_LAYOUT, layout, tile.id);
+  socket.emit(ADD_TILE, tile, tile.id);
   dispatch(updateLayout(layout, tile.id));
   dispatch(addTile(tile, tile.id));
 };

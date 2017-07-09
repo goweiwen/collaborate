@@ -8,7 +8,7 @@ body {
 }
 
 
-div:not(.react-draggable-dragging) {
+.react-draggable:not(.react-draggable-dragging) {
   transition: transform 0.2s;
 }
 
@@ -33,16 +33,21 @@ div:not(.react-draggable-dragging) {
   display: none;
 }
 
-.tile div.overlay {
+.tile .overlay {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
   z-index: 1;
+  transition: background 200ms;
 }
 
-.tile.locked div.overlay {
+.tile:hover .overlay {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.tile.locked .overlay {
   display: none;
 }
 
@@ -68,3 +73,115 @@ div:not(.react-draggable-dragging) {
 .box.green { background-color: green; }
 .box.blue { background-color: blue; }
 .box.yellow { background-color: yellow; }
+
+.tile {
+  padding: 10px;
+  height: 100%;
+}
+
+.tile.image, .tile.youtube, .tile.pdf {
+  padding: 0;
+}
+
+.curlLeft, .curlRight {
+  width: 0;
+  height: 0;
+  position: absolute;
+  transition: all 200ms;
+}
+
+.curlLeft {
+  bottom:0;
+  left:0;
+  background :
+          linear-gradient(
+                  45deg,
+                  #fff,
+                  #f3f3f3 45%,
+                  #ddd 50%,
+                  #aaa 50%,
+                  #bbb 56%,
+                  #ccc 62%,
+                  #f3f3f3 80%,
+                  #fff 100%
+          );
+}
+.curlRight {
+  bottom:0;
+  right:0;
+  background :
+          linear-gradient(
+                  -45deg,
+                  #fff,
+                  #f3f3f3 45%,
+                  #ddd 50%,
+                  #aaa 50%,
+                  #bbb 56%,
+                  #ccc 62%,
+                  #f3f3f3 80%,
+                  #fff 100%
+          );
+}
+
+.curlLeft.curling, .curlRight.curling {
+  width: 50px;
+  height: 50px;
+}
+
+.curlLeft.curled, .curlRight.curled {
+  width: 100%;
+  height: 100%;
+}
+
+.curlLeft.curling:before,
+.curlLeft.curling:after {
+  box-shadow: 0 -24px 30px rgba(0, 0, 0, .3);
+}
+.curlRight.curling:before,
+.curlRight.curling:after {
+  box-shadow: 0 -24px 30px rgba(0, 0, 0, .3);
+}
+
+.curlLeft:before,
+.curlLeft:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 12.5%;
+  bottom: 5.8%;
+  width: 70%;
+  max-width: 300px;
+  max-height: 100px;
+  height: 55%;
+  box-shadow: 0 -12px 15px rgba(0, 0, 0, .3);
+  transform: skew(-10deg) rotate(-6deg);
+}
+.curlRight:before,
+.curlRight:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 12.5%;
+  bottom: 5.8%;
+  width: 70%;
+  max-width: 300px;
+  max-height: 100px;
+  height: 55%;
+  box-shadow: 0 -12px 15px rgba(0, 0, 0, .3);
+  transform: skew(-10deg) rotate(-6deg);
+}
+
+.curlLeft:after {
+  left: auto;
+  right: 5.8%;
+  bottom: auto;
+  top: 14.16%;
+  transform: skew(-15deg) rotate(-84deg);
+}
+.curlRight:after {
+  left: auto;
+  right: 5.8%;
+  bottom: auto;
+  top: 14.16%;
+  transform: skew(-15deg) rotate(-84deg);
+}

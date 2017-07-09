@@ -1,21 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Image = props =>
-  (<div style={{ position: 'absolute',
-    top: 0,
-    left: 0,
-    width: props.width,
-    height: props.height,
-  }}
-  >
-    <img
-      alt=""
-      style={{ height: '100%', width: '100%' }}
-      src={props.src}
-    />
-  </div>)
-;
+const Image = props => (
+  <img
+    alt=""
+    style={{ height: props.height, width: props.width }}
+    src={props.src}
+  />
+);
 
 Image.propTypes = {
   src: PropTypes.string.isRequired,

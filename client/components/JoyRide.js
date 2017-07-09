@@ -11,13 +11,13 @@ const steps = [
     type: 'hover',
     isFixed: true,
     position: 'bottom',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
-    }  
+    },
   },
 
   {
@@ -27,13 +27,13 @@ const steps = [
     type: 'hover',
     isFixed: true,
     position: 'bottom',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
-    }  
+    },
 
   },
 
@@ -44,13 +44,13 @@ const steps = [
     type: 'hover',
     isFixed: true,
     position: 'bottom',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
-    }  
+    },
 
   },
 
@@ -61,13 +61,13 @@ const steps = [
     type: 'hover',
     isFixed: true,
     position: 'bottom',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
-    }  
+    },
 
   },
 
@@ -78,13 +78,13 @@ const steps = [
     type: 'hover',
     isFixed: true,
     position: 'bottom',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
-    }  
+    },
   },
 
   {
@@ -94,13 +94,13 @@ const steps = [
     type: 'hover',
     isFixed: true,
     position: 'bottom',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
-    }  
+    },
   },
 ];
 
