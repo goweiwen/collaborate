@@ -22,11 +22,14 @@ export const USE_ERASER_TOOL = 'USE_ERASER_TOOL';
 export const USE_PEN_TOOL = 'USE_PEN_TOOL';
 export const USE_PEN_COLOR_TOOL = 'USE_PEN_COLOR_TOOL';
 
+export const USE_ADD_TILE_FORM_TOOL = 'USE_ADD_TILE_FORM_TOOL';
+
 export const useSelectTool = () => ({ type: USE_SELECT_TOOL });
 export const useDragTool = () => ({ type: USE_DRAG_TOOL });
 export const useEraserTool = () => ({ type: USE_ERASER_TOOL });
 export const usePenTool = () => ({ type: USE_PEN_TOOL });
 export const usePenColorTool = color => ({ type: USE_PEN_COLOR_TOOL, color });
+export const useAddTileFormTool = () => ({ type: USE_ADD_TILE_FORM_TOOL });
 
 
 // SideMenu Actions

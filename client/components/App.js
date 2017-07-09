@@ -4,7 +4,7 @@ import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
 import TileList from '../containers/TileList';
 import Toolbar from '../containers/Menubar';
 import AnnotationLayer from '../containers/AnnotationLayer';
-import Joyride from './JoyRide';
+import Joyride from '../containers/JoyRide';
 import { S3_URL } from '../../credentials';
 
 

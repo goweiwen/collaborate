@@ -3,13 +3,10 @@ import PropTypes from 'prop-types';
 
 
 const defaultState = {
-  isActive: false,
   tileType: 'image',
   src: '',
   content: '',
   lockAspectRatio: false,
-  height: 300,
-  width: 300,
 };
 
 
@@ -34,17 +31,9 @@ export default class AddTileForm extends React.Component {
   handleLARchange() {
     this.setState(state => ({ lockAspectRatio: !state.lockAspectRatio }));
   }
-
-  handleHeightChange() {
-    this.setState(() => ({ height: event.target.value }));
-  }
-
-  handleWidthChange() {
-    this.setState(() => ({ width: event.target.value }));
-  }
-
+   
   handleToggleActive() {
-    this.setState(state => ({ isActive: !state.isActive }));
+    this.props.useAddTileFormTool();
   }
 
   submitTile() {
@@ -61,21 +50,22 @@ export default class AddTileForm extends React.Component {
     const layout = {
       x: 0,
       y: 0,
-      width: this.state.width,
-      height: this.state.height,
+      width: 300,
+      height: 300,
       lockAspectRatio: this.state.lockAspectRatio,
     };
 
     this.props.submitTile(tile, layout);
     this.setState(() => (defaultState));
+    this.props.useSelectTool();
   }
 
   cancel() {
-    this.setState(() => (defaultState));
+    this.props.useSelectTool();
   }
 
   render() {
-    const modalActive = (this.state.isActive) ? 'modal is-active' : 'modal';
+    const modalActive = (this.props.tool === 'add_tile_form') ? 'modal is-active' : 'modal';
 
     const type =
     (<div className="field">
@@ -120,47 +110,6 @@ export default class AddTileForm extends React.Component {
       </p>
     </div>);
 
-    const heightSuccess = (this.state.height % 50 === 0 && this.state.height >= 300 && this.state.height <= 1000) ? (<p className="help is-success"> This Height is valid</p>) :
-      (<p className="help is-danger"> Height must be multiple of 50, and in between 300 and 1000 </p>);
-
-    const height =
-      (<div className="field">
-        <label className="label" htmlFor="Height">Height</label>
-        <p className="control" id="Height">
-          <input
-            className="input"
-            value={this.state.height}
-            type="number"
-            onChange={this.handleHeightChange.bind(this)}
-            step={50}
-            min={0}
-            max={1000}
-          />
-        </p>
-        {heightSuccess}
-      </div>);
-
-    const widthSuccess = (this.state.width % 50 === 0 && this.state.width >= 300 && this.state.width <= 1000) ?
-      (<p className="help is-success"> This Width is valid</p>) :
-      (<p className="help is-danger"> Width must be multiple of 50, and in between 300 and 1000 </p>);
-
-    const width =
-      (<div className="field">
-        <label className="label" htmlFor="Width">Width</label>
-        <p className="control" id="Width">
-          <input
-            className="input"
-            value={this.state.width}
-            type="number"
-            onChange={this.handleWidthChange.bind(this)}
-            step={50}
-            min={300}
-            max={1000}
-          />
-        </p>
-        {widthSuccess}
-      </div>);
-
     const LAR =
       (<div className="field">
         <p className="control">
@@ -171,14 +120,10 @@ export default class AddTileForm extends React.Component {
         </p>
       </div>);
 
-    const validSubmission = (
-      this.state.width % 50 === 0 && this.state.width >= 300 && this.state.width <= 1000 &&
-      this.state.height % 50 === 0 && this.state.height >= 300 && this.state.height <= 1000);
-
     const submit =
     (<div className="field is-grouped">
       <p className="control">
-        <button className="button is-primary" disabled={!validSubmission}onClick={this.submitTile.bind(this)}>Add Tile</button>
+        <button className="button is-primary" id="submit" onClick={this.submitTile.bind(this)}>Add Tile</button>
       </p>
       <p className="control">
         <button className="button is-link" onClick={this.cancel.bind(this)}>Cancel</button>
@@ -186,21 +131,21 @@ export default class AddTileForm extends React.Component {
     </div>);
 
     return (
-      <div className="is-paddingless is-marginless nav-item">
-        <a className={this.props.className} onClick={this.handleToggleActive.bind(this)}><i className="fa fa-plus" />
+      <div className="is-paddingless is-marginless nav-item" >
+        <a id="add-tile-button" className={this.props.className} onClick={this.handleToggleActive.bind(this)}><i className="fa fa-plus" />
         </a>
         <div>
           <div className={modalActive}>
             <div className="modal-background" />
-
-            <div className="modal-card">
+            <div className="modal-card" >
               <div className="modal-card-body">
+              <div id="tile-form" >
                 {type}
                 {src}
                 {content}
-                {height}
-                {width}
                 {LAR}
+              </div>
+                <br/>
                 {submit}
               </div>
             </div>
@@ -214,4 +159,6 @@ export default class AddTileForm extends React.Component {
 AddTileForm.propTypes = {
   submitTile: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
+  useSelectTool: PropTypes.func.isRequired,
+  useAddTileFormTool: PropTypes.func.isRequired,
 };

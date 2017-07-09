@@ -28,7 +28,7 @@ const onFinishUpload = (socket, dispatch) => (info) => {
     y: 0,
     width: 600,
     height: 800,
-    lockAspectRatio: false,
+    lockAspectRatio: true,
   }
 
   const { tiles } = store.getState();

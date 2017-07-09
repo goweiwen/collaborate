@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 
 const Menubar = (props, context) => { 
-  const { tiles, layouts, tool, submitTile, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool } = props;
+  const { tiles, layouts, tool, submitTile, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool } = props;
   const { socket, user } = context;
 
   const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
@@ -14,7 +14,7 @@ const Menubar = (props, context) => {
     <div className="nav has-shadow">
       <div className="nav-left">
         <a className={`nav-item ${tool === 'select' ? 'is-active' : ''}`} onClick={useSelectTool}><i className="fa fa-mouse-pointer" /></a>
-        <a className={`nav-item ${tool === 'drag' ? 'is-active' : ''}`} onClick={useDragTool}><i className="fa fa-arrows" /></a>
+        <a className={`nav-item ${tool === 'drag' ? 'is-active' : ''}`} onClick={useDragTool} id="drag"><i className="fa fa-arrows" /></a>
         <a className={`nav-item ${_.startsWith(tool, 'pen') ? 'is-active' : ''} `} onClick={usePenTool}><i className="fa fa-pencil" /></a>
         {(tool === 'pen') &&
         <div className="box dropdown">
@@ -25,7 +25,7 @@ const Menubar = (props, context) => {
           <a className="box yellow" onClick={() => { usePenColorTool('yellow'); }} />
         </div>}
         <a className={`nav-item ${tool === 'eraser' ? 'is-active' : ''} `} onClick={useEraserTool}><i className="fa fa-eraser" /></a>
-        <AddTileForm className="nav-item" visible={false} submitTile={submitTile(socket, layouts, id)} />
+        <AddTileForm tool={tool} useSelectTool={useSelectTool} useAddTileFormTool={useAddTileFormTool} className="nav-item" visible={false} submitTile={submitTile(socket, layouts, id)} />
       </div>
       <div className="nav-center">
         <img src="assets/logo.png" className="nav-item" id="logo" />

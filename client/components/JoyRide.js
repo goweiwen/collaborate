@@ -1,16 +1,92 @@
 import React from 'react';
 import Joyride from 'react-joyride';
 import Tile from './Tile';
+import _ from 'lodash';
 
 const steps = [
 
   {
     title: 'collaborate!',
-    text: 'Welcome to collaborate!, an online collaborative file view and edit web application that supports multiple file types.',
+    text: 'Welcome to collaborate!, an online collaborative file view and edit web application that supports multiple file types. If you wish to end the tutorial, press skip',
     selector: '#logo',
     type: 'hover',
     isFixed: true,
     position: 'bottom',
+    style:{
+     mainColor: '#46676b', 
+     beacon: {
+      inner: '#46676b',
+      outer: '#46676b'
+      },
+    }  
+  },
+
+  {
+    title: 'Add Tool',
+    text: 'Let\'s start by adding a tile! Click on the <i class=\'fa fa-plus\'/> to proceed',
+    selector: '#add-tile-button',
+    type: 'hover',
+    isFixed: true,
+    allowClicksThruHole: true,
+    position: 'bottom',
+    style:{
+     mainColor: '#46676b', 
+     beacon: {
+      inner: '#46676b',
+      outer: '#46676b'
+      },
+      footer: {
+        display: 'none',
+      },
+    }  
+  },
+
+
+  {
+    title: 'Tile Form',
+    text: 'Use this form to create tile, you may also drag files onto our app',
+    selector: '#tile-form',
+    type: 'hover',
+    isFixed: true,
+    position: 'top',
+    allowClicksThruHole: true,
+    style:{
+     mainColor: '#46676b', 
+     beacon: {
+      inner: '#46676b',
+      outer: '#46676b'
+      },
+
+    }  
+  },
+
+  {
+    title: 'Submit',
+    text: 'Submit your tile!',
+    selector: '#submit',
+    type: 'hover',
+    isFixed: true,
+    position: 'top',
+    allowClicksThruHole: true,
+    style:{
+     mainColor: '#46676b', 
+     beacon: {
+      inner: '#46676b',
+      outer: '#46676b'
+      },
+      footer: {
+        display: 'none',
+      },
+      
+    }  
+  },
+ 
+  {
+    title: 'Tile',
+    text: 'This is a tile',
+    selector: '.joyride-tile',
+    type: 'hover',
+    position: 'top',
     style:{
      mainColor: '#46676b', 
      beacon: {
@@ -39,19 +115,77 @@ const steps = [
 
   {
     title: 'Drag Tool',
-    text: 'Use this tool to drag, resize and remove tiles',
-    selector: '.fa-arrows',
+    text: 'Use this tool to drag, resize and remove tiles. Click on the <i class=\'fa fa-arrows\'/> to proceed',
+    selector: '#drag',
     type: 'hover',
     isFixed: true,
     position: 'bottom',
+    allowClicksThruHole: true,
     style:{
      mainColor: '#46676b', 
      beacon: {
       inner: '#46676b',
       outer: '#46676b'
       },
-    }  
 
+      footer: {
+        display: 'none',
+      },
+    }  
+  },
+
+  {
+    title: 'Resize Tile',
+    text: 'Change the size of the tile!',
+    selector: '.joyride-tile',
+    type: 'hover',
+    position: 'top',
+    style:{
+     mainColor: '#46676b', 
+     beacon: {
+      inner: '#46676b',
+      outer: '#46676b'
+      },
+       footer: {
+        display: 'none',
+      },
+    }
+  },
+
+  {
+    title: 'Drag Tile',
+    text: 'Drag the Tile',
+    selector: '.joyride-tile > button',
+    type: 'hover',
+    position: 'top',
+    style:{
+     mainColor: '#46676b', 
+     beacon: {
+      inner: '#46676b',
+      outer: '#46676b'
+      },
+       footer: {
+        display: 'none',
+      },
+    }
+  },
+
+  {
+    title: 'Delete Tile',
+    text: 'Click the cross to delete the tile',
+    selector: '.joyride-tile-button',
+    type: 'hover',
+    position: 'top',
+    style:{
+     mainColor: '#46676b', 
+     beacon: {
+      inner: '#46676b',
+      outer: '#46676b'
+      },
+       footer: {
+        display: 'none',
+      },
+    }
   },
 
   {
@@ -88,9 +222,9 @@ const steps = [
   },
 
   {
-    title: 'Add Tool',
-    text: 'Use this tool to add new tiles',
-    selector: '.fa-plus',
+    title: 'Logo',
+    text: 'Thanks for sitting through the tutorial. If you have any comments, do write it on a text tile on this app!',
+    selector: '#logo',
     type: 'hover',
     isFixed: true,
     position: 'bottom',
@@ -102,7 +236,9 @@ const steps = [
       },
     }  
   },
+  
 ];
+
 
 export default class JoyRide extends React.Component {
 
@@ -111,6 +247,8 @@ export default class JoyRide extends React.Component {
     this.state = {
       runTour: false,
       steps: [],
+      showOverlay: true,
+
     };
   }
 
@@ -120,26 +258,98 @@ export default class JoyRide extends React.Component {
     setTimeout(() => this.setState(() => ({ runTour: true, steps })), 3000);
   }
 
+    componentDidUpdate(prevProps, prevState) { 
+      if(this.state.finished) {
+        return;
+      }
+
+      if(this.state.showOverlay !== prevState.showOverlay) {
+        this.joyride.reset();
+        this.joyride.next();
+        window.dispatchEvent(new Event('resize'));
+        return;
+      }
+
+      if(this.joyride.getProgress().index === 0){
+        return;
+      }
+
+      if(this.props.tool === 'add_tile_form' && this.joyride.getProgress().step.title === 'Add Tool') {
+        this.joyride.next();
+        return;
+      }
+
+      if(this.props.tool === 'select' && this.joyride.getProgress().step.title === 'Submit') {
+
+        if(this.props.tiles.length > prevProps.tiles.length) {
+          const id = this.props.tiles[this.props.tiles.length - 1].id;
+          this.setState({id});
+          const trainingTile = document.getElementById(id);
+          trainingTile.classList.add('joyride-tile')
+          this.joyride.next();
+          return;
+        }
+      }
+
+      if(this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Drag Tool') {
+        const trainingTile = document.getElementById(this.state.id);
+        trainingTile.classList.add('joyride-tile');
+
+        trainingTile.children[2].classList.add('joyride-tile-button');
+        this.setState({showOverlay: false});
+        return;
+      }
+
+      if(this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Resize Tile') {
+        const id = this.state.id;
+        if(this.props.layouts[id].width !== prevProps.layouts[id].width || this.props.layouts[id].height !== prevProps.layouts[id].height)
+          this.joyride.next();
+        return;
+      }
+
+      if(this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Drag Tile') {
+        const id = this.state.id;
+        if(this.props.layouts[id].x !== prevProps.layouts[id].x || this.props.layouts[id].y !== prevProps.layouts[id].y){
+          if(!(this.props.layouts[id].width !== prevProps.layouts[id].width || this.props.layouts[id].height !== prevProps.layouts[id].height)){
+             this.joyride.next();
+          }
+        }
+        return;
+      }
+      if(this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Delete Tile') {
+        if(this.props.layouts[this.state.id] === undefined) {
+          this.setState({showOverlay: true});
+        }
+      }
+    
+  }
 
   callback(data) {
-    console.log('%ccallback', 'color: #47AAAC; font-weight: bold; font-size: 13px;'); // eslint-disable-line no-console
+    /*console.log('%ccallback', 'color: #47AAAC; font-weight: bold; font-size: 13px;'); // eslint-disable-line no-console
     console.log(data); // eslint-disable-line no-console
+*/
+    if(data.type === 'finished') {
+      this.setState({finished: true});
+    }
+
   }
 
   render() {
     return (
-      <div>
-        <Joyride
+      <Joyride
           ref={(c) => { this.joyride = c; }}
           steps={this.state.steps}
           run={this.state.runTour} // or some other boolean for when you want to start it
           debug={false}
-          callback={this.callback}
+          callback={this.callback.bind(this)}
           showSkipButton
           showStepsProgress
+          autoStart
+          showBackButton={false} 
+          scrollOffset={55}
+          showOverlay={this.state.showOverlay}
           type={'continuous'}
-        />
-      </div>);
+        />);
   }
 
 }
