@@ -27,19 +27,19 @@ class PDF extends React.Component {
       this.setState({ curlingRight: true, curled: true });
       setTimeout(() => {
         this.setState({ curlingRight: false, curled: false });
-      }, 200);
+      }, 500);
     } else {
       this.setState({ curled: true });
       setTimeout(() => {
         this.setState({ curled: false });
-      }, 200);
+      }, 500);
     }
   }
 
   onMouseMove(e) {
     const bounds = this.el.getBoundingClientRect();
     const x = e.clientX - bounds.left;
-    const w = bounds.width;
+    const w = this.props.width;
 
     if (x < w / 3) {
       this.setState({ curlingLeft: true });
@@ -76,8 +76,13 @@ class PDF extends React.Component {
   render() {
     const props = this.props;
 
+    const className =
+      (this.state.curlingLeft ? 'curlingLeft ' : '') +
+      (this.state.curlingRight ? 'curlingRight ' : '') +
+      (this.state.curled ? 'curled' : '');
     return (
       <div
+        className={className}
         onClick={this.onClick}
         onMouseMove={this.onMouseMove}
         onMouseLeave={this.onMouseLeave}
@@ -91,8 +96,8 @@ class PDF extends React.Component {
           onPageLoad={this.onPageLoad}
           onDocumentLoad={this.onDocumentLoad}
         />
-        <div className={`curlLeft ${this.state.curlingLeft ? (this.state.curled ? 'curled' : 'curling') : ''}`} />
-        <div className={`curlRight ${this.state.curlingRight ? (this.state.curled ? 'curled' : 'curling') : ''}`} />
+        <div className={`curlLeft ${this.state.curlingLeft ? 'curling' : ''}`} />
+        <div className={`curlRight ${this.state.curlingRight ? 'curling' : ''}`} />
       </div>
     );
   }

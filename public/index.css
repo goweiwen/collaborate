@@ -63,7 +63,7 @@ body {
   top: 100%;
  }
 
-.nav { 
+.nav {
   position: fixed;
   width: 100vw;
 }
@@ -83,11 +83,31 @@ body {
   padding: 0;
 }
 
+.tile.pdf {
+  overflow: hidden;
+}
+.tile.pdf canvas {
+  position: absolute;
+  left: 0;
+  opacity: 1;
+  transition: opacity 250ms;
+}
+.tile.pdf .curlingLeft.curled canvas {
+  left: 100%;
+  opacity: 0;
+  transition: left 500ms, opacity 250ms;
+}
+.tile.pdf .curlingRight.curled canvas {
+  left: -100%;
+  opacity: 0;
+  transition: left 500ms, opacity 250ms;
+}
+
 .curlLeft, .curlRight {
   width: 0;
   height: 0;
   position: absolute;
-  transition: all 200ms;
+  transition: all 500ms;
 }
 
 .curlLeft {
@@ -126,11 +146,6 @@ body {
 .curlLeft.curling, .curlRight.curling {
   width: 50px;
   height: 50px;
-}
-
-.curlLeft.curled, .curlRight.curled {
-  width: 100%;
-  height: 100%;
 }
 
 .curlLeft.curling:before,
@@ -184,4 +199,8 @@ body {
   bottom: auto;
   top: 14.16%;
   transform: skew(-15deg) rotate(-84deg);
+}
+
+.joyride-tooltip__close {
+  display: none;
 }
