@@ -57,8 +57,8 @@ class PDF extends React.Component {
   onClick(e) {
     const bounds = this.el.getBoundingClientRect();
     const x = e.clientX - bounds.left;
-    const w = bounds.width;
-
+ 
+    const w = this.props.width;
     const tile = this.props.tile;
 
     let page = 0;
