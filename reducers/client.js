@@ -5,7 +5,6 @@ import messages from './messages';
 import layouts from './layouts';
 import tool from './tool';
 import annotation from './annotation';
-import layoutSettings from './layoutSettings';
 
 
-export default combineReducers({ tiles, sideMenuVisible, messages, layouts, tool, layoutSettings });
+export default combineReducers({ tiles, sideMenuVisible, messages, layouts, tool});

@@ -18,15 +18,14 @@ const mapStateToProps = state => ({
   tiles: state.tiles,
   layouts: state.layouts,
   tool: state.tool,
-  packLayouts: state.layoutSettings.packLayouts,
 });
 
 const mapDispatchToProps = dispatch => ({
 
-  removeTile: (socket, prevLayouts, pack) => (id) => {
+  removeTile: (socket, prevLayouts) => (id) => {
     emitRemoveTile(dispatch, socket, id);
 
-    const layoutsToBeEmitted = calculateLayoutsOnRemove(id, prevLayouts, pack);
+    const layoutsToBeEmitted = calculateLayoutsOnRemove(id, prevLayouts, false);
 
     for (const i in layoutsToBeEmitted) {
       emitUpdateLayout(dispatch, socket, layoutsToBeEmitted[i], i);
@@ -38,8 +37,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateTile(tile));
   },
 
-  updateLayout: (socket, prevLayouts, pack) => (newLayout, newLayoutId) => {
-    const layoutsToBeEmitted = onLayoutChange(newLayout, newLayoutId, prevLayouts, pack); //no packing
+  updateLayout: (socket, prevLayouts) => (newLayout, newLayoutId) => {
+    const layoutsToBeEmitted = onLayoutChange(newLayout, newLayoutId, prevLayouts, false); //no packing
     for (const i in layoutsToBeEmitted) {
       emitUpdateLayout(dispatch, socket, layoutsToBeEmitted[i], i);
     }

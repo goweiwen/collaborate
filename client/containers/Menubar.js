@@ -2,11 +2,11 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import Menubar from '../components/Menubar';
 import {
-  addTile, removeTile, updateTile, updateLayout, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool, enablePacking, disablePacking,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ENABLE_PACKING, DISABLE_PACKING } from '../../actions';
+  addTile, removeTile, updateTile, updateLayout, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool,
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT,} from '../../actions';
 import { calculateLayoutOnAdd, packLayouts } from '../util/collision';
 
-const mapStateToProps = state => ({ tiles: state.tiles, tool: state.tool, layouts: state.layouts, packLayouts: state.layoutSettings.packLayouts});
+const mapStateToProps = state => ({ tiles: state.tiles, tool: state.tool, layouts: state.layouts,});
 
 const emitSubmitTile = (dispatch, socket, id, tile, layout) => {
   socket.emit(UPDATE_LAYOUT, layout, id);
@@ -66,20 +66,13 @@ const mapDispatchToProps = dispatch => ({
   useAddTileFormTool: () => {
     dispatch(useAddTileFormTool());
   },
-
-  enablePacking: (socket, layouts) => () => {
-    dispatch(enablePacking());
-    socket.emit(ENABLE_PACKING);
+  packLayouts: (socket, layouts) => () => {
     const layoutsToBeEmitted = packLayouts(layouts);
     for (const i in layoutsToBeEmitted) {
       emitUpdateLayout(dispatch, socket, layoutsToBeEmitted[i], i);
     }
-  },
-
-  disablePacking: (socket) => () => {
-    dispatch(disablePacking());
-    socket.emit(DISABLE_PACKING);
   }
+  
 
 });
 

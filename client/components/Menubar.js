@@ -31,7 +31,7 @@ const Menubar = (props, context) => {
         </a>
         <a className={`navbar-item ${tool === 'eraser' ? 'is-active' : ''} `} onClick={useEraserTool}><i className="fa fa-eraser" /></a>
         <AddTileForm tool={tool} useSelectTool={useSelectTool} useAddTileFormTool={useAddTileFormTool} className="navbar-end" visible={false} submitTile={submitTile(socket, layouts, id)} />
-        <a id="pack-button" className="navbar-item" onClick={(packLayouts) ? disablePacking(socket) : enablePacking(socket, layouts)}><i className={`fa ${packLayouts ? 'fa-arrow-up' : 'fa-ban'}`} /></a>
+        <a id="pack-button" className="navbar-item" onClick={packLayouts(socket, layouts)}><i className="fa fa-arrow-up" /></a>
       </div>
         <img alt="collaborate!" src="assets/logo.png" className="navbar-item" id="logo" />
 
@@ -52,8 +52,6 @@ Menubar.propTypes = {
   usePenTool: PropTypes.func.isRequired,
   useEraserTool: PropTypes.func.isRequired,
   usePenColorTool: PropTypes.func.isRequired,
-  disablePacking: PropTypes.func.isRequired,
-  enablePacking: PropTypes.func.isRequired,
 };
 
 Menubar.contextTypes = {
