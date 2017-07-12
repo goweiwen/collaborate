@@ -63,9 +63,10 @@ body {
   top: 100%;
  }
 
-.nav {
+.navbar {
   position: fixed;
   width: 100vw;
+  z-index: 1000;
 }
 
 .box.black { background-color: black; }

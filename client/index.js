@@ -11,10 +11,10 @@ import { addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, upd
   ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION } from '../actions';
 import reducer from '../reducers/client';
 import { calculateLayoutOnAdd } from './util/collision';
-
+import logger from 'redux-logger';
 const store = createStore(
   reducer,
-  applyMiddleware(),
+  applyMiddleware(logger),
 );
 
 const onFinishUpload = (socket, dispatch) => (info) => {

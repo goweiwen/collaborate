@@ -10,29 +10,33 @@ const Menubar = (props, context) => {
   const { socket, user } = context;
 
   const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
-
+// `
   return (
-    <div className="nav has-shadow">
-      <div className="nav-left">
-        <a className={`nav-item ${tool === 'select' ? 'is-active' : ''}`} onClick={useSelectTool}><i className="fa fa-mouse-pointer" /></a>
-        <a className={`nav-item ${tool === 'drag' ? 'is-active' : ''}`} onClick={useDragTool} id="drag"><i className="fa fa-arrows" /></a>
-        <a className={`nav-item ${_.startsWith(tool, 'pen') ? 'is-active' : ''} `} onClick={usePenTool}><i className="fa fa-pencil" /></a>
-        {(tool === 'pen') &&
-        <div className="box dropdown">
+    <div className="navbar has-shadow">
+      <div className="navbar-start">
+        
+        <a className={`navbar-item ${tool === 'select' ? 'is-active' : ''}`} onClick={useSelectTool}><i className="fa fa-mouse-pointer" /></a>
+        <a className={`navbar-item ${tool === 'drag' ? 'is-active' : ''}`} onClick={useDragTool} id="drag"><i className="fa fa-arrows" /></a>
+        <a className={`navbar-item has-dropdown ${tool === 'pen' ? 'is-active' : ''} `} >
+        <a className={`nav-item ${_.startsWith(tool, 'pen') ? 'is-active' : ''}`} onClick={usePenTool}>
+          <i className="fa fa-pencil" />
+        </a>
+        <div className="navbar-dropdown">
           <a className="box black" onClick={() => { usePenColorTool('black'); }} />
           <a className="box red" onClick={() => { usePenColorTool('red'); }} />
           <a className="box green" onClick={() => { usePenColorTool('green'); }} />
           <a className="box blue" onClick={() => { usePenColorTool('blue'); }} />
           <a className="box yellow" onClick={() => { usePenColorTool('yellow'); }} />
-        </div>}
-        <a className={`nav-item ${tool === 'eraser' ? 'is-active' : ''} `} onClick={useEraserTool}><i className="fa fa-eraser" /></a>
-        <AddTileForm tool={tool} useSelectTool={useSelectTool} useAddTileFormTool={useAddTileFormTool} className="nav-item" visible={false} submitTile={submitTile(socket, layouts, id)} />
+        </div>
+        </a>
+        <a className={`navbar-item ${tool === 'eraser' ? 'is-active' : ''} `} onClick={useEraserTool}><i className="fa fa-eraser" /></a>
+        <AddTileForm tool={tool} useSelectTool={useSelectTool} useAddTileFormTool={useAddTileFormTool} className="navbar-end" visible={false} submitTile={submitTile(socket, layouts, id)} />
       </div>
-      <div className="nav-center">
-        <img alt="collaborate!" src="assets/logo.png" className="nav-item" id="logo" />
-      </div>
-      <div className="nav-right">
-        <span className="nav-item">{user}</span>
+        <img alt="collaborate!" src="assets/logo.png" className="navbar-item" id="logo" />
+
+      
+      <div className="navbar-end">
+        <span className="navbar-item">{user}</span>
       </div>
     </div>);
 };

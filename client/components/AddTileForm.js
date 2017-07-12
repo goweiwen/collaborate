@@ -131,7 +131,7 @@ export default class AddTileForm extends React.Component {
     </div>);
 
     return (
-      <div className="is-paddingless is-marginless nav-item" >
+      <div className="nav-item" >
         <a id="add-tile-button" className={this.props.className} onClick={this.handleToggleActive.bind(this)}><i className="fa fa-plus" />
         </a>
         <div>
