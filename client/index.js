@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { applyMiddleware, createStore } from 'redux';
-import logger from 'redux-logger';
 import io from 'socket.io-client';
 import 'babel-polyfill';
 import App from './components/App';
 import { addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout, updateAnnotation,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, INITIALISE_LAYOUTS, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION } from '../actions';
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION } from '../actions';
 import reducer from '../reducers/client';
 import { calculateLayoutOnAdd } from './util/collision';
 
@@ -58,24 +57,12 @@ class Root extends React.Component {
   componentWillMount() {
     this.socket = io();
 
-    this.socket.on('initialise user', (user) => {
+    this.socket.on('initialise', ({ user, layouts, tiles, messages, annotation }) => {
       this.user = user;
-    });
-
-    this.socket.on(INITIALISE_LAYOUTS, (layouts) => {
       store.dispatch(initialiseLayouts(layouts));
-    });
-
-    this.socket.on('initialise tiles', (tiles) => {
       tiles.forEach(tile => store.dispatch(addTile(tile, tile.id)));
-    });
-
-    this.socket.on('initialise chat', (messages) => {
       messages.forEach(message => store.dispatch(addChatMessage(message)));
-    });
-
-    this.socket.on('initialise annotation', (dataURL) => {
-      store.dispatch(updateAnnotation(dataURL));
+      store.dispatch(updateAnnotation(annotation));
     });
 
     this.socket.on(ADD_TILE, (tile, id) => {
