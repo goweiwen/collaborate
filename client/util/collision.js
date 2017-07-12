@@ -1,8 +1,13 @@
 import _ from 'lodash';
 
+
+const GRID = 50;
+const HALF_GRID = 25;
+
+
 // layouts is the current layouts of the tileList while layouts are moving around to accomodate edits
 // ids is the last moved layouts from the previous iteration
-export const resolveCurrentCollisions = (layouts, ids) => {
+const resolveCurrentCollisions = (layouts, ids) => {
   // we did not move anything in the previous iteration. layout is valid and no collisions
   if (ids.length === 0) {
     return layouts;
@@ -107,10 +112,90 @@ export const packTiles = (prevLayouts) => {
   return newLayouts;
 };
 
-export const layoutsCollide = (layout1, layout2) => !(
+const layoutsCollide = (layout1, layout2) => !(
   (layout1.x >= layout2.x + layout2.width) ||
   (layout1.x + layout1.width <= layout2.x) ||
   (layout1.y >= layout2.y + layout2.height) ||
   (layout1.y + layout1.height <= layout2.y)
 );
 
+const intendedLayout = (newLayout, newLayoutId, prevLayouts) => {
+
+  let y = newLayout.y;
+
+  _.forEach(prevLayouts, (layout, id) => {
+    if(id !== newLayoutId) {
+      if (layoutsCollide(newLayout, layout)) {
+        if(newLayout.y > layout.y + layout.height/2){
+          if(layout.y + layout.height > y);
+            y = layout.y + layout.height;
+        }
+      }
+    }
+  });
+ return {...newLayout, y};
+}
+
+const snapToGrid = (layout) => {
+  let {x, y, width, height} = layout;
+  // Snap to grid
+    x += HALF_GRID - (x + HALF_GRID) % GRID;
+    y += HALF_GRID - (y + HALF_GRID) % GRID;
+    width += HALF_GRID - (width + HALF_GRID) % GRID;
+    height += HALF_GRID - (height + HALF_GRID) % GRID;
+
+    return {x, y, width, height};
+}
+
+export const onLayoutChange = (newLayout, newLayoutId, prevLayouts, pack) => {
+  const newSnappedLayout = snapToGrid(newLayout);
+  const intendedNewLayout = intendedLayout(newSnappedLayout, newLayoutId, prevLayouts);
+  let newLayouts = {...prevLayouts};
+  newLayouts[newLayoutId] = intendedNewLayout;
+
+  const finalLayouts = resolveCurrentCollisions(newLayouts, [newLayoutId]);
+
+  if(pack) {
+    return packTiles(finalLayouts);
+  } else {
+    return finalLayouts;
+  }
+}
+
+export const calculateLayoutOnAdd = (newLayout, prevLayouts) => {
+    
+    let currentLayout = newLayout;
+    let valid = false;
+
+    const updateValid = (otherLayout) => {
+      if ((layoutsCollide(currentLayout, otherLayout))) {
+        valid = false;
+      }
+    };
+
+    while (!valid) {
+      valid = true;
+      _.forEach(prevLayouts, updateValid);
+
+      if (valid === true) {
+        break;
+      } else {
+        currentLayout = { ...currentLayout, y: currentLayout.y + 50 };
+      }
+    }
+
+    return currentLayout;
+}
+
+export const calculateLayoutsOnRemove = (deletedLayoutId, prevLayouts, pack) => {
+
+  const newLayouts = { ...prevLayouts };
+  delete newLayouts[deletedLayoutId];
+
+  if(pack) {
+    return packTiles(newLayouts);
+  } else {
+    return newLayouts;
+  }
+
+}

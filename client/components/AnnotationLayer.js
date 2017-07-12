@@ -86,6 +86,7 @@ export default class AnnotationLayer extends React.Component {
   mouseUp(e) {
     e.preventDefault();
     e.persist();
+    this.drawLine(this.state.x, this.state.y, e.clientX + window.scrollX - this.left, e.clientY + window.scrollY - this.top, this.props.tool, true);
     const dataURL = this.canvas.toDataURL();
     this.props.updateAnnotation(this.context.socket, dataURL);
     this.setState(() => ({ drawing: false, x: e.clientX + window.scrollX - this.left, y: e.clientY + window.scrollY - this.top }));

@@ -11,6 +11,7 @@ import App from './components/App';
 import { addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout, updateAnnotation,
   ADD_TILE, UPDATE_TILE, REMOVE_TILE, INITIALISE_LAYOUTS, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION } from '../actions';
 import reducer from '../reducers/client';
+import { calculateLayoutOnAdd } from './util/collision';
 
 const store = createStore(
   reducer,
@@ -31,7 +32,7 @@ const onFinishUpload = (socket, dispatch) => (info) => {
     lockAspectRatio: false,
   };
 
-  const { tiles } = store.getState();
+  const { tiles, layouts } = store.getState();
   const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
 
   const tile = {
@@ -41,9 +42,11 @@ const onFinishUpload = (socket, dispatch) => (info) => {
     page: 0,
   };
 
-  socket.emit(UPDATE_LAYOUT, layout, tile.id);
+  const newLayout = calculateLayoutOnAdd(layout, layouts);
+
+  socket.emit(UPDATE_LAYOUT, newLayout, tile.id);
   socket.emit(ADD_TILE, tile, tile.id);
-  dispatch(updateLayout(layout, tile.id));
+  dispatch(updateLayout(newLayout, tile.id));
   dispatch(addTile(tile, tile.id));
 };
 

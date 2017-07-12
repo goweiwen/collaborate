@@ -4,7 +4,7 @@ import Menubar from '../components/Menubar';
 import {
   addTile, removeTile, updateTile, updateLayout, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool,
   ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT } from '../../actions';
-import { layoutsCollide } from '../util/collision';
+import { calculateLayoutOnAdd } from '../util/collision';
 
 const mapStateToProps = state => ({ tiles: state.tiles, tool: state.tool, layouts: state.layouts, layoutsSettings: state.layoutsSettings });
 
@@ -17,28 +17,9 @@ const emitSubmitTile = (dispatch, socket, id, tile, layout) => {
 
 const mapDispatchToProps = dispatch => ({
   submitTile: (socket, layouts, id) => (tile, layout) => {
-    const prevLayouts = layouts;
-    let currentLayout = layout;
-    let valid = false;
-
-    const updateValid = (otherLayout) => {
-      if ((layoutsCollide(currentLayout, otherLayout))) {
-        valid = false;
-      }
-    };
-
-    while (!valid) {
-      valid = true;
-      _.forEach(prevLayouts, updateValid);
-
-      if (valid === true) {
-        break;
-      } else {
-        currentLayout = { ...currentLayout, y: currentLayout.y + 50 };
-      }
-    }
-
-    emitSubmitTile(dispatch, socket, id, tile, currentLayout);
+    
+    const newTileLayout = calculateLayoutOnAdd(layout, layouts);
+    emitSubmitTile(dispatch, socket, id, tile, newTileLayout);
   },
 
   removeTile: (socket, id) => {

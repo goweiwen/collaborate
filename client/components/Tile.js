@@ -72,8 +72,6 @@ Tile.propTypes = {
   height: PropTypes.number.isRequired,
 };
 
-const GRID = 50;
-const HALF_GRID = GRID / 2;
 const MARGIN = 5;
 
 class RndTile extends React.Component {
@@ -102,14 +100,7 @@ class RndTile extends React.Component {
     let { x, y } = this.rnd.draggable.state;
     let { width, height } = this.rnd.resizable.state;
 
-    // Snap to grid
-    x += HALF_GRID - (x + HALF_GRID) % GRID;
-    y += HALF_GRID - (y + HALF_GRID) % GRID;
-    width += HALF_GRID - (width + HALF_GRID) % GRID;
-    height += HALF_GRID - (height + HALF_GRID) % GRID;
-
     const layout = { ...this.props.layout, x, y, width, height };
-
     this.props.updateLayout(layout, tile.id);
   }
 

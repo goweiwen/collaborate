@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import TileList from '../components/TileList';
 import { removeTile, updateLayout, updateTile, REMOVE_TILE, UPDATE_LAYOUT, UPDATE_TILE } from '../../actions';
-import { resolveCurrentCollisions, packTiles } from '../util/collision';
+import { packTiles, onLayoutChange, calculateLayoutsOnRemove } from '../util/collision';
 
 const emitUpdateLayout = (dispatch, socket, layout, id) => {
   socket.emit(UPDATE_LAYOUT, layout, id);
@@ -25,25 +25,10 @@ const mapDispatchToProps = dispatch => ({
   removeTile: (socket, prevLayouts) => (id) => {
     emitRemoveTile(dispatch, socket, id);
 
-    const newLayouts = { ...prevLayouts };
-    delete newLayouts[id];
+    const layoutsToBeEmitted = calculateLayoutsOnRemove(id, prevLayouts, false);
 
-    const packedNewLayouts = packTiles(newLayouts);
-    for (const i in packedNewLayouts) {
-      emitUpdateLayout(dispatch, socket, packedNewLayouts[i], i);
-    }
-  },
-
-  resolveCollisions: (socket, prevlayouts) => (layout, id) => {
-    const layouts = { ...prevlayouts };
-
-    layouts[id] = layout;
-    const beforeLayouts = resolveCurrentCollisions(layouts, [id]);
-
-    const finalLayouts = packTiles(beforeLayouts);
-
-    for (const i in finalLayouts) {
-      emitUpdateLayout(dispatch, socket, finalLayouts[i], i);
+    for (const i in layoutsToBeEmitted) {
+      emitUpdateLayout(dispatch, socket, layoutsToBeEmitted[i], i);
     }
   },
 
@@ -51,6 +36,13 @@ const mapDispatchToProps = dispatch => ({
     socket.emit(UPDATE_TILE, tile);
     dispatch(updateTile(tile));
   },
+
+  updateLayout: (socket, prevLayouts) => (newLayout, newLayoutId) => {
+    const layoutsToBeEmitted = onLayoutChange(newLayout, newLayoutId, prevLayouts, false); //no packing
+    for (const i in layoutsToBeEmitted) {
+      emitUpdateLayout(dispatch, socket, layoutsToBeEmitted[i], i);
+    }
+  }
 
 });
 

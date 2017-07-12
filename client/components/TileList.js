@@ -15,7 +15,7 @@ const TileList = (props, context) => {
           layout={layouts[tile.id]}
           bounds="parent"
           removeTile={removeTile(socket, layouts)}
-          updateLayout={resolveCollisions(socket, layouts)}
+          updateLayout={props.updateLayout(socket, layouts)}
           tool={tool}
           updateTile={props.updateTile}
           {...tile}
@@ -30,6 +30,7 @@ TileList.propTypes = {
   tool: PropTypes.string.isRequired,
   removeTile: PropTypes.func.isRequired,
   resolveCollisions: PropTypes.func.isRequired,
+  updateLayout: PropTypes.func.isRequired,
 };
 
 TileList.contextTypes = {

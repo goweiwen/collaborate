@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 export default class Text extends React.Component {
-
 
   componentWillReceiveProps(nextProps) {
     this.textArea.value = nextProps.content;
