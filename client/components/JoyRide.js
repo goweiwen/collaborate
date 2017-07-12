@@ -222,6 +222,22 @@ const steps = [
   },
 
   {
+    title: 'Pack Button',
+    text: 'Use this tool to pack tiles upwards',
+    selector: '#pack-button',
+    type: 'hover',
+    isFixed: true,
+    position: 'bottom',
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
+      },
+    },
+  },
+
+  {
     title: 'Logo',
     text: 'Thanks for sitting through the tutorial. If you have any comments, do write it on a text tile on this app!',
     selector: '#logo',

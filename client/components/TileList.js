@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Tile from '../containers/Tile';
 
 const TileList = (props, context) => {
-  const { tiles, layouts, tool, removeTile, resolveCollisions } = props;
+  const { tiles, layouts, tool, removeTile, resolveCollisions, packLayouts } = props;
   const { socket } = context;
 
   return (
@@ -14,8 +14,8 @@ const TileList = (props, context) => {
           key={tile.id}
           layout={layouts[tile.id]}
           bounds="parent"
-          removeTile={removeTile(socket, layouts)}
-          updateLayout={props.updateLayout(socket, layouts)}
+          removeTile={removeTile(socket, layouts, packLayouts)}
+          updateLayout={props.updateLayout(socket, layouts, packLayouts)}
           tool={tool}
           updateTile={props.updateTile}
           {...tile}
@@ -31,6 +31,7 @@ TileList.propTypes = {
   removeTile: PropTypes.func.isRequired,
   resolveCollisions: PropTypes.func.isRequired,
   updateLayout: PropTypes.func.isRequired,
+  layoutSettings: PropTypes.object.isRequired,
 };
 
 TileList.contextTypes = {

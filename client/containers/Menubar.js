@@ -2,17 +2,22 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import Menubar from '../components/Menubar';
 import {
-  addTile, removeTile, updateTile, updateLayout, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT } from '../../actions';
-import { calculateLayoutOnAdd } from '../util/collision';
+  addTile, removeTile, updateTile, updateLayout, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool, enablePacking, disablePacking,
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ENABLE_PACKING, DISABLE_PACKING } from '../../actions';
+import { calculateLayoutOnAdd, packLayouts } from '../util/collision';
 
-const mapStateToProps = state => ({ tiles: state.tiles, tool: state.tool, layouts: state.layouts, layoutsSettings: state.layoutsSettings });
+const mapStateToProps = state => ({ tiles: state.tiles, tool: state.tool, layouts: state.layouts, packLayouts: state.layoutSettings.packLayouts});
 
 const emitSubmitTile = (dispatch, socket, id, tile, layout) => {
   socket.emit(UPDATE_LAYOUT, layout, id);
   socket.emit(ADD_TILE, tile, id);
   dispatch(updateLayout(layout, id));
   dispatch(addTile(tile, id));
+};
+
+const emitUpdateLayout = (dispatch, socket, layout, id) => {
+  socket.emit(UPDATE_LAYOUT, layout, id);
+  dispatch(updateLayout(layout, id));
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -61,6 +66,20 @@ const mapDispatchToProps = dispatch => ({
   useAddTileFormTool: () => {
     dispatch(useAddTileFormTool());
   },
+
+  enablePacking: (socket, layouts) => () => {
+    dispatch(enablePacking());
+    socket.emit(ENABLE_PACKING);
+    const layoutsToBeEmitted = packLayouts(layouts);
+    for (const i in layoutsToBeEmitted) {
+      emitUpdateLayout(dispatch, socket, layoutsToBeEmitted[i], i);
+    }
+  },
+
+  disablePacking: (socket) => () => {
+    dispatch(disablePacking());
+    socket.emit(DISABLE_PACKING);
+  }
 
 });
 

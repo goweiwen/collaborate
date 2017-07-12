@@ -5,8 +5,8 @@ import AddTileForm from './AddTileForm';
 
 
 const Menubar = (props, context) => { 
-  const { tiles, layouts, tool, submitTile, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool } = props;
-
+  const { tiles, layouts, tool, packLayouts, submitTile, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool, enablePacking, disablePacking } = props;
+  console.log(packLayouts);
   const { socket, user } = context;
 
   const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
@@ -22,15 +22,16 @@ const Menubar = (props, context) => {
           <i className="fa fa-pencil" />
         </a>
         <div className="navbar-dropdown">
-          <a className="box black" onClick={() => { usePenColorTool('black'); }} />
-          <a className="box red" onClick={() => { usePenColorTool('red'); }} />
-          <a className="box green" onClick={() => { usePenColorTool('green'); }} />
-          <a className="box blue" onClick={() => { usePenColorTool('blue'); }} />
-          <a className="box yellow" onClick={() => { usePenColorTool('yellow'); }} />
+          <div className="box black" onClick={() => { usePenColorTool('black'); }} />
+          <div className="box red" onClick={() => { usePenColorTool('red'); }} />
+          <div className="box green" onClick={() => { usePenColorTool('green'); }} />
+          <div className="box blue" onClick={() => { usePenColorTool('blue'); }} />
+          <div className="box yellow" onClick={() => { usePenColorTool('yellow'); }} />
         </div>
         </a>
         <a className={`navbar-item ${tool === 'eraser' ? 'is-active' : ''} `} onClick={useEraserTool}><i className="fa fa-eraser" /></a>
         <AddTileForm tool={tool} useSelectTool={useSelectTool} useAddTileFormTool={useAddTileFormTool} className="navbar-end" visible={false} submitTile={submitTile(socket, layouts, id)} />
+        <a id="pack-button" className="navbar-item" onClick={(packLayouts) ? disablePacking(socket) : enablePacking(socket, layouts)}><i className={`fa ${packLayouts ? 'fa-arrow-up' : 'fa-ban'}`} /></a>
       </div>
         <img alt="collaborate!" src="assets/logo.png" className="navbar-item" id="logo" />
 
@@ -51,6 +52,8 @@ Menubar.propTypes = {
   usePenTool: PropTypes.func.isRequired,
   useEraserTool: PropTypes.func.isRequired,
   usePenColorTool: PropTypes.func.isRequired,
+  disablePacking: PropTypes.func.isRequired,
+  enablePacking: PropTypes.func.isRequired,
 };
 
 Menubar.contextTypes = {

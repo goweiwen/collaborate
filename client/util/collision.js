@@ -66,7 +66,7 @@ const resolveCurrentCollisions = (layouts, ids) => {
   return resolveCurrentCollisions(newLayouts, newIDs);
 };
 
-export const packTiles = (prevLayouts) => {
+export const packLayouts = (prevLayouts) => {
   const layoutsCopy = { ...prevLayouts };
   const newLayouts = { ...prevLayouts };
 
@@ -156,7 +156,7 @@ export const onLayoutChange = (newLayout, newLayoutId, prevLayouts, pack) => {
   const finalLayouts = resolveCurrentCollisions(newLayouts, [newLayoutId]);
 
   if(pack) {
-    return packTiles(finalLayouts);
+    return packLayouts(finalLayouts);
   } else {
     return finalLayouts;
   }
@@ -193,7 +193,7 @@ export const calculateLayoutsOnRemove = (deletedLayoutId, prevLayouts, pack) => 
   delete newLayouts[deletedLayoutId];
 
   if(pack) {
-    return packTiles(newLayouts);
+    return packLayouts(newLayouts);
   } else {
     return newLayouts;
   }

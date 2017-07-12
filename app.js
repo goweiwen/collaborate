@@ -6,8 +6,8 @@ import { applyMiddleware, createStore } from 'redux';
 import reducer from './reducers/server';
 import db from './db';
 import {
-  addTile, updateTile, removeTile, addChatMessage, updateLayout, updateAnnotation,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, INITIALISE_LAYOUTS, UPDATE_ANNOTATION,
+  addTile, updateTile, removeTile, addChatMessage, updateLayout, updateAnnotation, enablePacking, disablePacking,
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, INITIALISE_LAYOUTS, UPDATE_ANNOTATION, ENABLE_PACKING, DISABLE_PACKING,
 } from './actions';
 import sessionStore from './middleware/store';
 
@@ -57,9 +57,23 @@ export default (server) => {
       console.log(`${socket.request.name} joined '${room}'`);
       socket.join(room);
 
-      const { layouts, tiles, messages, annotation } = stores[room].getState();
+      const { layouts, tiles, messages, annotation, layoutSettings } = stores[room].getState();
       const user = socket.request.name;
       socket.emit('initialise', { user, layouts, tiles, messages, annotation });
+      
+      if(layoutSettings.packTiles) {
+        socket.emit(ENABLE_PACKING);
+      }
+
+      socket.on(ENABLE_PACKING, () => {
+        store.dispatch(enablePacking());
+        socket.broadcast.emit(ENABLE_PACKING);
+      });
+
+      socket.on(DISABLE_PACKING, () => {
+        store.dispatch(disablePacking());
+        socket.broadcast.emit(DISABLE_PACKING);
+      });
 
       socket.on('disconnect', () => {
         console.log(`${socket.request.name} left '${room}'`);

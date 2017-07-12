@@ -7,8 +7,8 @@ import { applyMiddleware, createStore } from 'redux';
 import io from 'socket.io-client';
 import 'babel-polyfill';
 import App from './components/App';
-import { addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout, updateAnnotation,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION } from '../actions';
+import { addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout, updateAnnotation, enablePacking, disablePacking,
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION, ENABLE_PACKING, DISABLE_PACKING } from '../actions';
 import reducer from '../reducers/client';
 import { calculateLayoutOnAdd } from './util/collision';
 import logger from 'redux-logger';
@@ -88,6 +88,14 @@ class Root extends React.Component {
 
     this.socket.on(UPDATE_LAYOUT, (layout, id) => {
       store.dispatch(updateLayout(layout, id));
+    });
+
+    this.socket.on(ENABLE_PACKING, () => {
+      store.dispatch(enablePacking());
+    });
+
+    this.socket.on(DISABLE_PACKING, () => {
+      store.dispatch(disablePacking());
     });
   }
 

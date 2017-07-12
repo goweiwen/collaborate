@@ -43,3 +43,9 @@ export const addChatMessage = message => ({ type: ADD_CHAT_MESSAGE, message });
 // Annotation Actions
 export const UPDATE_ANNOTATION = 'UPDATE_ANNOTATION';
 export const updateAnnotation = dataURL => ({ type: UPDATE_ANNOTATION, dataURL });
+
+export const ENABLE_PACKING = 'ENABLE_PACKING';
+export const DISABLE_PACKING = 'DISABLE_PACKING';
+
+export const enablePacking = () => ({ type: ENABLE_PACKING });
+export const disablePacking = () => ({ type: DISABLE_PACKING });
