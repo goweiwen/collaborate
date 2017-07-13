@@ -7,8 +7,7 @@ class PDF extends React.Component {
     super(props);
 
     this.state = {
-      curlingLeft: false,
-      curlingRight: false,
+      direction: 0,
     };
 
     this.onPageLoad = this.onPageLoad.bind(this);
@@ -19,74 +18,70 @@ class PDF extends React.Component {
   }
 
   onDocumentLoad({ total }) {
-    this.total = total;
+    this.setState({ total });
   }
 
   onPageLoad() {
-    if (!this.state.curlingLeft && !this.state.curlingRight) {
-      this.setState({ curlingRight: true, curled: true });
-      setTimeout(() => {
-        this.setState({ curlingRight: false, curled: false });
-      }, 500);
-    } else {
-      this.setState({ curled: true });
-      setTimeout(() => {
-        this.setState({ curled: false });
-      }, 500);
-    }
+    this.setState({ turning: true });
+    setTimeout(() => {
+      this.setState({ turning: false });
+    }, 500);
   }
 
   onMouseMove(e) {
-    const bounds = this.el.getBoundingClientRect();
-    const x = e.clientX - bounds.left;
-    const w = this.props.width;
-
-    if (x < w / 3) {
-      this.setState({ curlingLeft: true });
-    } else if (x > 2 * w / 3) {
-      this.setState({ curlingRight: true });
-    } else {
-      this.setState({ curlingLeft: false, curlingRight: false });
+    const direction = this.getDirection(e);
+    if (this.state.direction !== direction) {
+      this.setState({ direction });
     }
   }
 
   onMouseLeave() {
-    this.setState({ curlingLeft: false, curlingRight: false });
+    this.setState({ direction: 0 });
   }
 
   onClick(e) {
-    const bounds = this.el.getBoundingClientRect();
-    const x = e.clientX - bounds.left;
- 
-    const w = this.props.width;
-    const tile = this.props.tile;
+    this.onMouseMove(e);
 
-    let page = 0;
-    if (x < w / 3) {
-      page = -1;
-    } else if (x > 2 * w / 3) {
-      page = 1;
+    if (this.state.direction === 0) {
+      return;
     }
 
-    if (page !== 0 && tile.page + page >= 0 && tile.page + page < this.total) {
-      this.props.updateTile(this.context.socket, { id: this.props.id, page: tile.page + page });
+    const tile = this.props.tile;
+    const page = tile.page + this.state.direction;
+
+
+    if (page >= 0 && page < this.state.total) {
+      this.props.updateTile(this.context.socket, { id: this.props.id, page: page });
     }
   }
 
+  getDirection(e) {
+    const x = e.clientX - this.el.getBoundingClientRect().left;
+    const w = this.props.width;
+
+    if (x < w / 3) {
+      return -1;
+    } else if (x > 2 * w / 3) {
+      return 1;
+    }
+    return 0;
+  }
+
   render() {
-    const props = this.props;
+    const { props, state } = this;
 
     const className =
-      (this.state.curlingLeft ? 'curlingLeft ' : '') +
-      (this.state.curlingRight ? 'curlingRight ' : '') +
-      (this.state.curled ? 'curled' : '');
+      (state.turning ? 'turning' : '') +
+      (state.direction === -1 && props.page - 1 >= 0 ? ' peeling-left' : '') +
+      (state.direction === 1 && props.page + 1 < state.total ? ' peeling-right' : '');
+
     return (
       <div
-        className={className}
         onClick={this.onClick}
         onMouseMove={this.onMouseMove}
         onMouseLeave={this.onMouseLeave}
         ref={(el) => { this.el = el; }}
+        className={className}
         style={{ padding: 0 }}
       >
         <ReactPDF
@@ -96,8 +91,7 @@ class PDF extends React.Component {
           onPageLoad={this.onPageLoad}
           onDocumentLoad={this.onDocumentLoad}
         />
-        <div className={`curlLeft ${this.state.curlingLeft ? 'curling' : ''}`} />
-        <div className={`curlRight ${this.state.curlingRight ? 'curling' : ''}`} />
+        <div className={`peel ${className}`} />
       </div>
     );
   }

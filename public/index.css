@@ -91,32 +91,40 @@ body {
 .tile.pdf {
   overflow: hidden;
 }
+
 .tile.pdf canvas {
   position: absolute;
   left: 0;
   opacity: 1;
-  transition: opacity 250ms;
-}
-.tile.pdf .curlingLeft.curled canvas {
-  left: 100%;
-  opacity: 0;
-  transition: left 500ms, opacity 250ms;
-}
-.tile.pdf .curlingRight.curled canvas {
-  left: -100%;
-  opacity: 0;
-  transition: left 500ms, opacity 250ms;
+  transition: opacity 300ms;
 }
 
-.curlLeft, .curlRight {
+.tile.pdf .peeling-left.turning canvas {
+  left: 100%;
+  opacity: 0;
+  transition: left 300ms linear, opacity 0ms linear 300ms;
+}
+
+.tile.pdf .peeling-right.turning canvas {
+  left: -100%;
+  opacity: 0;
+  transition: left 300ms linear, opacity 0ms linear 300ms;
+}
+
+.peel {
   width: 0;
   height: 0;
   position: absolute;
+  bottom:0;
   transition: all 500ms;
 }
 
-.curlLeft {
-  bottom:0;
+.peel.peeling-left, .peel.peeling-right {
+  width: 50px;
+  height: 50px;
+}
+
+.peel.peeling-left {
   left:0;
   background :
           linear-gradient(
@@ -131,8 +139,7 @@ body {
                   #fff 100%
           );
 }
-.curlRight {
-  bottom:0;
+.peel.peeling-right {
   right:0;
   background :
           linear-gradient(
@@ -148,36 +155,19 @@ body {
           );
 }
 
-.curlLeft.curling, .curlRight.curling {
-  width: 50px;
-  height: 50px;
-}
-
-.curlLeft.curling:before,
-.curlLeft.curling:after {
+.peel.peeling-left:before,
+.peel.peeling-left:after {
   box-shadow: 0 -24px 30px rgba(0, 0, 0, .3);
 }
-.curlRight.curling:before,
-.curlRight.curling:after {
+.peel.peeling-right:before,
+.peel.peeling-right:after {
   box-shadow: 0 -24px 30px rgba(0, 0, 0, .3);
 }
 
-.curlLeft:before,
-.curlLeft:after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  left: 12.5%;
-  bottom: 5.8%;
-  width: 70%;
-  max-width: 300px;
-  max-height: 100px;
-  height: 55%;
-  box-shadow: 0 -12px 15px rgba(0, 0, 0, .3);
-  transform: skew(-10deg) rotate(-6deg);
-}
-.curlRight:before,
-.curlRight:after {
+.peel.peeling-left:before,
+.peel.peeling-left:after,
+.peel.peeling-right:before,
+.peel.peeling-right:after {
   content: '';
   position: absolute;
   z-index: -1;
@@ -191,14 +181,14 @@ body {
   transform: skew(-10deg) rotate(-6deg);
 }
 
-.curlLeft:after {
+.peel.peeling-left:after {
   left: auto;
   right: 5.8%;
   bottom: auto;
   top: 14.16%;
   transform: skew(-15deg) rotate(-84deg);
 }
-.curlRight:after {
+.peel.peeling-right:after {
   left: auto;
   right: 5.8%;
   bottom: auto;
