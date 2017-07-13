@@ -51,14 +51,18 @@ const onFinishUpload = (socket, dispatch) => (info) => {
 
 class Root extends React.Component {
   getChildContext() {
-    return { socket: this.socket, user: this.user };
+    return { socket: this.socket };
   }
 
   componentWillMount() {
-    this.socket = io();
+    this.socket = io({
+      query: {
+        // eslint-disable-next-line no-undef
+        room,
+      },
+    });
 
-    this.socket.on('initialise', ({ user, layouts, tiles, messages, annotation }) => {
-      this.user = user;
+    this.socket.on('initialise', ({ layouts, tiles, messages, annotation }) => {
       store.dispatch(initialiseLayouts(layouts));
       tiles.forEach(tile => store.dispatch(addTile(tile, tile.id)));
       messages.forEach(message => store.dispatch(addChatMessage(message)));

@@ -50,17 +50,16 @@ export default (server) => {
   });
 
   io.on('connection', (socket) => {
-    // temporary constant
-    const room = 'default';
+    const room = socket.handshake.query.room;
 
     prepareRoom(room, (store) => {
       console.log(`${socket.request.name} joined '${room}'`);
       socket.join(room);
 
-      const { layouts, tiles, messages, annotation, layoutSettings } = stores[room].getState();
       const user = socket.request.name;
-      socket.emit('initialise', { user, layouts, tiles, messages, annotation });
-    
+
+      const { layouts, tiles, messages, annotation } = stores[room].getState();
+      socket.emit('initialise', { layouts, tiles, messages, annotation });
 
       socket.on('disconnect', () => {
         console.log(`${socket.request.name} left '${room}'`);

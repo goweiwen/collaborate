@@ -3,11 +3,9 @@ import serve from 'koa-static-server';
 const staticServer = serve({ rootDir: 'public' });
 
 export default (app, router) => {
-  router.get('/*', (ctx) => {
-    if (ctx.isAuthenticated()) {
+  router
+    .get(/(\/assets|.*\.css)/, (ctx) => {
       return staticServer(ctx);
-    }
-    return ctx.redirect('/login');
-  });
+    });
   app.use(router.routes());
 };

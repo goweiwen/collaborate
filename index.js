@@ -10,6 +10,7 @@ import s3 from './middleware/s3';
 import session from './middleware/session';
 import staticServer from './middleware/staticServer';
 import webpack from './middleware/webpack';
+import views from './middleware/views';
 import start from './app';
 
 const app = new Koa();
@@ -25,7 +26,20 @@ multer(router);
 passport(app, router);
 s3(app, router);
 webpack(app);
+views(app);
 staticServer(app, router);
+
+router
+  .get('/', (ctx) => {
+    return ctx.redirect('/default');
+  })
+  .get('/:room', (ctx) => {
+    if (ctx.isAuthenticated()) {
+      ctx.state.room = ctx.params.room;
+      return ctx.render('./rooms.pug');
+    }
+    return ctx.redirect('/login');
+  });
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, (err) => { if (err) console.log(err); });

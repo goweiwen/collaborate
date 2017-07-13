@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title #{room} - collaborate!
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.3/css/bulma.min.css")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous")
+    link(rel="stylesheet" href="./react-joyride-compiled.css" type="text/css")
+    link(rel="stylesheet" href="./index.css" type="text/css")
+
+body
+  div#root
+  script var user = "#{user}", room = "#{room}"
+  script(type="text/javascript" src="./assets/bundle.js")
