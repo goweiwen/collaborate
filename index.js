@@ -12,6 +12,7 @@ import staticServer from './middleware/staticServer';
 import webpack from './middleware/webpack';
 import views from './middleware/views';
 import start from './app';
+import favicon from './middleware/favicon'
 
 const app = new Koa();
 const router = new Router();
@@ -19,8 +20,10 @@ const router = new Router();
 // Session secret
 app.keys = ['wNxB5QD5W_x5CfbhNjvaVMJ-'];
 
+
 app.use(logger());
 session(app);
+favicon(app);
 app.use(bodyParser());
 multer(router);
 passport(app, router);
