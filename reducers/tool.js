@@ -13,7 +13,7 @@ function layoutsSettings(state = 'select', action) {
     case USE_PEN_COLOR_TOOL:
       return `pen_${action.color}`;
     case USE_ADD_TILE_FORM_TOOL:
-      return 'add_tile_form';  
+      return 'add_tile_form';
     default:
       return state;
   }

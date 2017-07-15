@@ -7,4 +7,4 @@ import tool from './tool';
 import annotation from './annotation';
 
 
-export default combineReducers({ tiles, sideMenuVisible, messages, layouts, tool});
+export default combineReducers({ tiles, sideMenuVisible, messages, layouts, tool });

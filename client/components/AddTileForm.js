@@ -31,7 +31,7 @@ export default class AddTileForm extends React.Component {
   handleLARchange() {
     this.setState(state => ({ lockAspectRatio: !state.lockAspectRatio }));
   }
-   
+
   handleToggleActive() {
     this.props.useAddTileFormTool();
   }
@@ -132,20 +132,20 @@ export default class AddTileForm extends React.Component {
 
     return (
       <div className="navbar-item is-paddingless is-borderless" >
-        <a id="add-tile-button" className={this.props.className} onClick={this.handleToggleActive.bind(this)}><i className="fa fa-plus" />
+        <a role="button" id="add-tile-button" className={this.props.className} onClick={this.handleToggleActive.bind(this)}><i className="fa fa-plus" />
         </a>
         <div>
           <div className={modalActive}>
             <div className="modal-background" />
             <div className="modal-card" >
               <div className="modal-card-body">
-              <div id="tile-form" >
-                {type}
-                {src}
-                {content}
-                {LAR}
-              </div>
-                <br/>
+                <div id="tile-form" >
+                  {type}
+                  {src}
+                  {content}
+                  {LAR}
+                </div>
+                <br />
                 {submit}
               </div>
             </div>
@@ -161,4 +161,5 @@ AddTileForm.propTypes = {
   className: PropTypes.string.isRequired,
   useSelectTool: PropTypes.func.isRequired,
   useAddTileFormTool: PropTypes.func.isRequired,
+  tool: PropTypes.string.isRequired,
 };

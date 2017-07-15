@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import Menubar from '../components/Menubar';
 import {
   addTile, removeTile, updateTile, updateLayout, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT,} from '../../actions';
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT } from '../../actions';
 import { calculateLayoutOnAdd, packLayouts } from '../util/collision';
 
-const mapStateToProps = state => ({ tiles: state.tiles, tool: state.tool, layouts: state.layouts,});
+const mapStateToProps = state => ({ tiles: state.tiles, tool: state.tool, layouts: state.layouts });
 
 const emitSubmitTile = (dispatch, socket, id, tile, layout) => {
   socket.emit(UPDATE_LAYOUT, layout, id);
@@ -22,7 +22,6 @@ const emitUpdateLayout = (dispatch, socket, layout, id) => {
 
 const mapDispatchToProps = dispatch => ({
   submitTile: (socket, layouts, id) => (tile, layout) => {
-    
     const newTileLayout = calculateLayoutOnAdd(layout, layouts);
     emitSubmitTile(dispatch, socket, id, tile, newTileLayout);
   },
@@ -71,8 +70,8 @@ const mapDispatchToProps = dispatch => ({
     for (const i in layoutsToBeEmitted) {
       emitUpdateLayout(dispatch, socket, layoutsToBeEmitted[i], i);
     }
-  }
-  
+  },
+
 
 });
 

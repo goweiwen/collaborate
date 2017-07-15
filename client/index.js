@@ -17,36 +17,90 @@ const store = createStore(
   applyMiddleware(logger),
 );
 
+const emitAndDispatchTile = (socket, dispatch, tile, layout) => {
+  const { tiles, layouts } = store.getState();
+  const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
+
+  const newTile = { ...tile, id };
+  const newLayout = calculateLayoutOnAdd(layout, layouts);
+
+  socket.emit(UPDATE_LAYOUT, newLayout, newTile.id);
+  socket.emit(ADD_TILE, newTile, newTile.id);
+  dispatch(updateLayout(newLayout, newTile.id));
+  dispatch(addTile(newTile, newTile.id));
+};
+
 const onFinishUpload = (socket, dispatch) => (info) => {
   // eslint-disable-next-line no-console
   console.log('File uploaded with filename', info.filename);
   // eslint-disable-next-line no-console
   console.log('Access it on s3 at', info.fileUrl);
 
-  const layout = {
-    x: 0,
-    y: 0,
-    width: 600,
-    height: 800,
-    lockAspectRatio: false,
-  };
+  let layout;
+  let tile;
 
-  const { tiles, layouts } = store.getState();
-  const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
+  if (info.file.type === 'application/pdf') {
+    layout = {
+      x: 0,
+      y: 0,
+      width: 600,
+      height: 800,
+      lockAspectRatio: false,
+    };
 
-  const tile = {
-    id,
-    tileType: 'pdf',
-    src: info.fileUrl,
-    page: 0,
-  };
+    tile = {
+      tileType: 'pdf',
+      src: info.fileUrl,
+      page: 0,
+    };
+  } else {
+    layout = {
+      x: 0,
+      y: 0,
+      width: 300,
+      height: 300,
+      lockAspectRatio: false,
+    };
 
-  const newLayout = calculateLayoutOnAdd(layout, layouts);
+    tile = {
+      tileType: 'image',
+      src: info.fileUrl,
+      page: 0,
+    };
+  }
 
-  socket.emit(UPDATE_LAYOUT, newLayout, tile.id);
-  socket.emit(ADD_TILE, tile, tile.id);
-  dispatch(updateLayout(newLayout, tile.id));
-  dispatch(addTile(tile, tile.id));
+  emitAndDispatchTile(socket, dispatch, tile, layout);
+};
+
+const onDropRejected = (socket, dispatch) => (rejected) => {
+  rejected.forEach((dataTransferItem) => {
+    if (dataTransferItem.type === 'text/html') {
+      dataTransferItem.getAsString((droppedHTML) => {
+        const container = document.createElement('div');
+        container.insertAdjacentHTML('afterbegin', droppedHTML);
+        const src = container.getElementsByTagName('img')[0].src;
+
+        if (src === '') {
+          return;
+        }
+
+        const layout = {
+          x: 0,
+          y: 0,
+          width: 300,
+          height: 300,
+          lockAspectRatio: false,
+        };
+
+        const tile = {
+          src,
+          tileType: 'image',
+        };
+
+        emitAndDispatchTile(socket, dispatch, tile, layout);
+      });
+    }
+  });
 };
 
 class Root extends React.Component {
@@ -107,7 +161,7 @@ class Root extends React.Component {
     return (
       <Provider store={store}>
         <Router>
-          <Route path="/" component={() => <App onFinishUpload={onFinishUpload(this.socket, store.dispatch)} />} />
+          <Route path="/" component={() => <App onFinishUpload={onFinishUpload(this.socket, store.dispatch)} onDropRejected={onDropRejected(this.socket, store.dispatch)} />} />
         </Router>
       </Provider>
     );

@@ -12,7 +12,7 @@ import staticServer from './middleware/staticServer';
 import webpack from './middleware/webpack';
 import views from './middleware/views';
 import start from './app';
-import favicon from './middleware/favicon'
+import favicon from './middleware/favicon';
 
 const app = new Koa();
 const router = new Router();
@@ -33,9 +33,7 @@ views(app);
 staticServer(app, router);
 
 router
-  .get('/', (ctx) => {
-    return ctx.redirect('/default');
-  })
+  .get('/', ctx => ctx.redirect('/default'))
   .get('/:room', (ctx) => {
     if (ctx.isAuthenticated()) {
       ctx.state.room = ctx.params.room;

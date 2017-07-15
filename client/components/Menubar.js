@@ -10,7 +10,7 @@ class Menubar extends React.Component {
 
     this.state = {
       burgerActive: false,
-    }
+    };
   }
   render() {
     const { tiles, layouts, tool, packLayouts, submitTile, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool } = this.props;
@@ -20,40 +20,46 @@ class Menubar extends React.Component {
     return (
       <div className="navbar has-shadow">
         <div className="navbar-brand">
-          <img alt="collaborate!" src="assets/logo.png" className="navbar-item" id="logo"/>
+          <img alt="collaborate!" src="assets/logo.png" className="navbar-item" id="logo" />
           <div
             className={`navbar-burger ${this.state.burgerActive ? 'is-active' : ''}`}
             onClick={() => { this.setState({ burgerActive: !this.state.burgerActive }); }}
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <span />
+            <span />
+            <span />
           </div>
         </div>
         <div className={`navbar-menu ${this.state.burgerActive ? 'is-active' : ''}`}>
           <div className="navbar-end">
             <a className={`navbar-item ${tool === 'select' ? 'is-active' : ''}`} onClick={useSelectTool}><i
-              className="fa fa-mouse-pointer"/></a>
+              className="fa fa-mouse-pointer"
+            /></a>
             <a className={`navbar-item ${tool === 'drag' ? 'is-active' : ''}`} onClick={useDragTool} id="drag"><i
-              className="fa fa-arrows"/></a>
+              className="fa fa-arrows"
+            /></a>
             <a className={`navbar-item has-dropdown ${tool === 'pen' ? 'is-active' : ''} `}>
               <a className={`navbar-item ${_.startsWith(tool, 'pen') ? 'is-active' : ''}`} onClick={usePenTool}>
-                <i className="fa fa-pencil"/>
+                <i className="fa fa-pencil" />
               </a>
               <div className={`navbar-dropdown ${tool === 'pen' ? '' : 'is-hidden'}`}>
-                <div className="box black" onClick={() => { usePenColorTool('black'); }}/>
-                <div className="box red" onClick={() => { usePenColorTool('red'); }}/>
-                <div className="box green" onClick={() => { usePenColorTool('green'); }}/>
-                <div className="box blue" onClick={() => { usePenColorTool('blue'); }}/>
-                <div className="box yellow" onClick={() => { usePenColorTool('yellow'); }}/>
+                <div className="box black" onClick={() => { usePenColorTool('black'); }} />
+                <div className="box red" onClick={() => { usePenColorTool('red'); }} />
+                <div className="box green" onClick={() => { usePenColorTool('green'); }} />
+                <div className="box blue" onClick={() => { usePenColorTool('blue'); }} />
+                <div className="box yellow" onClick={() => { usePenColorTool('yellow'); }} />
               </div>
             </a>
             <a className={`navbar-item ${tool === 'eraser' ? 'is-active' : ''} `} onClick={useEraserTool}><i
-              className="fa fa-eraser"/></a>
+              className="fa fa-eraser"
+            /></a>
             <a id="pack-button" className="navbar-item" onClick={packLayouts(socket, layouts)}><i
-              className="fa fa-arrow-up"/></a>
-            <AddTileForm tool={tool} useSelectTool={useSelectTool} useAddTileFormTool={useAddTileFormTool}
-                         className="navbar-item" visible={false} submitTile={submitTile(socket, layouts, id)}/>
+              className="fa fa-arrow-up"
+            /></a>
+            <AddTileForm
+              tool={tool} useSelectTool={useSelectTool} useAddTileFormTool={useAddTileFormTool}
+              className="navbar-item" visible={false} submitTile={submitTile(socket, layouts, id)}
+            />
           </div>
         </div>
 
@@ -62,7 +68,6 @@ class Menubar extends React.Component {
           <span className="navbar-item">{user}</span>
         </div>
       </div>);
-
   }
 }
 

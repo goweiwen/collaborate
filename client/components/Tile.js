@@ -97,8 +97,8 @@ class RndTile extends React.Component {
   onDragOrResizeStop() {
     const tile = this.props.tile;
 
-    let { x, y } = this.rnd.draggable.state;
-    let { width, height } = this.rnd.resizable.state;
+    const { x, y } = this.rnd.draggable.state;
+    const { width, height } = this.rnd.resizable.state;
 
     const layout = { ...this.props.layout, x, y, width, height };
     this.props.updateLayout(layout, tile.id);

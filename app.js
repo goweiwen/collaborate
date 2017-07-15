@@ -6,7 +6,7 @@ import { applyMiddleware, createStore } from 'redux';
 import reducer from './reducers/server';
 import db from './db';
 import {
-  addTile, updateTile, removeTile, addChatMessage, updateLayout, updateAnnotation, 
+  addTile, updateTile, removeTile, addChatMessage, updateLayout, updateAnnotation,
   ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, INITIALISE_LAYOUTS, UPDATE_ANNOTATION,
 } from './actions';
 import sessionStore from './middleware/store';

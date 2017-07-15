@@ -38,11 +38,11 @@ const mapDispatchToProps = dispatch => ({
   },
 
   updateLayout: (socket, prevLayouts) => (newLayout, newLayoutId) => {
-    const layoutsToBeEmitted = onLayoutChange(newLayout, newLayoutId, prevLayouts, false); //no packing
+    const layoutsToBeEmitted = onLayoutChange(newLayout, newLayoutId, prevLayouts, false); // no packing
     for (const i in layoutsToBeEmitted) {
       emitUpdateLayout(dispatch, socket, layoutsToBeEmitted[i], i);
     }
-  }
+  },
 
 });
 

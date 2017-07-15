@@ -120,82 +120,76 @@ const layoutsCollide = (layout1, layout2) => !(
 );
 
 const intendedLayout = (newLayout, newLayoutId, prevLayouts) => {
-
   let y = newLayout.y;
 
   _.forEach(prevLayouts, (layout, id) => {
-    if(id !== newLayoutId) {
+    if (id !== newLayoutId) {
       if (layoutsCollide(newLayout, layout)) {
-        if(newLayout.y > layout.y + layout.height/2){
-          if(layout.y + layout.height > y);
-            y = layout.y + layout.height;
+        if (newLayout.y > layout.y + layout.height / 2) {
+          if (layout.y + layout.height > y);
+          y = layout.y + layout.height;
         }
       }
     }
   });
- return {...newLayout, y};
-}
+  return { ...newLayout, y };
+};
 
 const snapToGrid = (layout) => {
-  let {x, y, width, height} = layout;
+  let { x, y, width, height } = layout;
   // Snap to grid
-    x += HALF_GRID - (x + HALF_GRID) % GRID;
-    y += HALF_GRID - (y + HALF_GRID) % GRID;
-    width += HALF_GRID - (width + HALF_GRID) % GRID;
-    height += HALF_GRID - (height + HALF_GRID) % GRID;
+  x += HALF_GRID - (x + HALF_GRID) % GRID;
+  y += HALF_GRID - (y + HALF_GRID) % GRID;
+  width += HALF_GRID - (width + HALF_GRID) % GRID;
+  height += HALF_GRID - (height + HALF_GRID) % GRID;
 
-    return {x, y, width, height};
-}
+  return { x, y, width, height };
+};
 
 export const onLayoutChange = (newLayout, newLayoutId, prevLayouts, pack) => {
   const newSnappedLayout = snapToGrid(newLayout);
   const intendedNewLayout = intendedLayout(newSnappedLayout, newLayoutId, prevLayouts);
-  let newLayouts = {...prevLayouts};
+  const newLayouts = { ...prevLayouts };
   newLayouts[newLayoutId] = intendedNewLayout;
 
   const finalLayouts = resolveCurrentCollisions(newLayouts, [newLayoutId]);
 
-  if(pack) {
+  if (pack) {
     return packLayouts(finalLayouts);
-  } else {
-    return finalLayouts;
   }
-}
+  return finalLayouts;
+};
 
 export const calculateLayoutOnAdd = (newLayout, prevLayouts) => {
-    
-    let currentLayout = newLayout;
-    let valid = false;
+  let currentLayout = newLayout;
+  let valid = false;
 
-    const updateValid = (otherLayout) => {
-      if ((layoutsCollide(currentLayout, otherLayout))) {
-        valid = false;
-      }
-    };
-
-    while (!valid) {
-      valid = true;
-      _.forEach(prevLayouts, updateValid);
-
-      if (valid === true) {
-        break;
-      } else {
-        currentLayout = { ...currentLayout, y: currentLayout.y + 50 };
-      }
+  const updateValid = (otherLayout) => {
+    if ((layoutsCollide(currentLayout, otherLayout))) {
+      valid = false;
     }
+  };
 
-    return currentLayout;
-}
+  while (!valid) {
+    valid = true;
+    _.forEach(prevLayouts, updateValid);
+
+    if (valid === true) {
+      break;
+    } else {
+      currentLayout = { ...currentLayout, y: currentLayout.y + 50 };
+    }
+  }
+
+  return currentLayout;
+};
 
 export const calculateLayoutsOnRemove = (deletedLayoutId, prevLayouts, pack) => {
-
   const newLayouts = { ...prevLayouts };
   delete newLayouts[deletedLayoutId];
 
-  if(pack) {
+  if (pack) {
     return packLayouts(newLayouts);
-  } else {
-    return newLayouts;
   }
-
-}
+  return newLayouts;
+};

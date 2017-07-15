@@ -1,7 +1,6 @@
 import React from 'react';
 import Joyride from 'react-joyride';
-import Tile from './Tile';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
 
 const steps = [
 
@@ -29,16 +28,16 @@ const steps = [
     isFixed: true,
     allowClicksThruHole: true,
     position: 'bottom',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
       footer: {
         display: 'none',
       },
-    }  
+    },
   },
 
 
@@ -50,14 +49,14 @@ const steps = [
     isFixed: true,
     position: 'top',
     allowClicksThruHole: true,
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
 
-    }  
+    },
   },
 
   {
@@ -68,32 +67,32 @@ const steps = [
     isFixed: true,
     position: 'top',
     allowClicksThruHole: true,
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
       footer: {
         display: 'none',
       },
-      
-    }  
+
+    },
   },
- 
+
   {
     title: 'Tile',
     text: 'This is a tile',
     selector: '.joyride-tile',
     type: 'hover',
     position: 'top',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
-    }  
+    },
   },
 
   {
@@ -121,17 +120,17 @@ const steps = [
     isFixed: true,
     position: 'bottom',
     allowClicksThruHole: true,
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
 
       footer: {
         display: 'none',
       },
-    }  
+    },
   },
 
   {
@@ -140,16 +139,16 @@ const steps = [
     selector: '.joyride-tile',
     type: 'hover',
     position: 'top',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
-       footer: {
+      footer: {
         display: 'none',
       },
-    }
+    },
   },
 
   {
@@ -158,16 +157,16 @@ const steps = [
     selector: '.joyride-tile > button',
     type: 'hover',
     position: 'top',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
-       footer: {
+      footer: {
         display: 'none',
       },
-    }
+    },
   },
 
   {
@@ -176,16 +175,16 @@ const steps = [
     selector: '.joyride-tile-button',
     type: 'hover',
     position: 'top',
-    style:{
-     mainColor: '#46676b', 
-     beacon: {
-      inner: '#46676b',
-      outer: '#46676b'
+    style: {
+      mainColor: '#46676b',
+      beacon: {
+        inner: '#46676b',
+        outer: '#46676b',
       },
-       footer: {
+      footer: {
         display: 'none',
       },
-    }
+    },
   },
 
   {
@@ -252,7 +251,7 @@ const steps = [
       },
     },
   },
-  
+
 ];
 
 
@@ -274,99 +273,101 @@ export default class JoyRide extends React.Component {
     setTimeout(() => this.setState(() => ({ runTour: true, steps })), 3000);
   }
 
-    componentDidUpdate(prevProps, prevState) { 
-      if(this.state.finished) {
-        return;
-      }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.finished) {
+      return;
+    }
 
-      if(this.state.showOverlay !== prevState.showOverlay) {
-        this.joyride.reset();
-        this.joyride.next();
-        window.dispatchEvent(new Event('resize'));
-        return;
-      }
+    if (this.state.showOverlay !== prevState.showOverlay) {
+      this.joyride.reset();
+      this.joyride.next();
+      window.dispatchEvent(new Event('resize'));
+      return;
+    }
 
-      if(this.joyride.getProgress().index === 0){
-        return;
-      }
+    if (this.joyride.getProgress().index === 0) {
+      return;
+    }
 
-      if(this.props.tool === 'add_tile_form' && this.joyride.getProgress().step.title === 'Add Tool') {
-        this.joyride.next();
-        return;
-      }
+    if (this.props.tool === 'add_tile_form' && this.joyride.getProgress().step.title === 'Add Tool') {
+      this.joyride.next();
+      return;
+    }
 
-      if(this.props.tool === 'select' && this.joyride.getProgress().step.title === 'Submit') {
-
-        if(this.props.tiles.length > prevProps.tiles.length) {
-          const id = this.props.tiles[this.props.tiles.length - 1].id;
-          this.setState({id});
-          const trainingTile = document.getElementById(id);
-          trainingTile.classList.add('joyride-tile')
-          this.joyride.next();
-          return;
-        }
-      }
-
-      if(this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Drag Tool') {
-        const trainingTile = document.getElementById(this.state.id);
+    if (this.props.tool === 'select' && this.joyride.getProgress().step.title === 'Submit') {
+      if (this.props.tiles.length > prevProps.tiles.length) {
+        const id = this.props.tiles[this.props.tiles.length - 1].id;
+        this.setState({ id });
+        const trainingTile = document.getElementById(id);
         trainingTile.classList.add('joyride-tile');
-
-        trainingTile.children[2].classList.add('joyride-tile-button');
-        this.setState({showOverlay: false});
+        this.joyride.next();
         return;
       }
+    }
 
-      if(this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Resize Tile') {
-        const id = this.state.id;
-        if(this.props.layouts[id].width !== prevProps.layouts[id].width || this.props.layouts[id].height !== prevProps.layouts[id].height)
+    if (this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Drag Tool') {
+      const trainingTile = document.getElementById(this.state.id);
+      trainingTile.classList.add('joyride-tile');
+
+      trainingTile.children[2].classList.add('joyride-tile-button');
+      this.setState({ showOverlay: false });
+      return;
+    }
+
+    if (this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Resize Tile') {
+      const id = this.state.id;
+      if (this.props.layouts[id].width !== prevProps.layouts[id].width || this.props.layouts[id].height !== prevProps.layouts[id].height) { this.joyride.next(); }
+      return;
+    }
+
+    if (this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Drag Tile') {
+      const id = this.state.id;
+      if (this.props.layouts[id].x !== prevProps.layouts[id].x || this.props.layouts[id].y !== prevProps.layouts[id].y) {
+        if (!(this.props.layouts[id].width !== prevProps.layouts[id].width || this.props.layouts[id].height !== prevProps.layouts[id].height)) {
           this.joyride.next();
-        return;
-      }
-
-      if(this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Drag Tile') {
-        const id = this.state.id;
-        if(this.props.layouts[id].x !== prevProps.layouts[id].x || this.props.layouts[id].y !== prevProps.layouts[id].y){
-          if(!(this.props.layouts[id].width !== prevProps.layouts[id].width || this.props.layouts[id].height !== prevProps.layouts[id].height)){
-             this.joyride.next();
-          }
-        }
-        return;
-      }
-      if(this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Delete Tile') {
-        if(this.props.layouts[this.state.id] === undefined) {
-          this.setState({showOverlay: true});
         }
       }
-    
+      return;
+    }
+    if (this.props.tool === 'drag' && this.joyride.getProgress().step.title === 'Delete Tile') {
+      if (this.props.layouts[this.state.id] === undefined) {
+        this.setState({ showOverlay: true });
+      }
+    }
   }
 
   callback(data) {
-    /*console.log('%ccallback', 'color: #47AAAC; font-weight: bold; font-size: 13px;'); // eslint-disable-line no-console
+    /* console.log('%ccallback', 'color: #47AAAC; font-weight: bold; font-size: 13px;'); // eslint-disable-line no-console
     console.log(data); // eslint-disable-line no-console
 */
-    if(data.type === 'finished') {
-      this.setState({finished: true});
+    if (data.type === 'finished') {
+      this.setState({ finished: true });
     }
-
   }
 
   render() {
     return (
       <Joyride
-          ref={(c) => { this.joyride = c; }}
-          steps={this.state.steps}
-          run={this.state.runTour} // or some other boolean for when you want to start it
-          debug={false}
-          callback={this.callback.bind(this)}
-          showSkipButton
-          showStepsProgress
-          autoStart
-          showBackButton={false} 
-          scrollOffset={55}
-          showOverlay={this.state.showOverlay}
-          disableOverlay 
-          type={'continuous'}
-        />);
+        ref={(c) => { this.joyride = c; }}
+        steps={this.state.steps}
+        run={this.state.runTour} // or some other boolean for when you want to start it
+        debug={false}
+        callback={this.callback.bind(this)}
+        showSkipButton
+        showStepsProgress
+        autoStart
+        showBackButton={false}
+        scrollOffset={55}
+        showOverlay={this.state.showOverlay}
+        disableOverlay
+        type={'continuous'}
+      />);
   }
 
 }
+
+JoyRide.propTypes = {
+  tiles: PropTypes.array.isRequired,
+  layouts: PropTypes.object.isRequired,
+  tool: PropTypes.string.isRequired,
+};

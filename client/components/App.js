@@ -16,8 +16,10 @@ const uploadOptions = {
 
 const App = props => (
   <DropzoneS3Uploader
+    accept="application/pdf, image/*"
     style={{}}
     disableClick
+    onDropRejected={rejected => props.onDropRejected(rejected)}
     onFinish={(info) => { props.onFinishUpload(info); console.log(info); }}
     upload={uploadOptions}
     s3Url={S3_URL}
@@ -35,6 +37,7 @@ const App = props => (
 
 App.propTypes = {
   onFinishUpload: PropTypes.func.isRequired,
+  onDropRejected: PropTypes.func.isRequired,
 };
 
 export default App;

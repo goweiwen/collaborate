@@ -5,5 +5,4 @@ import layouts from './layouts';
 import annotation from './annotation';
 
 
-
-export default combineReducers({ tiles, messages, layouts, annotation});
+export default combineReducers({ tiles, messages, layouts, annotation });
