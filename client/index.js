@@ -81,7 +81,8 @@ const onDropRejected = (socket, dispatch) => (rejected) => {
         container.insertAdjacentHTML('afterbegin', droppedHTML);
 
         //if dragged item is from collaborate
-        if(container.getElementsByClassName("card tile")[0]) {
+        console.log(droppedHTML)
+        if(container.getElementsByClassName("collaborate-image")[0]) {
           return ;
         }
 
