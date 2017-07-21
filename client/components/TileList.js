@@ -8,7 +8,7 @@ const TileList = (props, context) => {
   const { socket } = context;
 
   return (
-    <div style={{ width: '1900px', height: '4000px' }}>
+    <div style={{ width: '1900px', height: '4000px' }} >
       { _.map(tiles, tile => (
         <Tile
           key={tile.id}

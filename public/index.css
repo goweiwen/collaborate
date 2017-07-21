@@ -7,6 +7,13 @@ body {
 
 }
 
+img{
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
 
 .react-draggable:not(.react-draggable-dragging) {
   transition: transform 0.2s;

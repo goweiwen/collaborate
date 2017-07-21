@@ -77,7 +77,14 @@ const onDropRejected = (socket, dispatch) => (rejected) => {
     if (dataTransferItem.type === 'text/html') {
       dataTransferItem.getAsString((droppedHTML) => {
         const container = document.createElement('div');
+
         container.insertAdjacentHTML('afterbegin', droppedHTML);
+
+        //if dragged item is from collaborate
+        if(container.getElementsByClassName("card tile")[0]) {
+          return ;
+        }
+
         const src = container.getElementsByTagName('img')[0].src;
 
         if (src === '') {
