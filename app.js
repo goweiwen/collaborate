@@ -53,6 +53,7 @@ export default (server) => {
     const room = socket.handshake.query.room;
 
     prepareRoom(room, (store) => {
+      
       console.log(`${socket.request.name} joined '${room}'`);
       socket.join(room);
 

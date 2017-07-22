@@ -81,7 +81,6 @@ const onDropRejected = (socket, dispatch) => (rejected) => {
         container.insertAdjacentHTML('afterbegin', droppedHTML);
 
         //if dragged item is from collaborate
-        console.log(droppedHTML)
         if(container.getElementsByClassName("collaborate-image")[0]) {
           return ;
         }
@@ -178,7 +177,6 @@ class Root extends React.Component {
 
 Root.childContextTypes = {
   socket: PropTypes.object,
-  user: PropTypes.string,
 };
 
 ReactDOM.render(

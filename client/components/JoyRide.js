@@ -6,7 +6,7 @@ const steps = [
 
   {
     title: 'collaborate!',
-    text: 'Welcome to collaborate!, an online collaborative file view and edit web application that supports multiple file types. If you wish to end the tutorial, press skip',
+    text: `Welcome <strong>${user}</strong> to collaborate!, an online collaborative file view and edit web application that supports multiple file types. If you wish to end the tutorial, press skip`,
     selector: '#logo',
     type: 'hover',
     isFixed: true,
@@ -22,7 +22,7 @@ const steps = [
 
   {
     title: 'Add Tool',
-    text: 'Let\'s start by adding a tile! Click on the <i class=\'fa fa-plus\'/> to proceed',
+    text: 'Let\'s start by adding a tile! Click on the <i class=\'fa fa-plus\'></i> to proceed',
     selector: '#add-tile-button',
     type: 'hover',
     isFixed: true,
@@ -114,7 +114,7 @@ const steps = [
 
   {
     title: 'Drag Tool',
-    text: 'Use this tool to drag, resize and remove tiles. Click on the <i class=\'fa fa-arrows\'/> to proceed',
+    text: 'Use this tool to drag, resize and remove tiles. Click on the <i class=\'fa fa-arrows\'></i> to proceed',
     selector: '#drag',
     type: 'hover',
     isFixed: true,
@@ -309,7 +309,7 @@ export default class JoyRide extends React.Component {
       const trainingTile = document.getElementById(this.state.id);
       trainingTile.classList.add('joyride-tile');
 
-      trainingTile.children[2].classList.add('joyride-tile-button');
+      trainingTile.children[3].classList.add('joyride-tile-button');
       this.setState({ showOverlay: false });
       return;
     }

@@ -12,9 +12,11 @@ class Menubar extends React.Component {
       burgerActive: false,
     };
   }
+
   render() {
     const { tiles, layouts, tool, packLayouts, submitTile, useSelectTool, useDragTool, usePenTool, useEraserTool, usePenColorTool, useAddTileFormTool } = this.props;
-    const { socket, user } = this.context;
+    const { socket } = this.context;
+
 
     const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
     return (
@@ -86,7 +88,6 @@ Menubar.propTypes = {
 
 Menubar.contextTypes = {
   socket: PropTypes.object,
-  user: PropTypes.string,
 };
 
 export default Menubar;
