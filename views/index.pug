@@ -5,10 +5,26 @@ html
     title collaborate!
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.3/css/bulma.min.css")
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous")
+    link(rel="stylesheet" href="./index.css" type="text/css")
 
 body
-  div.navbar
-    div.navbar-brand
-      img.navbar-item#logo(alt="collaborate" src="assets/logo.png")
+  .main
+    .hero
+    .section
+      img(alt="collaborate" src="assets/logo.png" width="653px" height="59px")
 
-  div.main
+      h1.title Study and interact with your friends in real-time!
+
+      .field.has-addons
+        .control.has-icons-left
+          input.input.is-large(type="text" value=room)
+          span.icon.is-medium.is-left
+            i.fa.fa-pencil
+        p.control
+          button.button.is-large.is-primary(onclick="start()") Let's Go!
+
+  script.
+    function start() {
+      room = document.querySelector("input").value;
+      window.location = window.location + room;
+    }

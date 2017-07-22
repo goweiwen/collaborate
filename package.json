@@ -44,6 +44,7 @@
     "passport-google-oauth2": "^0.1.6",
     "prop-types": "^15.5.10",
     "pug": "^2.0.0-rc.2",
+    "random-word": "^2.0.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-dropzone": "^3.13.1",
