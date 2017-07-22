@@ -6,6 +6,7 @@ import Image from './tiles/Image';
 import YouTube from './tiles/YouTube';
 import PDF from './tiles/PDF';
 import GoogleDoc from './tiles/GoogleDoc';
+import { calculateSince } from '../util/time';
 
 const ENABLED = {
   bottom: true,
@@ -58,7 +59,7 @@ const Tile = (props) => {
       <div className="notification tile-info">
         <div className="content is-small">
         <p>{`Owner: ${props.owner}`}</p>
-        <p>{`Last Edited By: ${props.lastEditBy} on ${props.lastEditTime}`}</p>
+        <p>{`Last Edited By: ${props.lastEditBy} ${calculateSince(props.lastEditTime)}`}</p>
         </div>
       </div>
       <button className="close-button" onClick={() => props.removeTile(props.id)} >
