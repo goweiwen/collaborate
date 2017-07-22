@@ -47,10 +47,6 @@ export default class AddTileForm extends React.Component {
       tile.src = this.state.src;
     }
 
-    tile.owner = user;
-    tile.lastEditBy = user;
-    tile.lastEditTime = new Date().toString();
-
     const layout = {
       x: 0,
       y: 0,

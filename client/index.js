@@ -20,8 +20,9 @@ const store = createStore(
 const emitAndDispatchTile = (socket, dispatch, tile, layout) => {
   const { tiles, layouts } = store.getState();
   const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
-
-  const newTile = { ...tile, id };
+  
+  const lastEditTime = new Date().toString();
+  const newTile = { ...tile, id, lastEditTime, owner: user, lastEditBy: user, };
   const newLayout = calculateLayoutOnAdd(layout, layouts);
 
   socket.emit(UPDATE_LAYOUT, newLayout, newTile.id);
@@ -102,6 +103,7 @@ const onDropRejected = (socket, dispatch) => (rejected) => {
         const tile = {
           src,
           tileType: 'image',
+          user,
         };
 
         emitAndDispatchTile(socket, dispatch, tile, layout);
