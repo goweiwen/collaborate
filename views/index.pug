@@ -9,22 +9,36 @@ html
 
 body
   .main
-    .hero
+    .hero.is-dark(style="background-color: #3c7f86")
+      .hero-body
+        .container
+          img(alt="collaborate" src="assets/logo.svg" width="900px")
+          h1.title Get on the same page
+
     .section
-      img(alt="collaborate" src="assets/logo.png" width="653px" height="59px")
-
-      h1.title Study and interact with your friends in real-time!
-
-      .field.has-addons
-        .control.has-icons-left
-          input.input.is-large(type="text" value=room)
-          span.icon.is-medium.is-left
-            i.fa.fa-pencil
-        p.control
-          button.button.is-large.is-primary(onclick="start()") Let's Go!
+      .container
+        h1.title Create a room!
+        .field.has-addons
+          p.control
+            button.button.is-large.is-static https://collaborate-app.herokuapp.com/
+          .control.has-icons-left
+            input.input.is-large(type="text" value=room onkeypress="return keypress(event)")
+            span.icon.is-medium.is-left
+              i.fa.fa-pencil
+          p.control
+            button.button.is-large.is-primary(onclick="start()") Let's Go!
 
   script.
+    function keypress(e) {
+      if (e.keyCode === 13) {
+        start();
+        e.preventDefault();
+      }
+    }
     function start() {
       room = document.querySelector("input").value;
-      window.location = window.location + room;
+      window.location = window.location.origin + '/' + room;
     }
+    var input = document.querySelector("input");
+    input.focus();
+    input.select();
