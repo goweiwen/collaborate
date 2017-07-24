@@ -53,11 +53,9 @@ export default (server) => {
     const room = socket.handshake.query.room;
 
     prepareRoom(room, (store) => {
-      
+
       console.log(`${socket.request.name} joined '${room}'`);
       socket.join(room);
-
-      const user = socket.request.name;
 
       const { layouts, tiles, messages, annotation } = stores[room].getState();
       socket.emit('initialise', { layouts, tiles, messages, annotation });
@@ -67,37 +65,37 @@ export default (server) => {
       });
 
       socket.on('drawing', (x0, y0, x1, y1, tool, erase) => {
-        socket.broadcast.emit('drawing', x0, y0, x1, y1, tool, erase);
+        socket.broadcast.to(room).emit('drawing', x0, y0, x1, y1, tool, erase);
       });
 
       socket.on('clear', () => {
-        socket.broadcast.emit('clear');
+        socket.broadcast.to(room).emit('clear');
       });
 
       socket.on(ADD_TILE, (tile, id) => {
         store.dispatch(addTile(tile, id));
-        socket.broadcast.emit(ADD_TILE, tile, id);
+        socket.broadcast.to(room).emit(ADD_TILE, tile, id);
       });
 
       socket.on(REMOVE_TILE, (id) => {
         store.dispatch(removeTile(id));
         store.dispatch(updateLayout(undefined, id));
-        socket.broadcast.emit(REMOVE_TILE, id);
+        socket.broadcast.to(room).emit(REMOVE_TILE, id);
       });
 
       socket.on(UPDATE_TILE, (tile) => {
         store.dispatch(updateTile(tile));
-        socket.broadcast.emit(UPDATE_TILE, tile);
+        socket.broadcast.to(room).emit(UPDATE_TILE, tile);
       });
 
       socket.on(UPDATE_LAYOUT, (layout, id) => {
         store.dispatch(updateLayout(layout, id));
-        socket.broadcast.emit(UPDATE_LAYOUT, layout, id);
+        socket.broadcast.to(room).emit(UPDATE_LAYOUT, layout, id);
       });
 
       socket.on(ADD_CHAT_MESSAGE, (message) => {
         store.dispatch(addChatMessage(message));
-        socket.broadcast.emit(ADD_CHAT_MESSAGE, message);
+        socket.broadcast.to(room).emit(ADD_CHAT_MESSAGE, message);
       });
 
       socket.on(UPDATE_ANNOTATION, (dataURL) => {
