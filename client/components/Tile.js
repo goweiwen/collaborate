@@ -58,8 +58,11 @@ const Tile = (props) => {
       })()}
       <div className="notification tile-info">
         <div className="content is-small">
-        <p>{`Owner: ${props.owner}`}</p>
-        <p>{`Last Edited By: ${props.lastEditBy} ${calculateSince(props.lastEditTime)}`}</p>
+          {(props.owner === props.lastEditBy) ? (
+            <p>created and edited by <strong>{props.owner}</strong> {calculateSince(props.lastEditTime)}</p>
+          ) : (
+            <p>created by <strong>{props.owner}</strong>, edited by <strong>{props.lastEditBy}</strong> {calculateSince(props.lastEditTime)}</p>
+          )}
         </div>
       </div>
       <button className="close-button" onClick={() => props.removeTile(props.id)} >
