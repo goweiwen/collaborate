@@ -11,24 +11,33 @@ During online group discussion, most of the time we work with multiple files tog
 Idea
 ===
 To simulate a table top discussion for projects/teaching/learning while leveraging on technology.
+* [Demo](collaborate-app.herokuapp.com/default)
+* [Ideation poster](http://imgur.com/a/rIfQm)
 * [Ideation video](https://youtu.be/GKMJ62m6eyM)
-* [Demo](https://youtu.be/fPaHSTDO05o)
+* [Development Video](https://youtu.be/fPaHSTDO05o)
+* [Submission poster](http://imgur.com/a/jAMeL)
+* [Submission](https://youtu.be/7TeuZ-MRs1k)
 
 Features
 ===
 - [x] Real time file viewing and editing (similar to google docs)
 - [ ] Supports wide range of file types
-  - [x] PDF(main lecture slide/tutorial file type)
+  - [x] PDF(main lecture slide/tutorial file type) -[ react-pdf](https://github.com/wojtekmaj/react-pdf)
   - [x] Image
-  - [x] Video
+  - [x] Video (Youtube)
+  - [x] Google Docs
   - [ ] Markdown
   - [ ] HTML
-- [ ] Able to view multiple files in the same screen
-- [x] Drag and Drop Upload
+- [x] Draggable and Resizable Tiles -[ react-rnd](https://github.com/bokuweb/react-rnd)
+- [x] Drag and Drop Upload -[ react-dropzone-s3-uploader](https://github.com/founderlab/react-dropzone-s3-uploader)
 - [ ] Communication channels
-- [ ] File System for access to Uploaded Files
-- [ ] Multiple Rooms for different groups
+- [ ] File System for access to Uploaded Files]
+- [x] Whiteboard Annotations
+- [x] Multiple Rooms for different groups
 - [x] Extensibility - abstract the implementation of tile so that other users can create their own tiles
+- [x] Feature Tour -[ react-joyride](https://github.com/gilbarbara/react-joyride)
+- [ ] Responsiveness
+- [ ] Permissions
 
 Target Uses and Users
 ===
