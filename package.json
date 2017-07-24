@@ -28,6 +28,7 @@
     "html-webpack-plugin": "^2.28.0",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
+    "koa-ensure-login": "^0.1.0",
     "koa-favicon": "^2.0.0",
     "koa-logger": "^3.0.0",
     "koa-multer": "^1.0.1",

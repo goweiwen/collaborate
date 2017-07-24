@@ -34,17 +34,13 @@ views(app);
 staticServer(app, router);
 
 router
-  // .get('/', ctx => ctx.redirect('/default'))
   .get('/', (ctx) => {
     ctx.state.room = randomWord();
     return ctx.render('./index.pug');
   })
   .get('/:room', (ctx) => {
-    if (ctx.isAuthenticated()) {
-      ctx.state.room = ctx.params.room;
-      return ctx.render('./rooms.pug');
-    }
-    return ctx.redirect('/login');
+    ctx.state.room = ctx.params.room;
+    return ctx.render('./rooms.pug');
   });
 
 const port = process.env.PORT || 3000;
