@@ -11,7 +11,7 @@ During online group discussion, most of the time we work with multiple files tog
 Idea
 ===
 To simulate a table top discussion for projects/teaching/learning while leveraging on technology.
-* [Demo](collaborate-app.herokuapp.com/default)
+* [Demo](http://collaborate-app.herokuapp.com/default)
 * [Ideation poster](http://imgur.com/a/rIfQm)
 * [Ideation video](https://youtu.be/GKMJ62m6eyM)
 * [Development Video](https://youtu.be/fPaHSTDO05o)
