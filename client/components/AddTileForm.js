@@ -6,7 +6,6 @@ const defaultState = {
   tileType: 'image',
   src: '',
   content: '',
-  lockAspectRatio: false,
 };
 
 
@@ -52,7 +51,6 @@ export default class AddTileForm extends React.Component {
       y: 0,
       width: 300,
       height: 300,
-      lockAspectRatio: this.state.lockAspectRatio,
     };
 
     this.props.submitTile(tile, layout);
@@ -96,16 +94,6 @@ export default class AddTileForm extends React.Component {
       </p>
     </div>);
 
-    const LAR =
-      (<div className="field">
-        <p className="control">
-          <label className="checkbox" htmlFor="LAR">
-            <input type="checkbox" id="LAR" onChange={this.handleLARchange.bind(this)} checked={this.state.lockAspectRatio} />
-            Lock Aspect Ratio?
-          </label>
-        </p>
-      </div>);
-
     const submit =
     (<div className="field is-grouped">
       <p className="control">
@@ -128,7 +116,6 @@ export default class AddTileForm extends React.Component {
                 <div id="tile-form" >
                   {type}
                   {src}
-                  {LAR}
                 </div>
                 <br />
                 {submit}

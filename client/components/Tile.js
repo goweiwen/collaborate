@@ -130,7 +130,6 @@ class RndTile extends React.Component {
         minHeight={200}
         onResizeStop={this.onDragOrResizeStop}
         onDragStop={this.onDragOrResizeStop}
-        lockAspectRatio={layout.lockAspectRatio}
         enableResizing={props.tool === 'drag' ? ENABLED : DISABLED}
         disableDragging={props.tool !== 'drag'}
         bounds="parent"
