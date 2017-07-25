@@ -40,11 +40,12 @@ router
     return ctx.render('./index.pug');
   })
   .get('/:room', (ctx) => {
-    if (ctx.isAuthenticated()) {
-      ctx.state.room = ctx.params.room;
-      return ctx.render('./rooms.pug');
+    if (!ctx.isAuthenticated()) {
+      ctx.session.redirectTo = ctx.req.url;
+      return ctx.redirect('/login');
     }
-    return ctx.redirect('/login');
+    ctx.state.room = ctx.params.room;
+    return ctx.render('./rooms.pug');
   });
 
 const port = process.env.PORT || 3000;

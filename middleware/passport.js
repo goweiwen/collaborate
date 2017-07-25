@@ -20,7 +20,6 @@ export default (app, router) => {
   }));
 
   router.get('/login/callback', passport.authenticate('google', {
-    successRedirect: '/',
     failureRedirect: '/login',
-  }));
+  }), ctx => ctx.redirect(ctx.session.redirectTo));
 };
