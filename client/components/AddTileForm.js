@@ -96,20 +96,6 @@ export default class AddTileForm extends React.Component {
       </p>
     </div>);
 
-    let contentDisabled = true;
-
-    if (this.state.tileType === 'text') {
-      contentDisabled = false;
-    }
-
-    const content =
-    (<div className="field">
-      <label className="label" htmlFor="Content">Content</label>
-      <p className="control" id="Content">
-        <input className="input" value={this.state.content} type="text" placeholder="Content" onChange={this.handleContentChange.bind(this)} disabled={contentDisabled} />
-      </p>
-    </div>);
-
     const LAR =
       (<div className="field">
         <p className="control">
@@ -142,7 +128,6 @@ export default class AddTileForm extends React.Component {
                 <div id="tile-form" >
                   {type}
                   {src}
-                  {content}
                   {LAR}
                 </div>
                 <br />
