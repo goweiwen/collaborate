@@ -32,7 +32,10 @@ const mapDispatchToProps = dispatch => ({
     }
   },
 
-  updateTile: (socket, tile) => {
+  updateTile: (socket, user) => (tile) => {
+    tile.lastEditBy = user;
+    tile.lastEditTime = new Date().toString();
+
     socket.emit(UPDATE_TILE, tile);
     dispatch(updateTile(tile));
   },

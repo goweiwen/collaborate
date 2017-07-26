@@ -23,14 +23,6 @@ export default class AddTileForm extends React.Component {
     this.setState(() => ({ src: event.target.value }));
   }
 
-  handleContentChange() {
-    this.setState(() => ({ content: event.target.value }));
-  }
-
-  handleLARchange() {
-    this.setState(state => ({ lockAspectRatio: !state.lockAspectRatio }));
-  }
-
   handleToggleActive() {
     this.props.useAddTileFormTool();
   }
@@ -75,6 +67,7 @@ export default class AddTileForm extends React.Component {
             <option value="text">Text</option>
             <option selected value="youtube">YouTube</option>
             <option value="googledoc">GoogleDoc</option>
+            <option value="poll">Poll</option>
           </select>
         </span>
       </p>

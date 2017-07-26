@@ -9,9 +9,8 @@ import { calculateLayoutOnAdd, packLayouts } from '../util/collision';
 const mapStateToProps = state => ({ tiles: state.tiles, tool: state.tool, layouts: state.layouts });
 
 const emitSubmitTile = (dispatch, socket, id, tile, layout) => {
-
   const lastEditTime = new Date().toString();
-  const newTile = { ...tile, id, lastEditTime, owner: user, lastEditBy: user, };
+  const newTile = { ...tile, id, lastEditTime, owner: user, lastEditBy: user };
 
   socket.emit(UPDATE_LAYOUT, layout, id);
   socket.emit(ADD_TILE, newTile, id);

@@ -20,9 +20,9 @@ const store = createStore(
 const emitAndDispatchTile = (socket, dispatch, tile, layout) => {
   const { tiles, layouts } = store.getState();
   const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
-  
+
   const lastEditTime = new Date().toString();
-  const newTile = { ...tile, id, lastEditTime, owner: user, lastEditBy: user, };
+  const newTile = { ...tile, id, lastEditTime, owner: user, lastEditBy: user };
   const newLayout = calculateLayoutOnAdd(layout, layouts);
 
   socket.emit(UPDATE_LAYOUT, newLayout, newTile.id);
@@ -81,9 +81,9 @@ const onDropRejected = (socket, dispatch) => (rejected) => {
 
         container.insertAdjacentHTML('afterbegin', droppedHTML);
 
-        //if dragged item is from collaborate
-        if(container.getElementsByClassName("collaborate-image")[0]) {
-          return ;
+        // if dragged item is from collaborate
+        if (container.getElementsByClassName('collaborate-image')[0]) {
+          return;
         }
 
         const src = container.getElementsByTagName('img')[0].src;

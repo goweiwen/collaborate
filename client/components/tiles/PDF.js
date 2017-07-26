@@ -56,8 +56,7 @@ class PDF extends React.Component {
 
 
     if (page >= 0 && page < this.state.total) {
-      
-      this.props.updateTile(this.context.socket, { id: this.props.id, page });
+      this.props.updateTile({ id: this.props.id, page });
     }
   }
 

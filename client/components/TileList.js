@@ -17,7 +17,7 @@ const TileList = (props, context) => {
           removeTile={removeTile(socket, layouts)}
           updateLayout={updateLayout(socket, layouts)}
           tool={tool}
-          updateTile={updateTile}
+          updateTile={updateTile(socket, user)}
           {...tile}
         />
       ))}

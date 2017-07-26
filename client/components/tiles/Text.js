@@ -8,10 +8,9 @@ export default class Text extends React.Component {
   }
 
   valueChange() {
-    const date = new Date().toString();
     const content = this.textArea.value;
-    const tile = { id: this.props.id, lastEditBy: user, lastEditTime: date, content };
-    this.props.updateTile(this.context.socket, tile);
+    const tile = { id: this.props.id, content };
+    this.props.updateTile(tile);
   }
 
   render() {

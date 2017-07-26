@@ -6,6 +6,7 @@ import Image from './tiles/Image';
 import YouTube from './tiles/YouTube';
 import PDF from './tiles/PDF';
 import GoogleDoc from './tiles/GoogleDoc';
+import Poll from './tiles/Poll';
 import { calculateSince } from '../util/time';
 
 const ENABLED = {
@@ -36,6 +37,7 @@ const Tile = (props) => {
     tile: props.tile,
     width: props.width,
     height: props.height,
+    owner: props.owner,
   };
   return (
     <div className={`card tile ${props.tool === 'drag' ? '' : 'locked'} ${props.tileType}`} id={props.id} >
@@ -52,6 +54,8 @@ const Tile = (props) => {
             return <PDF {...all} src={props.src} page={props.page} updateTile={props.updateTile} />;
           case 'googledoc':
             return <GoogleDoc {...all} src={props.src} />;
+          case 'poll':
+            return <Poll {...all} updateTile={props.updateTile} answers={props.answers} voted={props.voted} question={props.question} />;
           default:
             return <span>{props.type}</span>;
         }
