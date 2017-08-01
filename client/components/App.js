@@ -14,7 +14,6 @@ const uploadOptions = {
   s3Url: S3_URL,
 };
 
-
 const App = props => (
   <DropzoneS3Uploader
     accept="application/pdf, image/*"
@@ -26,9 +25,8 @@ const App = props => (
     s3Url={S3_URL}
   >
     <div className="workspace">
-      {!window.localStorage.getItem('tourFinished') && <Joyride />}
       <Menubar />
-      <Joyride />
+      {(window.localStorage.getItem('tourFinished') != 'true') && <Joyride />}
       <UserList />
       <div style={{ width: '100vw', height: 52 }} />
       <AnnotationLayer />
