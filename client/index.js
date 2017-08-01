@@ -135,8 +135,8 @@ class Root extends React.Component {
       store.dispatch(updateAnnotation(annotation));
       store.dispatch(userJoined({ user, photo }));
       Object.keys(users).forEach((user) => {
-        for (let i = 0; i < users[user]; i++) {
-          store.dispatch(userJoined(user));
+        for (let i = 0; i < users[user].count; i++) {
+          store.dispatch(userJoined(users[user]));
         }
       });
     });

@@ -236,13 +236,18 @@ img{
 
 .user-list {
   position: fixed;
-  bottom: 0;
-  right: 0;
+  bottom: 5px;
+  left: 5px;
+  z-index: 100;
 }
 
 .user {
-  display: flex;
   margin: 5px;
+  border-radius: 30px;
+}
+
+.user:hover {
+  background: white;
 }
 
 .user-photo {
@@ -251,20 +256,18 @@ img{
   border-radius: 25px;
   vertical-align: middle;
   pointer-events: auto;
-  order: 2;
-  border: 3px solid transparent;
+  border: 5px solid transparent;
 }
 
 .user-name {
-  margin-right: 10px;
+  margin: 0 15px;
   text-align: right;
   display: none;
-  order: 1;
   line-height: 50px;
 }
 
 .user-photo:hover, .user-photo:active {
-  border-color: black;
+  border-color: white;
 }
 
 .user-photo:hover + .user-name {

@@ -6,7 +6,7 @@ const UserList = props => (
   <div className="user-list">
     {_.map(Object.keys(props.users), user => (
       <div className="user" key={user}>
-        <img className="user-photo" src={props.users[user].photo} key={user} />
+        <img className="user-photo collaborate-image" src={props.users[user].photo} key={user} />
         <span className="user-name">{user}</span>
       </div>
     ))}
