@@ -52,6 +52,8 @@ const Tile = (props) => {
             return <YouTube {...all} src={props.src} />;
           case 'pdf':
             return <PDF {...all} src={props.src} page={props.page} updateTile={props.updateTile} />;
+          case 'chess':
+            return <Chess {...all} board={props.board} updateTile={props.updateTile} />;
           case 'googledoc':
             return <GoogleDoc {...all} src={props.src} />;
           case 'poll':

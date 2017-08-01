@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DropzoneS3Uploader from 'react-dropzone-s3-uploader';
 import TileList from '../containers/TileList';
-import Toolbar from '../containers/Menubar';
+import Menubar from '../containers/Menubar';
+import UserList from '../containers/UserList';
 import AnnotationLayer from '../containers/AnnotationLayer';
 import Joyride from '../containers/JoyRide';
 import { S3_URL } from '../../credentials';
@@ -26,7 +27,9 @@ const App = props => (
   >
     <div className="workspace">
       {!window.localStorage.getItem('tourFinished') && <Joyride />}
-      <Toolbar />
+      <Menubar />
+      <Joyride />
+      <UserList />
       <div style={{ width: '100vw', height: 52 }} />
       <AnnotationLayer />
       <TileList />

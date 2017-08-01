@@ -6,8 +6,8 @@ import { applyMiddleware, createStore } from 'redux';
 import reducer from './reducers/server';
 import db from './db';
 import {
-  addTile, updateTile, removeTile, addChatMessage, updateLayout, updateAnnotation,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, INITIALISE_LAYOUTS, UPDATE_ANNOTATION,
+  addTile, updateTile, removeTile, addChatMessage, updateLayout, updateAnnotation, userJoined, userLeft,
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION, USER_JOINED, USER_LEFT,
 } from './actions';
 import sessionStore from './middleware/store';
 
@@ -24,9 +24,11 @@ function prepareRoom(room, callback) {
     return;
   }
   db.get(`redux-${room}`, (err, initialState) => {
+    const state = initialState ? JSON.parse(initialState) : {};
+    state.users = {'nicholaschua@gmail.com': 1};
     const store = createStore(
       reducer,
-      initialState ? JSON.parse(initialState) : undefined,
+      state,
       applyMiddleware(persist(room)),
     );
     stores[room] = store;
@@ -54,13 +56,17 @@ export default (server) => {
 
     prepareRoom(room, (store) => {
       console.log(`${socket.request.name} joined '${room}'`);
+      store.dispatch(userJoined(socket.request.name));
+      socket.broadcast.to(room).emit(USER_JOINED, socket.request.name);
       socket.join(room);
 
-      const { layouts, tiles, messages, annotation } = stores[room].getState();
-      socket.emit('initialise', { layouts, tiles, messages, annotation });
+      const { layouts, tiles, messages, annotation, users } = store.getState();
+      socket.emit('initialise', { layouts, tiles, messages, annotation, users });
 
       socket.on('disconnect', () => {
         console.log(`${socket.request.name} left '${room}'`);
+        store.dispatch(userLeft(socket.request.name));
+        socket.broadcast.to(room).emit(USER_LEFT, socket.request.name);
       });
 
       socket.on('drawing', (x0, y0, x1, y1, tool, erase) => {

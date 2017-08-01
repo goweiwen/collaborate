@@ -4,14 +4,17 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { applyMiddleware, createStore } from 'redux';
+import logger from 'redux-logger';
 import io from 'socket.io-client';
 import 'babel-polyfill';
 import App from './components/App';
-import { addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout, updateAnnotation, enablePacking, disablePacking,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION, ENABLE_PACKING, DISABLE_PACKING } from '../actions';
+import {
+  addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout, updateAnnotation, userJoined, userLeft,
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION, USER_JOINED, USER_LEFT
+} from '../actions';
 import reducer from '../reducers/client';
 import { calculateLayoutOnAdd } from './util/collision';
-import logger from 'redux-logger';
+
 const store = createStore(
   reducer,
   applyMiddleware(logger),
@@ -125,11 +128,16 @@ class Root extends React.Component {
       },
     });
 
-    this.socket.on('initialise', ({ layouts, tiles, messages, annotation }) => {
+    this.socket.on('initialise', ({ layouts, tiles, messages, annotation, users }) => {
       store.dispatch(initialiseLayouts(layouts));
       tiles.forEach(tile => store.dispatch(addTile(tile, tile.id)));
       messages.forEach(message => store.dispatch(addChatMessage(message)));
       store.dispatch(updateAnnotation(annotation));
+      Object.keys(users).forEach((user) => {
+        for (let i = 0; i < users[user]; i++) {
+          store.dispatch(userJoined(user));
+        }
+      });
     });
 
     this.socket.on(ADD_TILE, (tile, id) => {
@@ -157,12 +165,12 @@ class Root extends React.Component {
       store.dispatch(updateLayout(layout, id));
     });
 
-    this.socket.on(ENABLE_PACKING, () => {
-      store.dispatch(enablePacking());
+    this.socket.on(USER_JOINED, (user) => {
+      store.dispatch(userJoined(user));
     });
 
-    this.socket.on(DISABLE_PACKING, () => {
-      store.dispatch(disablePacking());
+    this.socket.on(USER_LEFT, (user) => {
+      store.dispatch(userLeft(user));
     });
   }
 

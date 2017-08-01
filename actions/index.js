@@ -43,3 +43,10 @@ export const addChatMessage = message => ({ type: ADD_CHAT_MESSAGE, message });
 // Annotation Actions
 export const UPDATE_ANNOTATION = 'UPDATE_ANNOTATION';
 export const updateAnnotation = dataURL => ({ type: UPDATE_ANNOTATION, dataURL });
+
+// Users Actions
+export const USER_JOINED = 'USER_JOINED';
+export const USER_LEFT = 'USER_LEFT';
+
+export const userJoined = user => ({ type: USER_JOINED, user });
+export const userLeft = user => ({ type: USER_LEFT, user });
