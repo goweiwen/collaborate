@@ -45,6 +45,7 @@ router
       return ctx.redirect('/login');
     }
     ctx.state.room = ctx.params.room;
+    console.log(ctx.state);
     return ctx.render('./rooms.pug');
   });
 

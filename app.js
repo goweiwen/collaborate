@@ -25,7 +25,7 @@ function prepareRoom(room, callback) {
   }
   db.get(`redux-${room}`, (err, initialState) => {
     const state = initialState ? JSON.parse(initialState) : {};
-    state.users = {'nicholaschua@gmail.com': 1};
+    state.users = {};
     const store = createStore(
       reducer,
       state,
@@ -44,7 +44,7 @@ export default (server) => {
     const session = await sessionStore.get(sid);
     if (session) {
       // eslint-disable-next-line no-param-reassign
-      data.name = session.passport.user;
+      data.user = session.passport.user;
       accept(null, true);
     } else {
       console.log('Authentication error.');
@@ -55,18 +55,20 @@ export default (server) => {
     const room = socket.handshake.query.room;
 
     prepareRoom(room, (store) => {
-      console.log(`${socket.request.name} joined '${room}'`);
-      store.dispatch(userJoined(socket.request.name));
-      socket.broadcast.to(room).emit(USER_JOINED, socket.request.name);
-      socket.join(room);
+      console.log(`${socket.request.user.user} joined '${room}'`);
 
       const { layouts, tiles, messages, annotation, users } = store.getState();
       socket.emit('initialise', { layouts, tiles, messages, annotation, users });
 
+      store.dispatch(userJoined(socket.request.user));
+      socket.broadcast.to(room).emit(USER_JOINED, socket.request.user);
+
+      socket.join(room);
+
       socket.on('disconnect', () => {
-        console.log(`${socket.request.name} left '${room}'`);
-        store.dispatch(userLeft(socket.request.name));
-        socket.broadcast.to(room).emit(USER_LEFT, socket.request.name);
+        console.log(`${socket.request.user.user} left '${room}'`);
+        store.dispatch(userLeft(socket.request.user));
+        socket.broadcast.to(room).emit(USER_LEFT, socket.request.user);
       });
 
       socket.on('drawing', (x0, y0, x1, y1, tool, erase) => {

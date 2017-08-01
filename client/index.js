@@ -10,7 +10,7 @@ import 'babel-polyfill';
 import App from './components/App';
 import {
   addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout, updateAnnotation, userJoined, userLeft,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION, USER_JOINED, USER_LEFT
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION, USER_JOINED, USER_LEFT,
 } from '../actions';
 import reducer from '../reducers/client';
 import { calculateLayoutOnAdd } from './util/collision';
@@ -133,6 +133,7 @@ class Root extends React.Component {
       tiles.forEach(tile => store.dispatch(addTile(tile, tile.id)));
       messages.forEach(message => store.dispatch(addChatMessage(message)));
       store.dispatch(updateAnnotation(annotation));
+      store.dispatch(userJoined({ user, photo }));
       Object.keys(users).forEach((user) => {
         for (let i = 0; i < users[user]; i++) {
           store.dispatch(userJoined(user));

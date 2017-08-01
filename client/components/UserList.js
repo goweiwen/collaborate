@@ -2,22 +2,16 @@ import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
-const listStyle = {
-  position: 'absolute',
-  bottom: 0,
-  right: 0,
-};
-
-const userStyle = {
-  
-};
-
-const UserList = (props) => {
-  console.log(props)
-  return <div style={listStyle}>
-    {_.map(Object.keys(props.users), user => <div style={userStyle} key={user}>{user}</div>)}
+const UserList = props => (
+  <div className="user-list">
+    {_.map(Object.keys(props.users), user => (
+      <div className="user" key={user}>
+        <img className="user-photo" src={props.users[user].photo} key={user} />
+        <span className="user-name">{user}</span>
+      </div>
+    ))}
   </div>
-};
+);
 
 UserList.propTypes = {
   users: PropTypes.object.isRequired,

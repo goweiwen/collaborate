@@ -6,7 +6,7 @@ passport.use(new GoogleStrategy({
   clientID: GOOGLE_CLIENT_ID,
   clientSecret: GOOGLE_CLIENT_SECRET,
   callbackURL: '/login/callback',
-}, (accessToken, refreshToken, profile, done) => done(null, profile.email)));
+}, (accessToken, refreshToken, profile, done) => done(null, { user: profile.email, photo: profile.photos[0].value })));
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
