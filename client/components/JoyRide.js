@@ -259,6 +259,7 @@ export default class JoyRide extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       runTour: false,
       steps: [],
@@ -342,6 +343,7 @@ export default class JoyRide extends React.Component {
 */
     if (data.type === 'finished') {
       this.setState({ finished: true });
+      window.localStorage.setItem('tourFinished', true);
     }
   }
 

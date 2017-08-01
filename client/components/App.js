@@ -25,7 +25,7 @@ const App = props => (
     s3Url={S3_URL}
   >
     <div className="workspace">
-      <Joyride />
+      {!window.localStorage.getItem('tourFinished') && <Joyride />}
       <Toolbar />
       <div style={{ width: '100vw', height: 52 }} />
       <AnnotationLayer />

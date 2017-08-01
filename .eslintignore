@@ -2,3 +2,5 @@ public/*.js
 semantic/
 
 dist/bundle.js
+
+client/util/time.js
