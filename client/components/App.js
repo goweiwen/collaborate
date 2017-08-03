@@ -24,15 +24,17 @@ const App = props => (
     upload={uploadOptions}
     s3Url={S3_URL}
   >
-    <div className="workspace">
+    <div>
       <Menubar />
       {(window.localStorage.getItem('tourFinished') != 'true') && <Joyride />}
       <UserList />
-      <div style={{ width: '100vw', height: 52 }} />
-      <AnnotationLayer />
-      <TileList />
+      <div className="workspace">
+        <div style={{ position: 'relative' }}>
+          <AnnotationLayer />
+          <TileList />
+        </div>
+      </div>
     </div>
-
   </DropzoneS3Uploader>
 );
 

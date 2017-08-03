@@ -64,9 +64,7 @@ class Menubar extends React.Component {
             />
           </div>
         </div>
-
-
-        <div className="navbar-end">
+        <div className="navbar-end is-hidden-touch">
           <span className="navbar-item">{user}</span>
         </div>
       </div>);

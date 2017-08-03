@@ -108,17 +108,14 @@ export default class AnnotationLayer extends React.Component {
     const { tool } = this.props;
 
     return (
-      <div>
-        {/* <button onClick={() => { this.clear(true); }}>Clear</button></p> */}
-        <canvas
-          className="AnnotationCanvas"
-          style={{ position: 'absolute', zIndex: 3, pointerEvents: _.startsWith(tool, 'pen_') || tool === 'eraser' ? 'all' : 'none' }}
-          ref={(canvas) => { this.canvas = canvas; }}
-          onMouseDown={e => this.mouseDown(e)}
-          onMouseUp={e => this.mouseUp(e)}
-          onMouseMove={e => throttle(this.mouseMove(e), 10)}
-        />
-      </div>
+      <canvas
+        className="annotation"
+        style={{ position: 'absolute', zIndex: 3, pointerEvents: _.startsWith(tool, 'pen_') || tool === 'eraser' ? 'all' : 'none' }}
+        ref={(canvas) => { this.canvas = canvas; }}
+        onMouseDown={e => this.mouseDown(e)}
+        onMouseUp={e => this.mouseUp(e)}
+        onMouseMove={e => throttle(this.mouseMove(e), 10)}
+      />
     );
   }
 }
