@@ -121,8 +121,33 @@ img{
   height: 100%;
 }
 
+.tile-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+
 .tile.image, .tile.youtube, .tile.pdf {
   padding: 0;
+}
+
+.tile.text .preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  background: white;
+  width: 100%;
+  height: 100%;
+}
+
+.tile.text .textarea {
+  border: none;
+  box-shadow: none;
+  resize: none;
+  width: 100%;
+  height: 100%;
 }
 
 .tile.pdf {
