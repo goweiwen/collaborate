@@ -19,6 +19,10 @@ img{
     user-select: none;
 }
 
+.navbar.has-shadow {
+  box-shadow: #888 0 0 8px;
+}
+
 .tile {
   user-select: none;
 }
