@@ -243,11 +243,8 @@ img{
 
 .user {
   margin: 5px;
+  height: 50px;
   border-radius: 30px;
-}
-
-.user:hover {
-  background: white;
 }
 
 .user-photo {
@@ -256,20 +253,15 @@ img{
   border-radius: 25px;
   vertical-align: middle;
   pointer-events: auto;
-  border: 5px solid transparent;
+  border: 3px solid transparent;
 }
 
 .user-name {
-  margin: 0 15px;
-  text-align: right;
   display: none;
-  line-height: 50px;
-}
-
-.user-photo:hover, .user-photo:active {
-  border-color: white;
+  margin: 0 15px;
 }
 
 .user-photo:hover + .user-name {
   display: inline-block;
 }
+

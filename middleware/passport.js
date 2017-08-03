@@ -1,4 +1,5 @@
 import passport from 'koa-passport';
+import randomColor from 'randomcolor';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '../credentials';
 
@@ -6,7 +7,11 @@ passport.use(new GoogleStrategy({
   clientID: GOOGLE_CLIENT_ID,
   clientSecret: GOOGLE_CLIENT_SECRET,
   callbackURL: '/login/callback',
-}, (accessToken, refreshToken, profile, done) => done(null, { user: profile.email, photo: profile.photos[0].value })));
+}, (accessToken, refreshToken, profile, done) => done(null, {
+  user: profile.email,
+  photo: profile.photos[0].value,
+  colour: randomColor({ seed: profile.email }),
+})));
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));

@@ -133,7 +133,7 @@ class Root extends React.Component {
       tiles.forEach(tile => store.dispatch(addTile(tile, tile.id)));
       messages.forEach(message => store.dispatch(addChatMessage(message)));
       store.dispatch(updateAnnotation(annotation));
-      store.dispatch(userJoined({ user, photo }));
+      store.dispatch(userJoined({ user, photo, colour }));
       Object.keys(users).forEach((user) => {
         for (let i = 0; i < users[user].count; i++) {
           store.dispatch(userJoined(users[user]));

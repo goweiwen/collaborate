@@ -8,6 +8,7 @@ function users(state = {}, action) {
         [action.user.user]: {
           user: action.user.user,
           photo: action.user.photo,
+          colour: action.user.colour,
           count: state[action.user.user] ? state[action.user.user].count + 1 : 1,
         },
       };
