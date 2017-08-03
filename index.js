@@ -4,7 +4,6 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import logger from 'koa-logger';
-import randomWord from 'random-word';
 import multer from './middleware/multer';
 import passport from './middleware/passport';
 import s3 from './middleware/s3';
@@ -36,7 +35,7 @@ staticServer(app, router);
 router
   // .get('/', ctx => ctx.redirect('/default'))
   .get('/', (ctx) => {
-    ctx.state.room = randomWord();
+    ctx.state.room = 'default';
     return ctx.render('./index.pug');
   })
   .get('/:room', (ctx) => {
@@ -45,7 +44,6 @@ router
       return ctx.redirect('/login');
     }
     ctx.state.room = ctx.params.room;
-    console.log(ctx.state);
     return ctx.render('./rooms.pug');
   });
 
