@@ -66,51 +66,46 @@ const resolveCurrentCollisions = (layouts, ids) => {
   return resolveCurrentCollisions(newLayouts, newIDs);
 };
 
-export const packLayouts = (prevLayouts) => {
-  const layoutsCopy = { ...prevLayouts };
-  const newLayouts = { ...prevLayouts };
+export const packLayouts = (layouts) => {
+  const ret = { ...layouts };
 
-  const findSmallestYid = (layouts) => {
-    let smallestID;
-    let smallestY = Infinity;
+  // Repeat until we can't pack any more
+  let changed = true;
+  while (changed) {
+    changed = false;
 
-    _.forEach(layouts, (layout, layoutIdString) => {
-      if (layout.y < smallestY) {
-        smallestID = layoutIdString;
-        smallestY = layout.y;
+    // Pack by y position
+    const sortedByY = _.sortBy(Object.keys(layouts), i => layouts[i].y);
+    for (let i of sortedByY) {
+      let y = ret[i].y - GRID;
+      let layout = { ...ret[i], y };
+      while (validLayout(layout) && !anyCollisions(i, layout, ret)) {
+        changed = true;
+        y -= GRID;
+        layout = { ...ret[i], y };
       }
-    });
-    return smallestID;
-  };
-
-  while (Object.keys(layoutsCopy).length > 0) {
-    const currentID = findSmallestYid(layoutsCopy);
-    const currentLayout = { ...layoutsCopy[currentID] };
-
-    delete layoutsCopy[currentID];
-
-    while (currentLayout.y > 0) {
-      currentLayout.y -= 50;
-      let valid = true;
-      _.forEach(newLayouts, (layout, layoutIdString) => {
-        if (layoutIdString === currentID) {
-          return;
-        }
-
-        if (layoutsCollide(currentLayout, layout)) {
-          valid = false;
-        }
-      });
-      if (!valid) {
-        currentLayout.y += 50;
-        break;
-      }
+      ret[i].y = y + GRID;
     }
-    newLayouts[currentID] = currentLayout;
+
+    // Pack by x position
+    const sortedByX = _.sortBy(Object.keys(layouts), i => layouts[i].x);
+    for (let i of sortedByX) {
+      let x = ret[i].x - GRID;
+      let layout = { ...ret[i], x };
+      while (validLayout(layout) && !anyCollisions(i, layout, ret)) {
+        changed = true;
+        x -= GRID;
+        layout = { ...ret[i], x };
+      }
+      ret[i].x = x + GRID;
+    }
+
   }
 
-  return newLayouts;
+  return ret;
 };
+
+const validLayout = (layout) => layout.x >= 0 && layout.y >= 0;
 
 const layoutsCollide = (layout1, layout2) => !(
   (layout1.x >= layout2.x + layout2.width) ||
@@ -118,6 +113,9 @@ const layoutsCollide = (layout1, layout2) => !(
   (layout1.y >= layout2.y + layout2.height) ||
   (layout1.y + layout1.height <= layout2.y)
 );
+
+const anyCollisions = (id, layout, layouts) =>
+  _.some(Object.keys(layouts), i => id !== i && layoutsCollide(layout, layouts[i]));
 
 const intendedLayout = (newLayout, newLayoutId, prevLayouts) => {
   let y = newLayout.y;
@@ -177,7 +175,7 @@ export const calculateLayoutOnAdd = (newLayout, prevLayouts) => {
     if (valid === true) {
       break;
     } else {
-      currentLayout = { ...currentLayout, y: currentLayout.y + 50 };
+      currentLayout = { ...currentLayout, y: currentLayout.y + GRID };
     }
   }
 
