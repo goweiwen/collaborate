@@ -47,6 +47,8 @@ export const updateAnnotation = dataURL => ({ type: UPDATE_ANNOTATION, dataURL }
 // Users Actions
 export const USER_JOINED = 'USER_JOINED';
 export const USER_LEFT = 'USER_LEFT';
+export const USER_MOVED = 'USER_MOVED';
 
 export const userJoined = user => ({ type: USER_JOINED, user });
 export const userLeft = user => ({ type: USER_LEFT, user });
+export const userMoved = user => ({ type: USER_MOVED, user });

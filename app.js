@@ -6,8 +6,8 @@ import { applyMiddleware, createStore } from 'redux';
 import reducer from './reducers/server';
 import db from './db';
 import {
-  addTile, updateTile, removeTile, addChatMessage, updateLayout, updateAnnotation, userJoined, userLeft,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION, USER_JOINED, USER_LEFT,
+  addTile, updateTile, removeTile, addChatMessage, updateLayout, updateAnnotation, userJoined, userLeft, userMoved,
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION, USER_JOINED, USER_LEFT, USER_MOVED,
 } from './actions';
 import sessionStore from './middleware/store';
 
@@ -108,6 +108,11 @@ export default (server) => {
       socket.on(UPDATE_ANNOTATION, (dataURL) => {
         store.dispatch(updateAnnotation(dataURL));
         /* socket.broadcast.emit(UPDATE_ANNOTATION, dataURL);*/
+      });
+
+      socket.on(USER_MOVED, ({ user, x, y }) => {
+        store.dispatch(userMoved({ user, x, y }));
+        socket.broadcast.to(room).emit(USER_MOVED, { user, x, y });
       });
     });
   });

@@ -1,4 +1,4 @@
-import { USER_JOINED, USER_LEFT } from '../actions';
+import { USER_JOINED, USER_LEFT, USER_MOVED } from '../actions';
 
 function users(state = {}, action) {
   switch (action.type) {
@@ -9,6 +9,8 @@ function users(state = {}, action) {
           user: action.user.user,
           photo: action.user.photo,
           colour: action.user.colour,
+          x: action.user.x,
+          y: action.user.y,
           count: state[action.user.user] ? state[action.user.user].count + 1 : 1,
         },
       };
@@ -25,7 +27,15 @@ function users(state = {}, action) {
       const ret = { ...state };
       delete ret[action.user.user];
       return ret;
-
+    case USER_MOVED:
+      return {
+        ...state,
+        [action.user.user]: {
+          ...state[action.user.user],
+          x: action.user.x,
+          y: action.user.y,
+        },
+      };
     default:
       return state;
   }

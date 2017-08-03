@@ -297,3 +297,12 @@ pre code {
   display: inline-block;
 }
 
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  z-index: 100;
+  transition: transform 0.2s;
+}

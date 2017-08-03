@@ -9,8 +9,8 @@ import io from 'socket.io-client';
 import 'babel-polyfill';
 import App from './components/App';
 import {
-  addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout, updateAnnotation, userJoined, userLeft,
-  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION, USER_JOINED, USER_LEFT,
+  addTile, removeTile, addChatMessage, updateTile, initialiseLayouts, updateLayout, updateAnnotation, userJoined, userLeft, userMoved,
+  ADD_TILE, UPDATE_TILE, REMOVE_TILE, UPDATE_LAYOUT, ADD_CHAT_MESSAGE, UPDATE_ANNOTATION, USER_JOINED, USER_LEFT, USER_MOVED,
 } from '../actions';
 import reducer from '../reducers/client';
 import { calculateLayoutOnAdd } from './util/collision';
@@ -172,6 +172,10 @@ class Root extends React.Component {
 
     this.socket.on(USER_LEFT, (user) => {
       store.dispatch(userLeft(user));
+    });
+
+    this.socket.on(USER_MOVED, (user) => {
+      store.dispatch(userMoved(user));
     });
   }
 
