@@ -11,12 +11,16 @@ body {
   min-height: 100vh;
 }
 
-img{
-    -khtml-user-select: none;
-    -o-user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
+img {
+  -khtml-user-select: none;
+  -o-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+pre code {
+  padding: 0;
 }
 
 .navbar.has-shadow {
