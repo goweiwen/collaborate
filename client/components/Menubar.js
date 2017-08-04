@@ -20,7 +20,7 @@ class Menubar extends React.Component {
 
     const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
     return (
-      <div className="navbar has-shadow">
+      <div className="navbar">
         <div className="navbar-brand">
           <img alt="collaborate!" src="assets/logo.png" className="navbar-item" id="logo" />
           <div

@@ -23,13 +23,18 @@ pre code {
   padding: 0;
 }
 
-.navbar.has-shadow {
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100vw;
   box-shadow: #888 0 0 8px;
+  z-index: 101;
 }
 
 .workspace {
   width: 100vw;
   overflow: scroll;
+  margin-top: 3.25rem;
 }
 
 .tile {
