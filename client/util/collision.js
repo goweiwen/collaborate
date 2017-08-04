@@ -124,8 +124,9 @@ const intendedLayout = (newLayout, newLayoutId, prevLayouts) => {
     if (id !== newLayoutId) {
       if (layoutsCollide(newLayout, layout)) {
         if (newLayout.y > layout.y + layout.height / 2) {
-          if (layout.y + layout.height > y);
-          y = layout.y + layout.height;
+          if (layout.y + layout.height > y){
+            y = layout.y + layout.height;
+          }
         }
       }
     }
