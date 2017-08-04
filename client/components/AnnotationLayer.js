@@ -19,8 +19,8 @@ export default class AnnotationLayer extends React.Component {
     this.canvas.height = 4000;
 
     const rect = this.canvas.getBoundingClientRect();
-    this.top = rect.top;
-    this.left = rect.left;
+    this.top = window.scrollY + rect.top;
+    this.left = window.scrollX + rect.left;
 
     this.context.socket.on('drawing', this.drawLine.bind(this));
     this.context.socket.on('clear', this.clear.bind(this));
@@ -78,6 +78,15 @@ export default class AnnotationLayer extends React.Component {
 
 
   mouseDown(e) {
+/*    console.log("------------------------")
+    console.log('clientX ' + e.clientX)
+    console.log('clientY ' + e.clientY)
+    console.log('scrollX ' + window.scrollX)
+    console.log('scrollY ' + window.scrollY)
+    console.log('top ' + this.top)
+    console.log('left ' + this.left)
+    console.log("------------------------")*/
+
     e.preventDefault();
     e.persist();
     this.setState(() => ({ drawing: true, x: e.clientX + window.scrollX - this.left, y: e.clientY + window.scrollY - this.top }));
