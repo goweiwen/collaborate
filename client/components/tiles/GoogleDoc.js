@@ -7,6 +7,7 @@ const GoogleDoc = props =>
     width={'100%'}
     height={'100%'}
     src={props.src}
+    sandbox={props.src.substring(0, 24) === 'https://docs.google.com/' ? 'allow-scripts allow-forms allow-same-origin' : ''}
   />);
 
 GoogleDoc.propTypes = {

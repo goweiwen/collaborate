@@ -63,10 +63,10 @@ export default class AddTileForm extends React.Component {
       <p className="control is-expanded" id="Tile Type">
         <span className="select is-fullwidth">
           <select value={this.state.tileType} onChange={this.handleTypeChange.bind(this)}>
-            <option value="image">Image</option>
             <option value="text">Text</option>
+            <option value="image">Image</option>
             <option selected value="youtube">YouTube</option>
-            <option value="googledoc">GoogleDoc</option>
+            <option value="googledoc">Google Doc</option>
             <option value="poll">Poll</option>
           </select>
         </span>
