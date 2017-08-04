@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
-const IS_PRODUCTION = JSON.parse(process.env.NODE_ENV || '0') === 'production';
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 module.exports = {
   devtool: 'source-map',
