@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactPDF from 'react-pdf';
+import Loader from '../Loader';
 
 class PDF extends React.Component {
   constructor(props) {
@@ -95,8 +96,10 @@ class PDF extends React.Component {
           pageIndex={props.page}
           onPageLoad={this.onPageLoad}
           onDocumentLoad={this.onDocumentLoad}
+          loading={<Loader width={props.width} height={props.height}/>}
         />
         <div className={`peel ${className}`} />
+        <div className="notification page-number"><div className="content is-small"><strong>{`${props.page}`}</strong>/<strong>{`${state.total}`}</strong></div></div>
       </div>
     );
   }
