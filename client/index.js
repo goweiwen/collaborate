@@ -34,28 +34,44 @@ const emitAndDispatchTile = (socket, dispatch, tile, layout) => {
   dispatch(addTile(newTile, newTile.id));
 };
 
-const onFinishUpload = (socket, dispatch) => (info) => {
-  // eslint-disable-next-line no-console
-  console.log('File uploaded with filename', info.filename);
-  // eslint-disable-next-line no-console
-  console.log('Access it on s3 at', info.fileUrl);
+// wouldn't know id of tile on finishupload
+const emitAndDispatchUpdateByName = (socket, dispatch, update, name) => {
+  const { tiles } = store.getState();
 
+  let id;
+
+  tiles.forEach((tile) => {
+    if (tile.name) {
+      if (tile.name === name && tile.src === 'loading') {
+        id = tile.id;
+      }
+    }
+  });
+
+  const newUpdate = { ...update, id };
+
+  socket.emit(UPDATE_TILE, newUpdate);
+  dispatch(updateTile(newUpdate));
+};
+
+const onDropAccepted = (socket, dispatch) => (accepted) => {
+  const acceptedFile = accepted[0];
   let layout;
   let tile;
 
-  if (info.file.type === 'application/pdf') {
+  if (acceptedFile.type === 'application/pdf') {
     layout = {
       x: 0,
       y: 0,
       width: 600,
       height: 800,
-      lockAspectRatio: false,
     };
 
     tile = {
       tileType: 'pdf',
-      src: info.fileUrl,
+      src: 'loading',
       page: 0,
+      name: acceptedFile.name,
     };
   } else {
     layout = {
@@ -63,17 +79,30 @@ const onFinishUpload = (socket, dispatch) => (info) => {
       y: 0,
       width: 300,
       height: 300,
-      lockAspectRatio: false,
     };
 
     tile = {
       tileType: 'image',
-      src: info.fileUrl,
-      page: 0,
+      src: 'loading',
+      name: acceptedFile.name,
     };
   }
 
   emitAndDispatchTile(socket, dispatch, tile, layout);
+};
+
+const onFinishUpload = (socket, dispatch) => (info) => {
+  // eslint-disable-next-line no-console
+  console.log('File uploaded with filename', info.filename);
+  // eslint-disable-next-line no-console
+  console.log('Access it on s3 at', info.fileUrl);
+
+  const fileName = info.file.name;
+  const update = {
+    src: info.fileUrl,
+  };
+
+  emitAndDispatchUpdateByName(socket, dispatch, update, fileName);
 };
 
 const onDropRejected = (socket, dispatch) => (rejected) => {
@@ -183,7 +212,13 @@ class Root extends React.Component {
     return (
       <Provider store={store}>
         <Router>
-          <Route path="/" component={() => <App onFinishUpload={onFinishUpload(this.socket, store.dispatch)} onDropRejected={onDropRejected(this.socket, store.dispatch)} />} />
+          <Route
+            path="/" component={() => (<App
+              onFinishUpload={onFinishUpload(this.socket, store.dispatch)}
+              onDropRejected={onDropRejected(this.socket, store.dispatch)}
+              onDropAccepted={onDropAccepted(this.socket, store.dispatch)}
+            />)}
+          />
         </Router>
       </Provider>
     );

@@ -76,7 +76,7 @@ export const packLayouts = (layouts) => {
 
     // Pack by y position
     const sortedByY = _.sortBy(Object.keys(layouts), i => layouts[i].y);
-    for (let i of sortedByY) {
+    for (const i of sortedByY) {
       let y = ret[i].y - GRID;
       let layout = { ...ret[i], y };
       while (validLayout(layout) && !anyCollisions(i, layout, ret)) {
@@ -89,7 +89,7 @@ export const packLayouts = (layouts) => {
 
     // Pack by x position
     const sortedByX = _.sortBy(Object.keys(layouts), i => layouts[i].x);
-    for (let i of sortedByX) {
+    for (const i of sortedByX) {
       let x = ret[i].x - GRID;
       let layout = { ...ret[i], x };
       while (validLayout(layout) && !anyCollisions(i, layout, ret)) {
@@ -99,13 +99,12 @@ export const packLayouts = (layouts) => {
       }
       ret[i].x = x + GRID;
     }
-
   }
 
   return ret;
 };
 
-const validLayout = (layout) => layout.x >= 0 && layout.y >= 0;
+const validLayout = layout => layout.x >= 0 && layout.y >= 0;
 
 const layoutsCollide = (layout1, layout2) => !(
   (layout1.x >= layout2.x + layout2.width) ||
@@ -124,7 +123,7 @@ const intendedLayout = (newLayout, newLayoutId, prevLayouts) => {
     if (id !== newLayoutId) {
       if (layoutsCollide(newLayout, layout)) {
         if (newLayout.y > layout.y + layout.height / 2) {
-          if (layout.y + layout.height > y){
+          if (layout.y + layout.height > y) {
             y = layout.y + layout.height;
           }
         }

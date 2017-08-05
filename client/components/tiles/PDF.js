@@ -76,10 +76,13 @@ class PDF extends React.Component {
   render() {
     const { props, state } = this;
 
+    if (props.src === 'loading') {
+      return <Loader width={props.width} height={props.height} />;
+    }
     const className =
-      (state.turning ? 'turning' : '') +
-      (state.direction === -1 && props.page - 1 >= 0 ? ' peeling-left' : '') +
-      (state.direction === 1 && props.page + 1 < state.total ? ' peeling-right' : '');
+        (state.turning ? 'turning' : '') +
+        (state.direction === -1 && props.page - 1 >= 0 ? ' peeling-left' : '') +
+        (state.direction === 1 && props.page + 1 < state.total ? ' peeling-right' : '');
 
     return (
       <div
@@ -96,7 +99,7 @@ class PDF extends React.Component {
           pageIndex={props.page}
           onPageLoad={this.onPageLoad}
           onDocumentLoad={this.onDocumentLoad}
-          loading={<Loader width={props.width} height={props.height}/>}
+          loading={<Loader width={props.width} height={props.height} />}
         />
         <div className={`peel ${className}`} />
         <div className="notification page-number"><div className="content is-small"><strong>{`${props.page}`}</strong>/<strong>{`${state.total}`}</strong></div></div>

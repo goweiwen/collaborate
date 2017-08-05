@@ -33,6 +33,7 @@ const App = (props, context) => (
     style={{}}
     disableClick
     onDropRejected={rejected => props.onDropRejected(rejected)}
+    onDropAccepted={accepted => props.onDropAccepted(accepted)}
     onFinish={(info) => { props.onFinishUpload(info); console.log(info); }}
     upload={uploadOptions}
     s3Url={S3_URL}
@@ -55,6 +56,7 @@ const App = (props, context) => (
 App.propTypes = {
   onFinishUpload: PropTypes.func.isRequired,
   onDropRejected: PropTypes.func.isRequired,
+  onDropAccepted: PropTypes.func.isRequired,
 };
 
 App.contextTypes = {

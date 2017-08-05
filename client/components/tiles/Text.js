@@ -77,7 +77,7 @@ export default class Text extends React.Component {
           onClick={this.handleClick}
           className="preview content"
           style={this.state.editing ? { display: 'none' } : null}
-          dangerouslySetInnerHTML={{ __html: this.md.render(this.props.content)}}
+          dangerouslySetInnerHTML={{ __html: this.md.render(this.props.content) }}
         />
       </div>);
   }
