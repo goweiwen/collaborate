@@ -9,6 +9,7 @@ class PDF extends React.Component {
 
     this.state = {
       direction: 0,
+      pageNumber: 1,
     };
 
     this.onPageLoad = this.onPageLoad.bind(this);
@@ -18,17 +19,12 @@ class PDF extends React.Component {
     this.onMouseLeave = this.onMouseLeave.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-
-  }
-
-
   onDocumentLoad({ total }) {
     this.setState({ total });
   }
 
-  onPageLoad() {
-    this.setState({ turning: true });
+  onPageLoad({ pageNumber }) {
+    this.setState({ turning: true, pageNumber });
     setTimeout(() => {
       this.setState({ turning: false });
     }, 500);
@@ -102,7 +98,7 @@ class PDF extends React.Component {
           loading={<Loader width={props.width} height={props.height} />}
         />
         <div className={`peel ${className}`} />
-        <div className="notification page-number"><div className="content is-small"><strong>{`${props.page}`}</strong>/<strong>{`${state.total}`}</strong></div></div>
+        <div className="notification page-number"><div className="content is-small"><strong>{`${this.state.pageNumber}`}</strong>/<strong>{`${state.total}`}</strong></div></div>
       </div>
     );
   }
