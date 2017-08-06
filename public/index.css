@@ -282,6 +282,10 @@ pre code {
   margin: 5px;
   height: 50px;
   border-radius: 30px;
+  background: #ffffff;
+  max-width: 50px;
+  overflow: hidden;
+  transition: max-width 0.5s;
 }
 
 .user-photo {
@@ -296,6 +300,10 @@ pre code {
 .user-name {
   display: none;
   margin: 0 15px;
+}
+
+.user:hover {
+  max-width: 300px;
 }
 
 .user-photo:hover + .user-name {
