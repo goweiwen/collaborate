@@ -167,19 +167,19 @@ pre code {
   position: absolute;
   left: 0;
   opacity: 1;
-  transition: opacity 300ms;
+  transition: opacity 100ms;
 }
 
 .tile.pdf .peeling-left.turning canvas {
   left: 100%;
   opacity: 0;
-  transition: left 300ms linear, opacity 0ms linear 300ms;
+  transition: left 100ms linear, opacity 0ms linear 100ms;
 }
 
 .tile.pdf .peeling-right.turning canvas {
   left: -100%;
   opacity: 0;
-  transition: left 300ms linear, opacity 0ms linear 300ms;
+  transition: left 100ms linear, opacity 0ms linear 100ms;
 }
 
 .peel {

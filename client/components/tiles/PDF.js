@@ -9,7 +9,9 @@ class PDF extends React.Component {
 
     this.state = {
       direction: 0,
+      page: props.page,
       pageNumber: 1,
+      total: 1,
     };
 
     this.onPageLoad = this.onPageLoad.bind(this);
@@ -19,15 +21,21 @@ class PDF extends React.Component {
     this.onMouseLeave = this.onMouseLeave.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.page !== this.props.page && nextProps.page !== this.state.page) {
+      this.setState({ turning: true });
+      setTimeout(() => {
+        this.setState({ turning: false, page: nextProps.page });
+      }, 200);
+    }
+  }
+
   onDocumentLoad({ total }) {
     this.setState({ total });
   }
 
   onPageLoad({ pageNumber }) {
-    this.setState({ turning: true, pageNumber });
-    setTimeout(() => {
-      this.setState({ turning: false });
-    }, 500);
+    this.setState({ pageNumber });
   }
 
   onMouseMove(e) {
@@ -75,6 +83,7 @@ class PDF extends React.Component {
     if (props.src === 'loading') {
       return <Loader width={props.width} height={props.height} />;
     }
+
     const className =
         (state.turning ? 'turning' : '') +
         (state.direction === -1 && props.page - 1 >= 0 ? ' peeling-left' : '') +
@@ -92,13 +101,13 @@ class PDF extends React.Component {
         <ReactPDF
           file={props.src}
           width={props.width}
-          pageIndex={props.page}
+          pageIndex={state.page}
           onPageLoad={this.onPageLoad}
           onDocumentLoad={this.onDocumentLoad}
           loading={<Loader width={props.width} height={props.height} />}
         />
         <div className={`peel ${className}`} />
-        <div className="notification page-number"><div className="content is-small"><strong>{`${this.state.pageNumber}`}</strong>/<strong>{`${state.total}`}</strong></div></div>
+        <div className="notification page-number"><div className="content is-small"><strong>{`${state.pageNumber}`}</strong>/<strong>{`${state.total}`}</strong></div></div>
       </div>
     );
   }
