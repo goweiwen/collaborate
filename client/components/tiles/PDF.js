@@ -14,7 +14,6 @@ class PDF extends React.Component {
       total: 1,
     };
 
-    this.onPageLoad = this.onPageLoad.bind(this);
     this.onDocumentLoad = this.onDocumentLoad.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
@@ -34,11 +33,11 @@ class PDF extends React.Component {
     this.setState({ total });
   }
 
-  onPageLoad({ pageNumber }) {
-    this.setState({ pageNumber });
-  }
-
   onMouseMove(e) {
+    if (this.state.turning) {
+      return;
+    }
+
     const direction = this.getDirection(e);
     if (this.state.direction !== direction) {
       this.setState({ direction });
@@ -57,8 +56,7 @@ class PDF extends React.Component {
     }
 
     const tile = this.props.tile;
-    const page = tile.page + this.state.direction;
-
+    const page = this.props.page + this.state.direction;
 
     if (page >= 0 && page < this.state.total) {
       this.props.updateTile({ id: this.props.id, page });
@@ -66,7 +64,7 @@ class PDF extends React.Component {
   }
 
   getDirection(e) {
-    const x = e.clientX - this.el.getBoundingClientRect().left;
+    const x = e.pageX - this.el.getBoundingClientRect().left;
     const w = this.props.width;
 
     if (x < w / 3) {
@@ -85,9 +83,9 @@ class PDF extends React.Component {
     }
 
     const className =
-        (state.turning ? 'turning' : '') +
-        (state.direction === -1 && props.page - 1 >= 0 ? ' peeling-left' : '') +
-        (state.direction === 1 && props.page + 1 < state.total ? ' peeling-right' : '');
+        (state.turning ? 'turning ' : '') +
+        (state.direction === -1 && state.page - 1 >= 0 ? 'peeling-left' : '') +
+        (state.direction === 1 && state.page + 1 < state.total ? 'peeling-right' : '');
 
     return (
       <div
@@ -102,12 +100,11 @@ class PDF extends React.Component {
           file={props.src}
           width={props.width}
           pageIndex={state.page}
-          onPageLoad={this.onPageLoad}
           onDocumentLoad={this.onDocumentLoad}
           loading={<Loader width={props.width} height={props.height} />}
         />
         <div className={`peel ${className}`} />
-        <div className="notification page-number"><div className="content is-small"><strong>{`${state.pageNumber}`}</strong>/<strong>{`${state.total}`}</strong></div></div>
+        <div className="notification page-number"><div className="content is-small"><strong>{`${props.page + 1}`}</strong>/<strong>{`${state.total}`}</strong></div></div>
       </div>
     );
   }
