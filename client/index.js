@@ -92,10 +92,6 @@ const onDropAccepted = (socket, dispatch) => (accepted) => {
 };
 
 const onFinishUpload = (socket, dispatch) => (info) => {
-  // eslint-disable-next-line no-console
-  console.log('File uploaded with filename', info.filename);
-  // eslint-disable-next-line no-console
-  console.log('Access it on s3 at', info.fileUrl);
 
   const fileName = info.file.name;
   const update = {

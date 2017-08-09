@@ -353,3 +353,16 @@ pre code {
 .tile:hover .page-number {
   opacity: 1;
 }
+
+.upload {
+  position: fixed;
+  bottom: 1rem;
+  left: 4.5rem;
+  right: 4.5rem;
+  width: auto;
+}
+
+.upload .progress {
+  height: 1.5rem;
+  z-index: 100;
+}
