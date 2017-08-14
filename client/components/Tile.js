@@ -41,7 +41,6 @@ const Tile = (props) => {
   };
   return (
     <div className={`card tile ${props.tool === 'drag' ? '' : 'locked'} ${props.tileType}`} id={props.id} >
-      <div className="overlay" />
       {(() => {
         switch (props.tileType) {
           case 'text':
@@ -62,13 +61,10 @@ const Tile = (props) => {
             return <span>{props.type}</span>;
         }
       })()}
-      <div className="notification tile-info">
-        <div className="content is-small">
-          {(props.owner === props.lastEditBy) ? (
-            <p>created and edited by <strong>{props.owner}</strong> {calculateSince(props.lastEditTime)}</p>
-          ) : (
-            <p>created by <strong>{props.owner}</strong>, edited by <strong>{props.lastEditBy}</strong> {calculateSince(props.lastEditTime)}</p>
-          )}
+      <div className="tile-info">
+        <div>
+          <p>Created by<br /><strong>{props.owner}</strong></p>
+          <p>Last edited {calculateSince(props.lastEditTime)} by<br /><strong>{props.lastEditBy}</strong></p>
         </div>
       </div>
       <button className="close-button" onClick={() => props.removeTile(props.id)} >

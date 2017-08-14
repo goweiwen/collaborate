@@ -58,14 +58,23 @@ pre code {
 }
 
 .tile div.tile-info {
+  display: flex;
+  align-items: center;
+  text-align: center;
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  margin: 0;
-  padding: 0 5px;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
   z-index: 2;
   opacity: 0;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.8);
+  transition: opacity 200ms;
+}
+
+.tile:hover .tile-info {
+  opacity: 1;
 }
 
 .tile.locked div.tile-info{
@@ -78,28 +87,6 @@ pre code {
 }
 
 .tile.locked button.close-button {
-  display: none;
-}
-
-.tile .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-  transition: background 200ms;
-}
-
-.tile:hover .overlay {
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.tile:hover .tile-info {
-  opacity: 1;
-}
-
-.tile.locked .overlay {
   display: none;
 }
 
