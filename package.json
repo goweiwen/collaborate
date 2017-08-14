@@ -10,6 +10,7 @@
     "start": "npm run develop",
     "develop": "concurrently --kill-others \"nodemon --exec babel-node index.js\" \"redis-server\"",
     "production": "babel-node index.js",
+    "build": "webpack -p --config ./webpack.production.config.js --progress --profile --colors",
     "lint": "eslint --fix ."
   },
   "dependencies": {

@@ -17,18 +17,21 @@ import favicon from './middleware/favicon';
 const app = new Koa();
 const router = new Router();
 
+const env = process.env.NODE_ENV || 'dev';
+
 // Session secret
 app.keys = ['wNxB5QD5W_x5CfbhNjvaVMJ-'];
 
-
-app.use(logger());
 session(app);
 favicon(app);
 app.use(bodyParser());
 multer(router);
 passport(app, router);
 s3(app, router);
-webpack(app);
+if (env !== 'production') {
+  webpack(app);
+  app.use(logger());
+}
 views(app);
 staticServer(app, router);
 
@@ -48,7 +51,8 @@ router
   });
 
 const port = process.env.PORT || 3000;
-const server = app.listen(port, (err) => { if (err) console.log(err); });
+const server = app.listen(port, (err) => {
+  if (err) console.log(err);
+});
 start(server);
 console.log(`Listening on port ${port}`);
-
