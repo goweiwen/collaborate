@@ -11,6 +11,15 @@ class Menubar extends React.Component {
     this.state = {
       burgerActive: false,
     };
+
+    this.clickHandler = this.clickHandler.bind(this);
+  }
+
+  clickHandler(fn) {
+    return (e) => {
+      this.setState({ burgerActive: false });
+      fn(e);
+    };
   }
 
   render() {
@@ -18,6 +27,7 @@ class Menubar extends React.Component {
     const { socket } = this.context;
 
 
+    const clickHandler = this.clickHandler;
     const id = (tiles.length) === 0 ? 0 : tiles[tiles.length - 1].id + 1;
     return (
       <div className="navbar">
@@ -34,10 +44,10 @@ class Menubar extends React.Component {
         </div>
         <div className={`navbar-menu ${this.state.burgerActive ? 'is-active' : ''}`}>
           <div className="navbar-end">
-            <a className={`navbar-item ${tool === 'select' ? 'is-active' : ''}`} onClick={useSelectTool}><i
+            <a className={`navbar-item ${tool === 'select' ? 'is-active' : ''}`} onClick={clickHandler(useSelectTool)}><i
               className="fa fa-mouse-pointer"
             /></a>
-            <a className={`navbar-item ${tool === 'drag' ? 'is-active' : ''}`} onClick={useDragTool} id="drag"><i
+            <a className={`navbar-item ${tool === 'drag' ? 'is-active' : ''}`} onClick={clickHandler(useDragTool)} id="drag"><i
               className="fa fa-arrows"
             /></a>
             <a className={`navbar-item has-dropdown ${tool === 'pen' ? 'is-active' : ''} `}>
@@ -45,17 +55,17 @@ class Menubar extends React.Component {
                 <i className="fa fa-pencil" />
               </a>
               <div className={`navbar-dropdown ${tool === 'pen' ? '' : 'is-hidden'}`}>
-                <div className="box black" onClick={() => { usePenColorTool('black'); }} />
-                <div className="box red" onClick={() => { usePenColorTool('red'); }} />
-                <div className="box green" onClick={() => { usePenColorTool('green'); }} />
-                <div className="box blue" onClick={() => { usePenColorTool('blue'); }} />
-                <div className="box yellow" onClick={() => { usePenColorTool('yellow'); }} />
+                <div className="pen-colours black" onClick={clickHandler(() => { usePenColorTool('black'); })} />
+                <div className="pen-colours red" onClick={clickHandler(() => { usePenColorTool('red'); })} />
+                <div className="pen-colours green" onClick={clickHandler(() => { usePenColorTool('green'); })} />
+                <div className="pen-colours blue" onClick={clickHandler(() => { usePenColorTool('blue'); })} />
+                <div className="pen-colours yellow" onClick={clickHandler(() => { usePenColorTool('yellow'); })} />
               </div>
             </a>
-            <a className={`navbar-item ${tool === 'eraser' ? 'is-active' : ''} `} onClick={useEraserTool}><i
+            <a className={`navbar-item ${tool === 'eraser' ? 'is-active' : ''} `} onClick={clickHandler(useEraserTool)}><i
               className="fa fa-eraser"
             /></a>
-            <a id="pack-button" className="navbar-item" onClick={packLayouts(socket, layouts)}><i
+            <a id="pack-button" className="navbar-item" onClick={clickHandler(packLayouts(socket, layouts))}><i
               className="fa fa-arrow-up"
             /></a>
             <AddTileForm

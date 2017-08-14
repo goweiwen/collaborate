@@ -33,6 +33,10 @@ pre code {
   z-index: 101;
 }
 
+.navbar-item {
+  display: inline-block;
+}
+
 .workspace {
   width: 100vw;
   overflow: scroll;
@@ -104,15 +108,16 @@ pre code {
   top: 100%;
  }
 
-.box{
+.pen-colours {
+  display: inline-block;
   width:50px;
   height:50px;
 }
-.box.black { background-color: black; }
-.box.red { background-color: red; }
-.box.green { background-color: green; }
-.box.blue { background-color: blue; }
-.box.yellow { background-color: yellow; }
+.pen-colours.black { background-color: black; }
+.pen-colours.red { background-color: red; }
+.pen-colours.green { background-color: green; }
+.pen-colours.blue { background-color: blue; }
+.pen-colours.yellow { background-color: yellow; }
 
 .tile {
   padding: 10px;
