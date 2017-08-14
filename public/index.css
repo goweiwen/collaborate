@@ -152,6 +152,7 @@ pre code {
 }
 
 .tile.text .textarea {
+  font-family: monospace;
   border: none;
   box-shadow: none;
   resize: none;
