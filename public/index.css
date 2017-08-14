@@ -286,6 +286,7 @@ pre code {
   max-width: 50px;
   overflow: hidden;
   transition: max-width 0.5s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .user-photo {
