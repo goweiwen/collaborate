@@ -129,7 +129,8 @@ pre code {
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .tile.image, .tile.youtube, .tile.pdf {
