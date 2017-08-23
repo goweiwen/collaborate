@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { applyMiddleware, createStore } from 'redux';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import io from 'socket.io-client';
 import 'babel-polyfill';
 import App from './components/App';
@@ -17,7 +17,7 @@ import { calculateLayoutOnAdd } from './util/collision';
 
 const store = createStore(
   reducer,
-  applyMiddleware(logger),
+  // applyMiddleware(logger),
 );
 
 const emitAndDispatchTile = (socket, dispatch, tile, layout) => {
